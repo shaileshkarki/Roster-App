@@ -41,10 +41,17 @@ footer {
     background-color: #555;
     color: white;
     padding: 15px;
+    /* position: fixed; 
+    bottom: 0; */
+    /* left:0; */
 }
 
 .reportBackgroundColor {
-    background-color: blue;
+    background-color:#f1f1f1;
+}
+
+.reportButton {
+    margin-right: 10px;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */

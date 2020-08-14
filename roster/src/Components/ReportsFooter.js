@@ -1,16 +1,43 @@
 import React from "react";
+import Button from "react-bootstrap/Button";
 
 class ReportsFooter extends React.Component {
     render() {
         return (
             <footer class="reportBackgroundColor container-fluid text-center">
-                <button>Report #1</button>
-                <button>Report #2</button>
-                <button>Report #3</button>
-                <button>Report #4</button>
-            </footer>
+                <Button className="reportButton"
+                    variant="primary"
+                    size="sm"
+                    href="#"
+                    xs={12}
+                    md={{ span: 2, offset: 1 }}
+                >
+                    Worked Hours Report
+          </Button>
+                <Button className="reportButton"
+                    variant="primary"
+                    size="sm"
+                    href="#"
+                    xs={12}
+                    md={{ span: 2, offset: 1 }}
+                >
+                    Salry Report
+          </Button>
+                <Button className="reportButton"
+                    variant="primary"
+                    size="sm"
+                    href="#"
+                    xs={12}
+                    md={{ span: 2, offset: 1 }
+                    }
+                >
+                    Other Report
+          </Button >
+
+            </footer >
         );
     }
 }
 
 export default ReportsFooter;
+

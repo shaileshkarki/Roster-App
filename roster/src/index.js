@@ -11,9 +11,9 @@ import Container from "react-bootstrap/Container";
 
 ReactDOM.render(
     <React.StrictMode>
-        <Container fluid>
-            <App />
-        </Container>
+
+        <App />
+
     </React.StrictMode>,
     document.getElementById("root")
 );
