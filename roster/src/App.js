@@ -5,56 +5,45 @@ import { Row, Nav, Col } from "react-bootstrap";
 
 import ContactUs from "./Components/ContactUs";
 import Login from "./Components/Login";
-import AboutUs from "./Components/AboutUs";
+import About from "./Components/About";
 import Home from "./Components/Home";
-import AdminPanel from "./Components/AdminPanel";
 import StaffListScreen from "./Components/StaffListScreen";
+import AdminPanel from './Components/AdminPanel';
+import Footer from './Components/Footer';
+import CustomNavbar from './Components/CustomNavbar';
 
 class App extends Component {
   render() {
     return (
       <Router>
-        <header>
-          <Row className="justify-content-center">
-            <Col sm={12} md={{ span: 6, offset: 3 }}>
-              <h2>Roster Application</h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Nav fill variant="pills" defaultActiveKey="/Home">
-                <Nav.Item>
-                  <NavLink exact to="/">
-                    Home
-                  </NavLink>
-                </Nav.Item>
-                <Nav.Item>
-                  <NavLink to="/AboutUs">About Us</NavLink>
-                </Nav.Item>
-                <Nav.Item>
-                  <NavLink to="/ContactUs">Contact Us</NavLink>
-                </Nav.Item>
-                <Nav.Item>
-                  <NavLink to="/Login">Login</NavLink>
-                </Nav.Item>
-                <Nav.Item>
-                  <NavLink to="/Admin">Admin</NavLink>
-                </Nav.Item>
-              </Nav>
-            </Col>
-          </Row>
-        </header>
         <Row>
           <Col>
-            <Route path="/AboutUs" component={AboutUs} />
-            <Route path="/ContactUs" component={ContactUs} />
-            <Route path="/Admin" component={AdminPanel} />
-            <Route path="/Login" component={Login} />
-            <Route path="/StaffListScreen" component={StaffListScreen} />
-            <Route exact path="/" component={Home} />
+            <header>
+              <h1>Roster Application</h1>
+            </header>
           </Col>
         </Row>
-      </Router>
+        <Row>
+          <Col>
+            <CustomNavbar />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={ContactUs} />
+            <Route path="/admin" component={AdminPanel} />
+            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Home} />
+            <Route path="/StaffListScreen" component={StaffListScreen} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Footer />
+          </Col>
+        </Row>
+      </Router >
     );
   }
 }

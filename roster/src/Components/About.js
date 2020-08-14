@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 
-class AboutUs extends React.Component {
+class About extends React.Component {
     render() {
         return (
             <Row>
@@ -16,4 +16,4 @@ class AboutUs extends React.Component {
 
 }
 
-export default AboutUs;
+export default About;
