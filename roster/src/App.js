@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 import { Route, NavLink, BrowserRouter as Router } from "react-router-dom";
-import { Row, Nav, Col } from 'react-bootstrap';
+import { Row, Nav, Col } from "react-bootstrap";
 
 import ContactUs from "./Components/ContactUs";
 import Login from "./Components/Login";
 import AboutUs from "./Components/AboutUs";
 import Home from "./Components/Home";
-import AdminPanel from './Components/AdminPanel';
+import AdminPanel from "./Components/AdminPanel";
+import StaffListScreen from "./Components/StaffListScreen";
 
 class App extends Component {
-
   render() {
     return (
       <Router>
@@ -24,7 +24,9 @@ class App extends Component {
             <Col>
               <Nav fill variant="pills" defaultActiveKey="/Home">
                 <Nav.Item>
-                  <NavLink exact to="/">Home</NavLink>
+                  <NavLink exact to="/">
+                    Home
+                  </NavLink>
                 </Nav.Item>
                 <Nav.Item>
                   <NavLink to="/AboutUs">About Us</NavLink>
@@ -48,6 +50,7 @@ class App extends Component {
             <Route path="/ContactUs" component={ContactUs} />
             <Route path="/Admin" component={AdminPanel} />
             <Route path="/Login" component={Login} />
+            <Route path="/StaffListScreen" component={StaffListScreen} />
             <Route exact path="/" component={Home} />
           </Col>
         </Row>
