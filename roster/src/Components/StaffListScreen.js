@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import Table from "react-bootstrap/Table";
-<<<<<<< HEAD
 import LeftSidebar from './LeftSidebar';
 import ReportsFooter from './ReportsFooter';
 let currentPage = 0;
 const numberOfStaffPerPage = 2;
-=======
 import Pagination from "react-bootstrap-4-pagination";
 import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
->>>>>>> created Staff creation and update functionality
 
 import "./StaffListScreen.css";
 import useStaffApi from "../hooks/useStaffApi";
