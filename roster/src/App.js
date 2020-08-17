@@ -8,6 +8,8 @@ import Login from "./Components/Login";
 import About from "./Components/About";
 import Home from "./Components/Home";
 import StaffListScreen from "./Components/StaffListScreen";
+import StaffNewScreen from "./Components/StaffNewScreen";
+import StaffEditScreen from "./Components/StaffEditScreen";
 import AdminPanel from "./Components/AdminPanel";
 import Footer from "./Components/Footer";
 import CustomNavbar from "./Components/CustomNavbar";
