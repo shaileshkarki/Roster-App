@@ -37,5 +37,19 @@
   }
 } */
 main > .container {
-  padding: 60px 15px 0;
+    padding: 60px 15px 0;
+}
+
+/* GJ: Had to insert the below because for some reason, .row always has a Margin -15 */
+/* i.e. all the text was slightly off on the left hand side of the screen */
+.row {
+    margin-left: 5px;
+}
+
+/* GJ: Added to ensure footer is at the bottom all the time*/
+.glenfooter {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
 }
