@@ -52,13 +52,11 @@ class App extends Component {
                         />
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <footer class="container-fluid text-center">
-                            <p>Footer Text</p>
-                        </footer>
-                    </Col>
-                </Row>
+
+                {/* GJ: removed the ROW and COL tags as this was preventing the footer in being on the botom */}
+                <footer class="container-fluid text-center glenfooter">
+                    <p>Footer Text</p>
+                </footer>
             </Router>
         );
     }

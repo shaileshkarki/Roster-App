@@ -47,7 +47,7 @@ footer {
 }
 
 .reportBackgroundColor {
-    background-color:#f1f1f1;
+    background-color: #f1f1f1;
 }
 
 .reportButton {
@@ -63,4 +63,10 @@ footer {
     .row.content {
         height: auto;
     }
+}
+
+/* GJ: added the bleow to change button font size and see if max width makes all buttons the same size */
+.btn {
+    font-size: 15px;
+    max-width: 100%;
 }
