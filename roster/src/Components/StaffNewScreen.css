@@ -1,0 +1,19 @@
+.staff-new-form {
+  width: 100%;
+}
+
+.button-width {
+  width: 300px;
+}
+
+.button-panel {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+input:invalid {
+  border: 1px solid red;
+}
+input:valid {
+  border: 1px solid black;
+}

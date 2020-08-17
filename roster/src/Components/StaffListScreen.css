@@ -1,0 +1,14 @@
+.staff-list-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-width {
+  width: 300px;
+}
+
+.button-panel {
+  display: flex;
+  justify-content: space-evenly;
+}
