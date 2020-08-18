@@ -22,7 +22,7 @@ const searchByCriteraiList = [
   { label: "Email", key: "email" },
 ];
 function StaffListScreen(props) {
-  const { request: getAllStaffList } = useStaffApi();
+  const { request: getAllActiveStaffList } = useStaffApi();
   const [allStaffList, setAllStaffList] = useState([]); // All staff from database
   const [filteredStaffList, setFilteredStaffList] = useState([]); // All staff that meet seacrh criteria
   const [searchCriteria, setSearchCriteria] = useState(searchByCriteraiList[0]);
@@ -46,7 +46,7 @@ function StaffListScreen(props) {
   };
   // set up the page to display Staff List and pagination.
   const loadStaffListScreen = async () => {
-    const { data } = await getAllStaffList();
+    const { data } = await getAllActiveStaffList();
     setAllStaffList(data);
     setScreen(data, false, numberOfStaffPerPage);
   };
@@ -86,7 +86,6 @@ function StaffListScreen(props) {
   }, []);
 
   let paginationConfig = {
-    circle: true,
     totalPages:
       numberOfStaffPerPage > 0 ? Math.ceil(total / numberOfStaffPerPage) : 0,
     currentPage: currentPage + 1,
