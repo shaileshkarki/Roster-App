@@ -4,64 +4,69 @@ import Button from "react-bootstrap/Button";
 class LeftSidebar extends React.Component {
     render() {
         return (
-            <div class="col-sm-2 sidenav">
+            <div class="sidenav" style={{ width: "50%", margin: "0 auto" }}>
                 <div class="btn btn-block">
-                    <p>
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            href="/StaffListScreen"
-                            block
-                        >
-                            Add Staff
+
+                    <Button
+
+                        variant="primary"
+                        size="sm"
+                        href="/StaffListScreen"
+                        block
+                        className="mb-5"
+
+                    >
+                        Add Staff
                         </Button>
-                    </p>
-                    <p>
-                        <Button variant="warning" size="sm" href="#" block>
-                            Update Staff
+
+
+                    <Button className="mb-5" variant="warning" size="sm" href="#" block>
+                        Update Staff
                         </Button>
-                    </p>
-                    <p>
-                        <Button variant="danger" size="sm" href="#" block>
-                            Delete Staff
+
+
+                    <Button className="mb-5" variant="danger" size="sm" href="#" block>
+                        Delete Staff
                         </Button>
-                    </p>
-                    <p>
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            href="#"
-                            xs={12}
-                            md={{ span: 2, offset: 0 }}
-                            block
-                        >
-                            View Roster
+
+
+                    <Button
+                        className="mb-5"
+                        variant="primary"
+                        size="sm"
+                        href="#"
+                        xs={12}
+
+                        block
+                    >
+                        View Roster
                         </Button>
-                    </p>
-                    <p>
-                        <Button
-                            variant="warning"
-                            size="sm"
-                            href="#"
-                            xs={12}
-                            md={{ span: 2, offset: 0 }}
-                            block
-                        >
-                            Update Roster
+
+
+                    <Button
+                        className="mb-5"
+                        variant="warning"
+                        size="sm"
+                        href="#"
+                        xs={12}
+
+                        block
+                    >
+                        Update Roster
                         </Button>
-                    </p>
-                    <p>
-                        <Button
-                            variant="danger"
-                            size="sm"
-                            href="#"
-                            xs={12}
-                            md={{ span: 2, offset: 0 }}
-                            block
-                        >
-                            Create Roster
+
+
+                    <Button
+                        className="mb-5"
+                        variant="danger"
+                        size="sm"
+                        href="#"
+                        xs={12}
+                        block
+                    >
+                        Create Roster
                         </Button>
-                    </p>
+
                 </div>
             </div>
         );

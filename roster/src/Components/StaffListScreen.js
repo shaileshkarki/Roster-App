@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import LeftSidebar from "./LeftSidebar";
 import ReportsFooter from "./ReportsFooter";
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 
 import Pagination from "react-bootstrap-4-pagination";
 import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
@@ -109,105 +110,111 @@ function StaffListScreen(props) {
     },
   };
   return (
-    <div>
-      <div class="container-fluid text-center">
-        <LeftSidebar />
-        <div className={"staff-list-search"}>
-          <div>
-            <input
-              type="text"
-              name="search"
-              placeholder="Search by ..."
-              onChange={searchForStaffMember}
-              value={searchCriteriaValue}
-            />
-            {[SplitButton].map((DropdownType, idx) => (
-              <DropdownType
-                as={ButtonGroup}
-                key={idx}
-                id={`dropdown-button-drop-${idx}`}
-                size="sm"
-                title={searchCriteria.label}
-              >
-                {searchByCriteraiList.map((criteria, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    onClick={(e) => {
-                      setSearchCriteria(criteria);
-                      setSearchCriteriaValue("");
-                      setScreen(allStaffList, false, numberOfStaffPerPage);
-                    }}
-                    eventKey={index}
-                  >
-                    {criteria.label}
-                  </Dropdown.Item>
-                ))}
-              </DropdownType>
-            ))}
+
+    <MDBContainer fluid>
+      <MDBRow size="12" sm="6" lg="6">
+        <MDBCol size="12" sm="12" lg="2">
+          <LeftSidebar />
+        </MDBCol>
+        <MDBCol size="12" sm="12" lg="10">
+          <div className={"staff-list-search"}>
+            <div>
+              <input
+                type="text"
+                name="search"
+                placeholder="Search by ..."
+                onChange={searchForStaffMember}
+                value={searchCriteriaValue}
+              />
+              {[SplitButton].map((DropdownType, idx) => (
+                <DropdownType
+                  as={ButtonGroup}
+                  key={idx}
+                  id={`dropdown-button-drop-${idx}`}
+                  size="sm"
+                  title={searchCriteria.label}
+                >
+                  {searchByCriteraiList.map((criteria, index) => (
+                    <Dropdown.Item
+                      key={index}
+                      onClick={(e) => {
+                        setSearchCriteria(criteria);
+                        setSearchCriteriaValue("");
+                        setScreen(allStaffList, false, numberOfStaffPerPage);
+                      }}
+                      eventKey={index}
+                    >
+                      {criteria.label}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownType>
+              ))}
+            </div>
+            <div>
+              <p>Number of Staff per page</p>
+              <input
+                type="number"
+                name="numberOfItemsPerPage"
+                onChange={changeNumberOfItemsPerPage}
+                value={numberOfStaffPerPage}
+              />
+            </div>
           </div>
-          <div>
-            <p>Number of Staff per page</p>
-            <input
-              type="number"
-              name="numberOfItemsPerPage"
-              onChange={changeNumberOfItemsPerPage}
-              value={numberOfStaffPerPage}
-            />
-          </div>
-        </div>
-      </div>
-      <Table bordered responsive="sm" hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Post Code</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {paginationData.map((staffMember, index) => (
-            <tr
-              onDoubleClick={() =>
-                history.push("/StaffEditScreen", staffMember)
-              }
-              key={index}
+          <Table bordered responsive="sm" hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Post Code</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginationData.map((staffMember, index) => (
+                <tr
+                  onDoubleClick={() =>
+                    history.push("/StaffEditScreen", staffMember)
+                  }
+                  key={index}
+                >
+                  <td>{staffMember.staff_id}</td>
+                  <td>{staffMember.firstname}</td>
+                  <td>{staffMember.lastname}</td>
+                  <td>{staffMember.address}</td>
+                  <td>{staffMember.city}</td>
+                  <td>{staffMember.state}</td>
+                  <td>{staffMember.postcode}</td>
+                  <td>{staffMember.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+          <Pagination className="pagination" {...paginationConfig} />
+          {numberOfStaffPerPage > 0 ? `${current} of ${total}` : "0 of 0"}
+          <div className="button-panel">
+            <Button
+              className="button-width"
+              variant="outline-primary"
+              href="/StaffNewScreen"
             >
-              <td>{staffMember.staff_id}</td>
-              <td>{staffMember.firstname}</td>
-              <td>{staffMember.lastname}</td>
-              <td>{staffMember.address}</td>
-              <td>{staffMember.city}</td>
-              <td>{staffMember.state}</td>
-              <td>{staffMember.postcode}</td>
-              <td>{staffMember.email}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Pagination className="pagination" {...paginationConfig} />
-      {numberOfStaffPerPage > 0 ? `${current} of ${total}` : "0 of 0"}
-      <div className="button-panel">
-        <Button
-          className="button-width"
-          variant="outline-primary"
-          href="/StaffNewScreen"
-        >
-          Create New Staff
+              Create New Staff
         </Button>
-        <Button
-          className="button-width"
-          variant="outline-primary"
-          href="/admin"
-        >
-          Back
+            <Button
+              className="button-width"
+              variant="outline-primary"
+              href="/admin"
+            >
+              Back
         </Button>
-      </div>
-    </div>
+          </div>
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+
   );
 }
 
