@@ -2,14 +2,15 @@ var express = require("express");
 var router = express.Router();
 
 const {
-  getAllStaff,
+  getAllActiveStaff,
   createStaffMember,
   updateStaffMember,
+  removeStaffMember,
 } = require("../db/staffQueries");
 
 /* GET all staff */
 router.get("/", async function (req, res, next) {
-  const allStaff = await getAllStaff();
+  const allStaff = await getAllActiveStaff();
   res.send(allStaff);
 });
 
@@ -30,4 +31,15 @@ router.put("/:staffId", async function (req, res, next) {
   console.log("Updated staff member", updatedStaffMemebr);
   res.send(updatedStaffMemebr);
 });
+
+/* remove staff member */
+router.put("/remove/:staffId", async function (req, res, next) {
+  console.log("remove", req.body.removedStaffMember);
+  const removedStaffMemebr = await removeStaffMember(
+    req.body.removedStaffMember
+  );
+  console.log("remoeved staff member", removedStaffMemebr);
+  res.send(removedStaffMemebr);
+});
+
 module.exports = router;

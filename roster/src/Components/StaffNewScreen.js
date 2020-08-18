@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdbreact";
 import "./StaffNewScreen.css";
 import { Button } from "react-bootstrap";
 import axios from "axios";
@@ -117,6 +124,8 @@ function StaffNewScreen(props) {
     setPhone(e.target.value);
   };
   const handleSubmit = async (e) => {
+    e.target.classList.add("waves-effect");
+    debugger;
     e.preventDefault();
     const response = await axios.post("http://localhost:9000/staff", {
       newStaffMember: {
@@ -128,6 +137,7 @@ function StaffNewScreen(props) {
         postCode,
         email,
         phone,
+        isActive: true,
       },
     });
     console.log(response.status);
@@ -161,6 +171,7 @@ function StaffNewScreen(props) {
                   onChange={handleFirstNameChange}
                   onInvalid={(e) => invalidMinMaxMsg(e, 2, 20)}
                   onInput={(e) => invalidMinMaxMsg(e, 2, 20)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
               <MDBCol md="6">
@@ -179,6 +190,7 @@ function StaffNewScreen(props) {
                   onChange={handleLastNameChange}
                   onInvalid={(e) => invalidMinMaxMsg(e, 2, 20)}
                   onInput={(e) => invalidMinMaxMsg(e, 2, 20)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
             </MDBRow>
@@ -200,6 +212,7 @@ function StaffNewScreen(props) {
                   onChange={handleAddressChange}
                   onInvalid={(e) => invalidMinMaxMsg(e, 3, 50)}
                   onInput={(e) => invalidMinMaxMsg(e, 3, 50)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
             </MDBRow>
@@ -220,6 +233,7 @@ function StaffNewScreen(props) {
                   onChange={handleCityChange}
                   onInvalid={(e) => invalidMinMaxMsg(e, 3, 20)}
                   onInput={(e) => invalidMinMaxMsg(e, 3, 20)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
               <MDBCol>
@@ -238,6 +252,7 @@ function StaffNewScreen(props) {
                   onChange={handleStateChange}
                   onInvalid={(e) => invalidMinMaxMsg(e, 3, 20)}
                   onInput={(e) => invalidMinMaxMsg(e, 3, 20)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
               <MDBCol>
@@ -256,6 +271,7 @@ function StaffNewScreen(props) {
                   onChange={handlePostCodeChange}
                   onInvalid={(e) => InvalidNumber(e, 4, 4)}
                   onInput={(e) => InvalidNumber(e, 4, 4)}
+                  autocomplete="new-password"
                 />
               </MDBCol>
             </MDBRow>
@@ -277,6 +293,7 @@ function StaffNewScreen(props) {
                   maxLength="50"
                   onInvalid={invalidEmailMsg}
                   onInput={invalidEmailMsg}
+                  autocomplete="new-password"
                 />
               </MDBCol>
               <MDBCol>
@@ -295,9 +312,13 @@ function StaffNewScreen(props) {
                   onChange={handlePhoneChange}
                   onInvalid={(e) => InvalidNumber(e, 10, 10)}
                   onInput={(e) => InvalidNumber(e, 10, 10)}
+                  autocomplete="old-password"
                 />
               </MDBCol>
             </MDBRow>
+            <MDBCol>
+              <input style={{ display: "none" }} type="label" name="email2" />
+            </MDBCol>
           </div>
           <div className="button-panel">
             <Button
@@ -305,9 +326,12 @@ function StaffNewScreen(props) {
               value="Submit"
               className="button-width"
               variant="outline-primary"
+              icon="user-circle"
             >
+              <MDBIcon far icon="user-circle" className="mr-2" />
               Create New Staff
             </Button>
+
             <Button
               className="button-width"
               variant="outline-primary"

@@ -119,6 +119,35 @@ function StaffEditScreen({ location }) {
   const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
+
+  const handleRemoveStaff = async (e) => {
+    console.log("Delete");
+
+    const response = await axios.put(
+      `http://localhost:9000/staff/remove/${staffId}`,
+      {
+        removedStaffMember: {
+          staffId,
+          firstname,
+          lastname,
+          address,
+          city,
+          state,
+          postCode,
+          email,
+          phone,
+          isActive: false,
+        },
+      }
+    );
+    console.log(response.status);
+    if (response.status === 200) {
+      console.log(response.statusText);
+      history.replace("/StaffListScreen");
+    } else {
+      alert(response.statusText);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.put(`http://localhost:9000/staff/${staffId}`, {
@@ -320,6 +349,14 @@ function StaffEditScreen({ location }) {
               variant="outline-primary"
             >
               Update Staff
+            </Button>
+            <Button
+              value="Submit"
+              className="button-width"
+              variant="outline-danger"
+              onClick={handleRemoveStaff}
+            >
+              Remove Staff Memebr
             </Button>
             <Button
               className="button-width"
