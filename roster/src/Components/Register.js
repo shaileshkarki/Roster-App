@@ -1,266 +1,247 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FormErrors from "./FormErrors";
 import { Redirect } from "react-router-dom";
-// import Form from 'bootstrap/Form';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { useHistory } from "react-router-dom";
 
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 
-class Register extends Component {
-    state = {
-        email: "",
-        password: "",
-        formErrors: { email: "", password: "", repassword: "" },
-        emailValid: false,
-        passwordValid: false,
-        repasswordValid: false,
-        formValid: false,
-        toHome: false,
-    };
-    register(e) {
-        // e.preventdefault();
-        console.log("************************");
-        console.log(this.props);
 
-        try {
-            axios
-                .post(`http://localhost:9000/register`, {
-                    email: this.state.email,
-                    password_digest: this.state.password,
-                })
-                .then((response) => {
-                    alert(response.data.result);
-                    this.setState({
-                        toHome: true,
-                    });
-                    // this.props.handleLogin(response.data)
-                });
-            // console.log('👉 Returned data:', response);
-            // this.props.updateLogin(response);
-        } catch (e) {
-            console.log(`😱 Axios request failed: ${e}`);
-        }
-    }
-    validateField(fieldName, value) {
-        let fieldValidationErrors = this.state.formErrors;
-        let emailValid = this.state.emailValid;
-        let passwordValid = this.state.passwordValid;
-        let repasswordValid = this.state.repasswordValid;
+function Register({ }) {
+    const [email, setEmail] = useState(MDBInput.email);
+    const [password, setPassword] = useState(MDBInput.password);
+    const [repassword, setRepassword] = useState(MDBInput.repassword);
+    let history = useHistory();
 
-        switch (fieldName) {
-            case "email":
-                emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
-                    ? true
-                    : false;
-                fieldValidationErrors.email = emailValid ? "" : " is invalid";
-                break;
-            case "password":
-                passwordValid = value.length >= 6;
-
-                fieldValidationErrors.password = passwordValid
-                    ? ""
-                    : " is too short";
-                break;
-            case "repassword":
-                repasswordValid = value === this.state.password;
-                fieldValidationErrors.repassword = repasswordValid
-                    ? ""
-                    : " did not match with password";
-                break;
-            default:
-                break;
-        }
-        this.setState(
-            {
-                formErrors: fieldValidationErrors,
-                emailValid: emailValid,
-                passwordValid: passwordValid,
-                repasswordValid: repasswordValid,
-            },
-            this.validateForm
-        );
-    }
-    validateForm() {
-        this.setState({
-            formValid:
-                this.state.emailValid &&
-                this.state.passwordValid &&
-                this.state.repasswordValid,
-        });
-    }
-
-    reset() {
-        this.setState({
-            reset: true,
-        });
-    }
-    handleUserInput(e) {
-        const name = e.target.name;
-        const value = e.target.value;
-        this.setState({ [name]: value }, () => {
-            this.validateField(name, value);
-        });
-    }
-
-    displayInvalid = (input, color) => {
+    const displayInvalid = (input, color) => {
         input.style.borderColor = color;
         input.previousElementSibling.style.color = color;
         input.nextElementSibling.style.color = color;
     };
+    const displayValid = (input) => {
+        input.style.borderColor = "";
+        input.previousElementSibling.style.color = "";
+        input.nextElementSibling.style.color = "";
+    };
 
-    invalidMinMaxMsg = (e, min, max) => {
+    // const register = (e) => {
+    //     // e.preventdefault();
+    //     console.log("************************");
+    //     console.log(this.props);
+
+    //     try {
+    //         axios
+    //             .post(`http://localhost:9000/register`, {
+    //                 email: this.state.email,
+    //                 password_digest: this.state.password,
+    //             })
+    //             .then((response) => {
+    //                 alert(response.data.result);
+    //                 this.setState({
+    //                     toHome: true,
+    //                 });
+    //                 // this.props.handleLogin(response.data)
+    //             });
+    //         // console.log('👉 Returned data:', response);
+    //         // this.props.updateLogin(response);
+    //     } catch (e) {
+    //         console.log(`😱 Axios request failed: ${e}`);
+    //     }
+    // }
+
+    const invalidMinMaxMsg = (e, min, max) => {
         // debugger;
         console.log(e);
         const fieldName = e.target.nextElementSibling.textContent;
         if (e.target.value === "") {
             e.target.setCustomValidity(`${fieldName} is required`);
-            this.displayInvalid(e.target, "red");
+            displayInvalid(e.target, "red");
         } else if (e.target.validity.tooShort) {
             e.target.setCustomValidity(
                 `${fieldName} needs to be at least ${min} characters long.`
             );
-            this.displayInvalid(e.target, "red");
+            displayInvalid(e.target, "red");
         } else if (e.target.validity.tooLong) {
             e.target.setCustomValidity(
                 `${fieldName} name needs to be between ${min} and ${max} characters long.`
             );
-            this.displayInvalid(e.target, "red");
+            displayInvalid(e.target, "red");
         } else {
             e.target.setCustomValidity("");
-            // this.displayValid(e.target);
-            alert(e.target.value);
+            displayValid(e.target);
+            // alert(e.target.value);
         }
         return true;
     };
 
-    render() {
-        if (this.state.toHome) {
-            return <Redirect to="/" />;
-        } else {
-            return (
-                <MDBRow center>
-                    <MDBCol sm="12" md="4">
-                        <form
-                            class="text-center border border-light p-5"
-                            action="#!"
-                        >
-                            <p class="h4 mb-4">Register</p>
+    const invalidEmailMsg = (e) => {
+        console.log("e = ", e.target);
+        if (e.target.value === "") {
+            displayInvalid(e.target, "red");
+            e.target.setCustomValidity("Required email address");
+        } else if (e.target.validity.typeMismatch) {
+            displayInvalid(e.target, "red");
+            e.target.setCustomValidity("please enter a valid email address");
+        } else if (
+            !e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
+        )
+            displayInvalid(e.target, "red");
+        else {
+            e.target.setCustomValidity("");
+            displayValid(e.target);
+        }
+        return true;
+    };
 
-                            {/* <div class="form-row mb-4">
-                                <div class="col">
-                                    <input
-                                        type="text"
-                                        id="defaultRegisterFormFirstName"
-                                        class="form-control"
-                                        placeholder="First name"
-                                    />
-                                </div>
-                                <div class="col">
-                                    <input
-                                        type="text"
-                                        id="defaultRegisterFormLastName"
-                                        class="form-control"
-                                        placeholder="Last name"
-                                    />
-                                </div>
-                            </div> */}
+    const invalidRepasswordMsg = (e) => {
+        console.log(`e.target.value`, e.target.value);
+        console.log(`password.value`, password);
+        if (e.target.value !== password) {
+            displayInvalid(e.target, "red");
+            e.target.setCustomValidity("Password and Re-password did not match");
+        }
+        else {
+            e.target.setCustomValidity("");
+            displayValid(e.target);
+        }
+        return true;
+    }
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
 
-                            <input
-                                type="email"
-                                id="defaultRegisterFormEmail"
-                                class="form-control mb-4"
-                                placeholder="E-mail"
-                            />
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
 
-                            <input
-                                type="password"
-                                id="defaultRegisterFormPassword"
-                                class="form-control"
-                                placeholder="Password"
-                                aria-describedby="defaultRegisterFormPasswordHelpBlock"
-                                minLength="6"
-                                maxLength="20"
-                                name="password"
-                                onChange={(event) =>
-                                    this.handleUserInput(event)
-                                }
-                                onInvalid={(e) =>
-                                    this.invalidMinMaxMsg(e, 2, 20)
-                                }
-                                onInput={(e) => this.invalidMinMaxMsg(e, 2, 20)}
-                            ></input>
-                            <small
-                                id="defaultRegisterFormPasswordHelpBlock"
-                                class="form-text text-muted mb-4"
-                            >
-                                At least 8 characters and 1 digit
+    const handleRepasswordChange = (e) => {
+        setRepassword(e.target.value);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:9000/users/register", {
+                user: {
+                    email,
+                    password
+                },
+            });
+            if (response.status === 200) {
+                console.log(response.statusText);
+                history.replace("/login");
+            }
+        } catch (error) {
+            alert("Error: could not register the user");
+        }
+    };
+    return (
+        <MDBRow center>
+            <MDBCol sm="12" md="4">
+                <form
+                    class="text-center border border-light p-5"
+                    onSubmit={handleSubmit}
+                >
+                    <p class="h4 mb-4">Register</p>
+                    <MDBInput
+                        label="Type your email"
+                        icon="envelope"
+                        type="email"
+                        validate
+                        error="wrong"
+                        success="right"
+                        required
+                        id="defaultRegisterFormEmail"
+                        class="form-control mb-4"
+                        placeholder="E-mail"
+                        name="email"
+                        onChange={handleEmailChange}
+                        minLength="8"
+                        maxLength="50"
+                        onInvalid={invalidEmailMsg}
+                        onInput={invalidEmailMsg}
+                        value={email}
+                    />
+
+                    <MDBInput
+                        label="Type your password"
+                        icon="lock"
+                        type="password"
+                        id="defaultRegisterFormPassword"
+                        class="form-control"
+                        placeholder="Password"
+                        aria-describedby="defaultRegisterFormPasswordHelpBlock"
+                        validate
+                        name="password"
+                        onChange={handlePasswordChange}
+                        minLength="6"
+                        maxLength="20"
+                        onInvalid={invalidMinMaxMsg}
+                        onInput={invalidMinMaxMsg}
+                        value={password}
+                    ></MDBInput>
+                    <small
+                        id="defaultRegisterFormPasswordHelpBlock"
+                        class="form-text text-muted mb-4"
+                    >
+                        At least 8 characters and 1 digit
                             </small>
 
-                            {/* <input
-                                type="text"
-                                id="defaultRegisterPhonePassword"
-                                class="form-control"
-                                placeholder="Phone number"
-                                aria-describedby="defaultRegisterFormPhoneHelpBlock"
-                            />
-                            <small
-                                id="defaultRegisterFormPhoneHelpBlock"
-                                class="form-text text-muted mb-4"
-                            >
-                                Optional - for two step authentication
-                            </small> */}
+                    <MDBInput
+                        label="Type your re-password"
+                        icon="lock"
+                        type="password"
+                        id="defaultRegisterFormRePassword"
+                        class="form-control"
+                        placeholder="Re-Password"
+                        aria-describedby="defaultRegisterFormPasswordHelpBlock"
+                        validate
+                        name="repassword"
+                        onChange={handleRepasswordChange}
+                        // minLength="6"
+                        // maxLength="20"
+                        onInvalid={invalidRepasswordMsg}
+                        onInput={invalidRepasswordMsg}
+                        value={repassword}
+                    ></MDBInput>
 
-                            {/* <div class="custom-control custom-checkbox">
-                                <input
-                                    type="checkbox"
-                                    class="custom-control-input"
-                                    id="defaultRegisterFormNewsletter"
-                                ></input>
-                                <label
-                                    class="custom-control-label"
-                                    for="defaultRegisterFormNewsletter"
-                                >
-                                    Subscribe to our newsletter
-                                </label>
-                            </div> */}
-
-                            <button
-                                class="btn btn-info my-4 btn-block"
-                                type="submit"
-                            >
-                                Sign in
+                    <button
+                        class="btn btn-info my-4 btn-block"
+                        type="submit"
+                    >
+                        Register
                             </button>
 
-                            <p>or sign up with:</p>
+                    <p>or sign up with:</p>
 
-                            <a href="#" class="mx-2" role="button">
-                                <i class="fab fa-facebook-f light-blue-text"></i>
-                            </a>
-                            <a href="#" class="mx-2" role="button">
-                                <i class="fab fa-twitter light-blue-text"></i>
-                            </a>
-                            <a href="#" class="mx-2" role="button">
-                                <i class="fab fa-linkedin-in light-blue-text"></i>
-                            </a>
-                            <a href="#" class="mx-2" role="button">
-                                <i class="fab fa-github light-blue-text"></i>
-                            </a>
+                    <a href="#" class="mx-2" role="button">
+                        <i class="fab fa-facebook-f light-blue-text"></i>
+                    </a>
+                    <a href="#" class="mx-2" role="button">
+                        <i class="fab fa-twitter light-blue-text"></i>
+                    </a>
+                    <a href="#" class="mx-2" role="button">
+                        <i class="fab fa-linkedin-in light-blue-text"></i>
+                    </a>
+                    <a href="#" class="mx-2" role="button">
+                        <i class="fab fa-github light-blue-text"></i>
+                    </a>
 
-                            <hr />
+                    <hr />
 
-                            <p>
-                                By clicking
+                    <p>
+                        By clicking
                                 <em>Sign up</em> you agree to our
                                 <a href="" target="_blank">
-                                    terms of service
+                            terms of service
                                 </a>
-                            </p>
-                        </form>
-                    </MDBCol>
-                </MDBRow>
-            );
-        }
-    }
+                    </p>
+                </form>
+            </MDBCol>
+        </MDBRow>
+    );
+
+
 }
 
 export default Register;
