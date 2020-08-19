@@ -1,17 +1,25 @@
 const { runSql } = require("./queries");
+const bcrypt = require('bcrypt');
 
 const doLogin = async (email, password) => {
-    const sql = "Select * FROM users Where email = $1 and password = $2;";
-    const params = [email, password];
+    console.log("1");
+    const sql = "Select * FROM users Where email = $1;";
+    const params = [email];
     const { rows } = await runSql(sql, params);
-    return rows;
+    console.log("2");
+    if (bcrypt.compareSync(password, rows[0].password)) {
+        console.log("3");
+        return rows;
+    } else {
+        console.log("Password and email did not match")
+    }
 }
 
-const createUser = async (email, password) => {
+const createUser = async (email, hashedPassword) => {
     const sql = `INSERT INTO users (email, password) VALUES ($1,$2);`;
     const params = [
         email,
-        password
+        hashedPassword
     ];
     await runSql(sql, params);
 

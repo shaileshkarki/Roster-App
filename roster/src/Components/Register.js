@@ -12,7 +12,7 @@ import {
     invalidMinMaxMsg,
 } from "../lib/formValidation";
 
-function Register({}) {
+function Register({ }) {
     const [email, setEmail] = useState(MDBInput.email);
     const [password, setPassword] = useState(MDBInput.password);
     const [repassword, setRepassword] = useState(MDBInput.repassword);
@@ -62,7 +62,7 @@ function Register({}) {
                 history.replace("/login");
             }
         } catch (error) {
-            alert("Error: could not register the user");
+            alert("Email already exists");
         }
     };
     return (
