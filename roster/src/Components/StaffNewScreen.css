@@ -1,9 +1,11 @@
 .staff-new-form {
   width: 100%;
+  text-align: left;
 }
 
 .button-width {
   width: 300px;
+  font-size: 14px;
 }
 
 .button-panel {
@@ -16,4 +18,8 @@ input:invalid {
 }
 input:valid {
   border: 1px solid black;
+}
+
+.btn {
+  font-size: 12px !important;
 }

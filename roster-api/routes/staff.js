@@ -17,9 +17,16 @@ router.get("/", async function (req, res, next) {
 /* Create staff member */
 router.post("/", async function (req, res, next) {
   console.log(req.body.newStaffMember);
-  const savedStaffMemebr = await createStaffMember(req.body.newStaffMember);
-  console.log("Saved staff member", savedStaffMemebr);
-  res.send(savedStaffMemebr);
+
+  try {
+    const savedStaffMemebr = await createStaffMember(req.body.newStaffMember);
+    console.log("Saved staff member", savedStaffMemebr);
+    res.send(savedStaffMemebr);
+  } catch (error) {
+    console.log("error in route get /staff/", error);
+    res.status(500);
+    res.send(error.message);
+  }
 });
 
 /* Update staff member */

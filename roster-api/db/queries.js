@@ -6,7 +6,8 @@ const runSql = async (sql, params) => {
     const results = await pool.query(sql, params);
     return results;
   } catch (error) {
-    console.log("There has been an error!", error);
+    //console.log("There has been an error!", error, sql, params);
+    throw { message: "There has been an error in runSql.", error, sql, params };
   }
 };
 
