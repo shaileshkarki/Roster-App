@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt = require('bcrypt');
 const {
   doLogin,
   createUser
@@ -21,9 +22,19 @@ router.post('/login', async function (req, res, next) {
 
 router.post('/register', async function (req, res, next) {
   let { email, password } = req.body.user;
-  const savedUser = await createUser(email, password);
-  console.log("Saved staff member", savedUser);
-  res.send(savedUser);
+  console.log({ password });
+  let hashedPassword = await bcrypt.hash(password, 10);
+  console.log({ hashedPassword });
+  try {
+    const savedUser = await createUser(email, hashedPassword);
+    console.log("Saved staff member", savedUser);
+    res.send(savedUser);
+  }
+  catch (error) {
+    console.log("Email already exists", error);
+    res.status(500);
+    res.send(error.message);
+  }
 })
 
 module.exports = router;
