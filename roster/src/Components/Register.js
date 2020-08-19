@@ -5,107 +5,34 @@ import { Redirect } from "react-router-dom";
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { useHistory } from "react-router-dom";
 
+import {
+    displayInvalid,
+    displayValid,
+    invalidEmailMsg,
+    invalidMinMaxMsg,
+} from "../lib/formValidation";
 
-
-function Register({ }) {
+function Register({}) {
     const [email, setEmail] = useState(MDBInput.email);
     const [password, setPassword] = useState(MDBInput.password);
     const [repassword, setRepassword] = useState(MDBInput.repassword);
     let history = useHistory();
 
-    const displayInvalid = (input, color) => {
-        input.style.borderColor = color;
-        input.previousElementSibling.style.color = color;
-        input.nextElementSibling.style.color = color;
-    };
-    const displayValid = (input) => {
-        input.style.borderColor = "";
-        input.previousElementSibling.style.color = "";
-        input.nextElementSibling.style.color = "";
-    };
-
-    // const register = (e) => {
-    //     // e.preventdefault();
-    //     console.log("************************");
-    //     console.log(this.props);
-
-    //     try {
-    //         axios
-    //             .post(`http://localhost:9000/register`, {
-    //                 email: this.state.email,
-    //                 password_digest: this.state.password,
-    //             })
-    //             .then((response) => {
-    //                 alert(response.data.result);
-    //                 this.setState({
-    //                     toHome: true,
-    //                 });
-    //                 // this.props.handleLogin(response.data)
-    //             });
-    //         // console.log('👉 Returned data:', response);
-    //         // this.props.updateLogin(response);
-    //     } catch (e) {
-    //         console.log(`😱 Axios request failed: ${e}`);
-    //     }
-    // }
-
-    const invalidMinMaxMsg = (e, min, max) => {
-        // debugger;
-        console.log(e);
-        const fieldName = e.target.nextElementSibling.textContent;
-        if (e.target.value === "") {
-            e.target.setCustomValidity(`${fieldName} is required`);
+    // checks to make sure that the passsword matches.
+    // Not moved to formValidation.js becuase it requires a parameter password
+    const invalidRepasswordMsg = (e) => {
+        if (e.target.value !== password) {
             displayInvalid(e.target, "red");
-        } else if (e.target.validity.tooShort) {
             e.target.setCustomValidity(
-                `${fieldName} needs to be at least ${min} characters long.`
+                "Password and Re-password did not match"
             );
-            displayInvalid(e.target, "red");
-        } else if (e.target.validity.tooLong) {
-            e.target.setCustomValidity(
-                `${fieldName} name needs to be between ${min} and ${max} characters long.`
-            );
-            displayInvalid(e.target, "red");
         } else {
             e.target.setCustomValidity("");
             displayValid(e.target);
-            // alert(e.target.value);
         }
         return true;
     };
 
-    const invalidEmailMsg = (e) => {
-        console.log("e = ", e.target);
-        if (e.target.value === "") {
-            displayInvalid(e.target, "red");
-            e.target.setCustomValidity("Required email address");
-        } else if (e.target.validity.typeMismatch) {
-            displayInvalid(e.target, "red");
-            e.target.setCustomValidity("please enter a valid email address");
-        } else if (
-            !e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
-        )
-            displayInvalid(e.target, "red");
-        else {
-            e.target.setCustomValidity("");
-            displayValid(e.target);
-        }
-        return true;
-    };
-
-    const invalidRepasswordMsg = (e) => {
-        console.log(`e.target.value`, e.target.value);
-        console.log(`password.value`, password);
-        if (e.target.value !== password) {
-            displayInvalid(e.target, "red");
-            e.target.setCustomValidity("Password and Re-password did not match");
-        }
-        else {
-            e.target.setCustomValidity("");
-            displayValid(e.target);
-        }
-        return true;
-    }
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
@@ -121,12 +48,15 @@ function Register({ }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:9000/users/register", {
-                user: {
-                    email,
-                    password
-                },
-            });
+            const response = await axios.post(
+                "http://localhost:9000/users/register",
+                {
+                    user: {
+                        email,
+                        password,
+                    },
+                }
+            );
             if (response.status === 200) {
                 console.log(response.statusText);
                 history.replace("/login");
@@ -160,6 +90,7 @@ function Register({ }) {
                         maxLength="50"
                         onInvalid={invalidEmailMsg}
                         onInput={invalidEmailMsg}
+                        pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
                         value={email}
                     />
 
@@ -180,12 +111,12 @@ function Register({ }) {
                         onInput={invalidMinMaxMsg}
                         value={password}
                     ></MDBInput>
-                    <small
+                    {/* <small
                         id="defaultRegisterFormPasswordHelpBlock"
                         class="form-text text-muted mb-4"
                     >
                         At least 8 characters and 1 digit
-                            </small>
+                    </small> */}
 
                     <MDBInput
                         label="Type your re-password"
@@ -205,12 +136,9 @@ function Register({ }) {
                         value={repassword}
                     ></MDBInput>
 
-                    <button
-                        class="btn btn-info my-4 btn-block"
-                        type="submit"
-                    >
+                    <button class="btn btn-info my-4 btn-block" type="submit">
                         Register
-                            </button>
+                    </button>
 
                     <p>or sign up with:</p>
 
@@ -231,17 +159,15 @@ function Register({ }) {
 
                     <p>
                         By clicking
-                                <em>Sign up</em> you agree to our
-                                <a href="" target="_blank">
+                        <em>Sign up</em> you agree to our
+                        <a href="" target="_blank">
                             terms of service
-                                </a>
+                        </a>
                     </p>
                 </form>
             </MDBCol>
         </MDBRow>
     );
-
-
 }
 
 export default Register;
