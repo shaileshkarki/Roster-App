@@ -3,36 +3,39 @@
 .col-lg-8,
 .col-sm-6,
 .col-sm-4 {
-    padding: 1rem;
-    background-color: white;
-    /* border: 2px solid #fff; */
-    color: black;
-    text-align: center;
-    width: 100%;
-    height: 100%;
+  padding: 1rem;
+  background-color: white;
+  /* border: 2px solid #fff; */
+  color: black;
+  text-align: center;
+  width: 100%;
+  height: 100%;
 }
 
 .main-content {
-    height: 70%;
-    color: black;
+  height: 70%;
+  color: black;
 }
 .footer {
-    height: 9%;
+  height: 9%;
 }
 
 .navbar-brand {
-    padding-top: 1em !important;
+  padding-top: 1em !important;
 }
 
 .jumbotron {
-    color: black;
+  color: black;
 }
 
 .header,
 .navigation,
 .report-menu {
-    height: 7%;
+  height: 7%;
 }
 .container-fluid {
-    height: 100%;
+  height: 100%;
+}
+.screen-font {
+  font-size: large !important;
 }

@@ -14,11 +14,10 @@ import Footer from "./Components/Footer";
 import NavbarPage from "./Components/NavbarPage";
 import Register from "./Components/Register";
 
-
 const App = () => {
   return (
     <Router>
-      <MDBContainer className="wrapper" fluid>
+      <MDBContainer className="wrapper screen-font" fluid>
         <MDBRow className="header">
           <MDBCol size="12" sm="12" lg="12">
             <header>
@@ -29,10 +28,12 @@ const App = () => {
           </MDBCol>
         </MDBRow>
         <MDBRow className="navigation">
-          <MDBCol size="12" sm="12" lg="12"><NavbarPage /></MDBCol>
+          <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+            <NavbarPage />
+          </MDBCol>
         </MDBRow>
         <MDBRow>
-          <MDBCol size="12" sm="12">
+          <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
             <Route path="/about" component={About} />
             <Route path="/contact" component={ContactUs} />
             <Route path="/admin" component={AdminPanel} />
@@ -45,15 +46,19 @@ const App = () => {
           </MDBCol>
         </MDBRow>
         <MDBRow className="report-menu">
-          <MDBCol size="12" sm="12">Reports</MDBCol>
+          <MDBCol size="12" sm="12">
+            Reports
+          </MDBCol>
         </MDBRow>
         <MDBRow className="footer">
-          <MDBCol size="12" sm="12" lg="12"><Footer /></MDBCol>
+          <MDBCol size="12" sm="12" lg="12">
+            <Footer />
+          </MDBCol>
         </MDBRow>
-      </MDBContainer >
-    </Router >
+      </MDBContainer>
+    </Router>
   );
-}
+};
 
 // class App extends Component {
 //   render() {
@@ -71,7 +76,6 @@ const App = () => {
 //         <CustomNavbar />
 
 //         {/* <div class="row content">
-
 
 //           <MiddleContainer />
 //         </div> */}

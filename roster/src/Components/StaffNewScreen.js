@@ -125,37 +125,39 @@ function StaffNewScreen(props) {
   };
   const handleSubmit = async (e) => {
     e.target.classList.add("waves-effect");
-    debugger;
+    // debugger;
     e.preventDefault();
-    const response = await axios.post("http://localhost:9000/staff", {
-      newStaffMember: {
-        firstname,
-        lastname,
-        address,
-        city,
-        state,
-        postCode,
-        email,
-        phone,
-        isActive: true,
-      },
-    });
-    console.log(response.status);
-    if (response.status === 200) {
-      console.log(response.statusText);
-      history.replace("/StaffListScreen");
-    } else {
-      alert(response.statusText);
+
+    try {
+      const response = await axios.post("http://localhost:9000/staff", {
+        newStaffMember: {
+          firstname,
+          lastname,
+          address,
+          city,
+          state,
+          postCode,
+          email,
+          phone,
+          isActive: true,
+        },
+      });
+      if (response.status === 200) {
+        console.log(response.statusText);
+        history.replace("/StaffListScreen");
+      }
+    } catch (error) {
+      alert(`${error.response.statusText} \n${error}\n${error.response.data}`);
     }
   };
   return (
     <div>
-      <MDBContainer className="staff-new-form">
+      <MDBContainer className="staff-new-form" size="12">
         <form onSubmit={handleSubmit}>
           <p className="h5 text-center mb-4">Add New Staff</p>
           <div className="grey-text">
             <MDBRow>
-              <MDBCol md="6">
+              <MDBCol>
                 <MDBInput
                   label="First Name"
                   icon="user-circle"
@@ -174,7 +176,7 @@ function StaffNewScreen(props) {
                   autocomplete="new-password"
                 />
               </MDBCol>
-              <MDBCol md="6">
+              <MDBCol>
                 <MDBInput
                   label="Last Name"
                   icon="user-circle"
