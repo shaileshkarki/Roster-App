@@ -39,3 +39,7 @@
 .screen-font {
   font-size: large !important;
 }
+
+.profile-hover:hover {
+  transform: scale(1.2);
+}
