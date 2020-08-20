@@ -1,0 +1,34 @@
+
+// From jobtracker
+
+
+const bodyParser = require("body-parser");
+
+// sessions is used to "tag" the user so we have user state
+const session = require("express-session");
+const flash = require("express-flash");
+
+// passport is used to authenticate users before gaining access to the application.
+const passport = require("passport");
+
+// the below establishes and initialises the middleware for the use passport
+const initializePassport = require("./passportConfig");
+initializePassport(passport);
+
+
+// use a key to encrypt session stuff. Now all requests to the app routes are using sessions.
+app.use(
+    session({
+        secret: "secret",
+        resave: false,
+        // do we want to save session details if there is no values in the session
+        saveUninitialized: false,
+    })
+);
+
+// initialise the use passport for authentication
+app.use(passport.initialize());
+
+// the below purpose it change the current session ID (i.e. the client cookie) and convert to a decentralised user object.
+// we didn't make use of serializeUser or deserializeUser
+app.use(passport.session());

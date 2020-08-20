@@ -98,6 +98,7 @@ CREATE TABLE staff
     notes VARCHAR(200),
     email VARCHAR(50),
     is_active BOOLEAN,
+    phone_number INTEGER,
 
     user_id INTEGER,
     group_id INTEGER,
@@ -107,24 +108,24 @@ CREATE TABLE staff
 );
 
 INSERT INTO staff
-    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email,is_active, user_id, group_id)
+    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email,is_active, phone_number, user_id, group_id)
 VALUES
-    ('gj', 'Glen', 'Jones', '1 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'gj@gj.com', true, 1, 1);
+    ('gj', 'Glen', 'Jones', '1 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'gj@gj.com', true, 0400123456, 1, 1);
 
 INSERT INTO staff
-    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active,user_id, group_id)
+    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active, phone_number, user_id, group_id)
 VALUES
-    ('aj', 'Andrew', 'Jones', '2 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'aj@aj.com', true, 2, 2);
+    ('aj', 'Andrew', 'Jones', '2 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'aj@aj.com', true, 0423123456,2, 2);
 
 INSERT INTO staff
-    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active,user_id, group_id)
+    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active, phone_number, user_id, group_id)
 VALUES
-    ('bj', 'Ben', 'Jones', '3 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'bj@bj.com', true, 3, 3);
+    ('bj', 'Ben', 'Jones', '3 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'bj@bj.com', true, 0411123234,3, 3);
 
 INSERT INTO staff
-    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active ,user_id, group_id)
+    (username, firstname, lastname, address, city, state, postcode, picture_url, notes, email, is_active , phone_number, user_id, group_id)
 VALUES
-    ('cj', 'Craig', 'Jones', '4 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'cj@cj.com', false, 4, 4);
+    ('cj', 'Craig', 'Jones', '4 Smith St', 'Melbourne', 'VIC', 3000, 'https://i.pravatar.cc/300', 'Great worker', 'cj@cj.com', false, 0444123111, 4, 4);
 
 
 
