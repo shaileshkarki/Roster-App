@@ -6,7 +6,7 @@ class LeftSidebar extends React.Component {
     return (
 
       <MDBRow center className="m-1">
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button
             variant="primary"
             href="/StaffListScreen"
@@ -14,35 +14,35 @@ class LeftSidebar extends React.Component {
             Add Staff
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button className="w-100 h-100 d-inline-block m-1" variant="warning" href="#">
             Update Staff
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
             Delete Staff
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button className="w-100 h-100 d-inline-block m-1" variant="primary" href="#">
             View Roster
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button className="w-100 h-100 d-inline-block m-1" variant="warning" href="#">
             Update Roster
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="2" xl="2">
+        <MDBCol sm="6" md="4" lg="1" xl="2">
           <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
             Create Roster
           </Button>
-          <MDBCol sm="6" md="4" lg="2" xl="2">
-            <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
-              Refresh PHol
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="1" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="/PublicHolidays">
+            Public Holidays
           </Button>
-          </MDBCol>
         </MDBCol>
       </MDBRow>
     );
