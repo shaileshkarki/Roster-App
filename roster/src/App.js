@@ -14,6 +14,8 @@ import Footer from "./Components/Footer";
 import NavbarPage from "./Components/NavbarPage";
 import Register from "./Components/Register";
 import PublicHolidays from "./Components/PublicHolidays";
+import RosterScreen from "./Components/Roster/RosterScreen";
+import CreateRosterScreen from "./Components/Roster/CreateRosterScreen";
 
 const App = () => {
   return (
@@ -35,11 +37,14 @@ const App = () => {
         </MDBRow>
         <MDBRow>
           <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+            <Route path="/ViewRosterScreen" component={RosterScreen} />
+            <Route path="/CreateRosterScreen" component={CreateRosterScreen} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={ContactUs} />
             <Route path="/admin" component={AdminPanel} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+
             <Route exact path="/" component={Home} />
             <Route path="/StaffListScreen" component={StaffListScreen} />
             <Route path="/StaffNewScreen" component={StaffNewScreen} />
