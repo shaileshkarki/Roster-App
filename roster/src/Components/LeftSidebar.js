@@ -1,48 +1,52 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
-
+import { MDBRow, MDBCol } from "mdbreact";
 class LeftSidebar extends React.Component {
-    render() {
-        return (
-            <div class="">
-                <div class="btn">
-                    <Button
-                        variant="primary"
-                        href="/StaffListScreen"
-                        // block
-                        className="mb-1"
-                        xs={12}
-                    >
-                        Add Staff
-                    </Button>
+  render() {
+    return (
 
-                    <Button className="mb-1" variant="warning" href="#" xs={12}>
-                        Update Staff
-                    </Button>
-
-                    <Button className="mb-1" variant="danger" href="#" xs={12}>
-                        Delete Staff
-                    </Button>
-
-                    <Button className="mb-1" variant="primary" href="#" xs={12}>
-                        View Roster
-                    </Button>
-
-                    <Button className="mb-1" variant="warning" href="#" xs={12}>
-                        Update Roster
-                    </Button>
-
-                    <Button className="mb-1" variant="danger" href="#" xs={12}>
-                        Create Roster
-                    </Button>
-
-                    <Button className="mb-1" variant="primary" href="#" xs={12}>
-                        Refresh PHol
-                    </Button>
-                </div>
-            </div>
-        );
-    }
+      <MDBRow center className="m-1">
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button
+            variant="primary"
+            href="/StaffListScreen"
+            className="w-100 h-100 d-inline-block m-1">
+            Add Staff
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="warning" href="#">
+            Update Staff
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
+            Delete Staff
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="primary" href="#">
+            View Roster
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="warning" href="#">
+            Update Roster
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="4" lg="2" xl="2">
+          <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
+            Create Roster
+          </Button>
+          <MDBCol sm="6" md="4" lg="2" xl="2">
+            <Button className="w-100 h-100 d-inline-block m-1" variant="danger" href="#">
+              Refresh PHol
+          </Button>
+          </MDBCol>
+        </MDBCol>
+      </MDBRow>
+    );
+  }
 }
 
 export default LeftSidebar;

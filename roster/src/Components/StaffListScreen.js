@@ -90,7 +90,9 @@ function StaffListScreen(props) {
   // Added back code :
   let paginationConfig = {
     totalPages:
-      numberOfStaffPerPage > 0 ? Math.ceil(total / numberOfStaffPerPage) : 0,
+      numberOfStaffPerPage > 0
+        ? Math.ceil(total / numberOfStaffPerPage)
+        : 0,
     currentPage: currentPage + 1,
     showMax: 20,
     prevNext: true,
@@ -102,25 +104,31 @@ function StaffListScreen(props) {
         setCurrentPage(page - 1);
         setPaginationData(
           paginate(
-            filteredStaffList.length > 0 ? filteredStaffList : allStaffList,
+            filteredStaffList.length > 0
+              ? filteredStaffList
+              : allStaffList,
             page - 1,
             numberOfStaffPerPage
           )
         );
-        setCurrent(page === 1 ? 1 : (page - 1) * numberOfStaffPerPage + 1);
+        setCurrent(
+          page === 1 ? 1 : (page - 1) * numberOfStaffPerPage + 1
+        );
       }
     },
   };
   return (
-    <MDBContainer fluid sm="12" md="12" lg="12" xl="12">
-      <MDBRow sm="12" md="12" lg="12" xl="12">
-        <LeftSidebar />
-      </MDBRow>
-      <MDBRow sm="12" md="12" lg="12" xl="12">
-        {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
+    <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
+      <MDBRow center>
         <MDBCol sm="12" md="12" lg="12" xl="12">
-          <MDBRow sm="12" md="12" lg="12" xl="12">
-            <MDBCol>
+          <LeftSidebar />
+        </MDBCol>
+      </MDBRow>
+      <MDBRow >
+        {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
+        <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+          <MDBRow>
+            <MDBCol sm="12" md="12" lg="12">
               <div className={"staff-list-search"}>
                 <div className={"space-evenly"}>
                   <input
@@ -138,23 +146,29 @@ function StaffListScreen(props) {
                       size="sm"
                       title={searchCriteria.label}
                     >
-                      {searchByCriteraiList.map((criteria, index) => (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={(e) => {
-                            setSearchCriteria(criteria);
-                            setSearchCriteriaValue("");
-                            setScreen(
-                              allStaffList,
-                              false,
-                              numberOfStaffPerPage
-                            );
-                          }}
-                          eventKey={index}
-                        >
-                          {criteria.label}
-                        </Dropdown.Item>
-                      ))}
+                      {searchByCriteraiList.map(
+                        (criteria, index) => (
+                          <Dropdown.Item
+                            key={index}
+                            onClick={(e) => {
+                              setSearchCriteria(
+                                criteria
+                              );
+                              setSearchCriteriaValue(
+                                ""
+                              );
+                              setScreen(
+                                allStaffList,
+                                false,
+                                numberOfStaffPerPage
+                              );
+                            }}
+                            eventKey={index}
+                          >
+                            {criteria.label}
+                          </Dropdown.Item>
+                        )
+                      )}
                     </DropdownType>
                   ))}
                 </div>
@@ -172,7 +186,11 @@ function StaffListScreen(props) {
           </MDBRow>
           <MDBRow>
             <MDBCol>
-              <MDBTable style={{ wordBreak: "break-all" }} bordered hover>
+              <MDBTable
+                style={{ wordBreak: "break-all" }}
+                bordered
+                hover
+              >
                 <thead>
                   <tr>
                     <th>ID</th>
@@ -187,28 +205,33 @@ function StaffListScreen(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {paginationData.map((staffMember, index) => (
-                    <tr
-                      onClick={() =>
-                        history.push("/StaffEditScreen", staffMember)
-                      }
-                      key={index}
-                    >
-                      <td>{staffMember.staff_id}</td>
-                      <td>{staffMember.firstname}</td>
-                      <td>{staffMember.lastname}</td>
-                      <td>{staffMember.address}</td>
-                      <td>{staffMember.city}</td>
-                      <td>{staffMember.state}</td>
-                      <td>{staffMember.postcode}</td>
-                      <td>{staffMember.email}</td>
-                      <td>
-                        {
-                          <img src="https://api.adorable.io/avatars/40/abott@adorable.png"></img>
+                  {paginationData.map(
+                    (staffMember, index) => (
+                      <tr
+                        onClick={() =>
+                          history.push(
+                            "/StaffEditScreen",
+                            staffMember
+                          )
                         }
-                      </td>
-                    </tr>
-                  ))}
+                        key={index}
+                      >
+                        <td>{staffMember.staff_id}</td>
+                        <td>{staffMember.firstname}</td>
+                        <td>{staffMember.lastname}</td>
+                        <td>{staffMember.address}</td>
+                        <td>{staffMember.city}</td>
+                        <td>{staffMember.state}</td>
+                        <td>{staffMember.postcode}</td>
+                        <td>{staffMember.email}</td>
+                        <td>
+                          {
+                            <img src="https://api.adorable.io/avatars/40/abott@adorable.png"></img>
+                          }
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </MDBTable>
             </MDBCol>
@@ -217,12 +240,13 @@ function StaffListScreen(props) {
           <Pagination className="pagination" {...paginationConfig} />
           <div className={"results"}>
             <label>
-              {numberOfStaffPerPage > 0 ? `${current} of ${total}` : "0 of 0"}
+              {numberOfStaffPerPage > 0
+                ? `${current} of ${total}`
+                : "0 of 0"}
             </label>
           </div>
         </MDBCol>
       </MDBRow>
-
       <MDBRow className="button-panel">
         <MDBCol sm="6" md="5" lg="4" xl="3">
           <Button href="/StaffNewScreen">Create New Staff</Button>

@@ -67,16 +67,16 @@ footer {
 
 /* GJ: added the bleow to change button font size and see if max width makes all buttons the same size */
 .sidebar-buttons > .btn {
-    font-size: 15px;
+    /* font-size: 15px; */
     /* max-width: 100%; */
-    height: 75%;
+    /* height: 75%;
     padding: 15px 5px !important;
     display: flex !important;
     align-items: center;
-    justify-content: center;
+    justify-content: center; */
 }
 .sidenav .btn {
-    font-size: large;
+    /* font-size: large; */
 }
 .table > thead:first-child > tr:first-child > th,
 .table-bordered > tbody > tr > td {
@@ -100,8 +100,8 @@ footer {
 } */
 
 div > .btn {
-    width: 100% !important;
+    /* width: 100% !important;
     display: flex;
     justify-content: space-between;
-    text-align: center;
+    text-align: center; */
 }

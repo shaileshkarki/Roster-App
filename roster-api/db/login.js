@@ -2,13 +2,10 @@ const { runSql } = require("./queries");
 const bcrypt = require('bcrypt');
 
 const doLogin = async (email, password) => {
-    console.log("1");
     const sql = "Select * FROM users Where email = $1;";
     const params = [email];
     const { rows } = await runSql(sql, params);
-    console.log("2");
     if (bcrypt.compareSync(password, rows[0].password)) {
-        console.log("3");
         return rows;
     } else {
         console.log("Password and email did not match")
