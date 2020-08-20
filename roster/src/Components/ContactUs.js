@@ -4,7 +4,7 @@ import { MDBIcon } from "mdbreact";
 
 function Profile({ profile }) {
   return (
-    <div className="col-sm  profile-hover">
+    <div className="col-sm profile-hover">
       <div className="cnt-block equal-hight">
         <figure>
           <img
@@ -14,19 +14,23 @@ function Profile({ profile }) {
           />
         </figure>
         <h3>
-          <a href={profile.portfolio} target="_blank">
+          <a href={profile.portfolio} target="_blank" rel="noopener noreferrer">
             {profile.name}
           </a>
         </h3>
         <p>{profile.titile}</p>
         <div>
           <div>
-            <a href={profile.linkedin} target="_blank">
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <MDBIcon fab icon="linkedin" />
             </a>
           </div>
           <div>
-            <a href={profile.github} target="_blank">
+            <a href={profile.github} target="_blank" rel="noopener noreferrer">
               <MDBIcon fab icon="github" />
             </a>
           </div>
@@ -73,7 +77,7 @@ function ContactUs(props) {
         </div>
       </center>
       <section className="our-team padding-lg">
-        <div class="container">
+        <div className="container">
           <div className="row">
             {profiles.map((profile, index) => (
               <Profile key={index} profile={profile} />
