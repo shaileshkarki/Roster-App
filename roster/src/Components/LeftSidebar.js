@@ -35,6 +35,10 @@ class LeftSidebar extends React.Component {
                     <Button className="mb-1" variant="danger" href="#" xs={12}>
                         Create Roster
                     </Button>
+
+                    <Button className="mb-1" variant="primary" href="#" xs={12}>
+                        Refresh PHol
+                    </Button>
                 </div>
             </div>
         );
