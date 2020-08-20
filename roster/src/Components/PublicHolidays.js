@@ -15,14 +15,17 @@ import { paginate } from "../lib/pagination";
 const searchByCriteraiList = [
     { label: "ID", key: "phol_id" },
     { label: "State", key: "phol_state" },
-    { label: "Date", key: "phol_date" }
+    { label: "Date", key: "phol_date" },
+    { label: "Name", key: "phol_name" },
 ];
 function PublicHolidays(props) {
     //Added back code:
     const { request: getAllPublicHolidays } = usePublicHolidaysAPI();
     const [allStaffList, setAllStaffList] = useState([]); // All staff from database
     const [filteredStaffList, setFilteredStaffList] = useState([]); // All staff that meet seacrh criteria
-    const [searchCriteria, setSearchCriteria] = useState(searchByCriteraiList[0]);
+    const [searchCriteria, setSearchCriteria] = useState(
+        searchByCriteraiList[0]
+    );
     const [searchCriteriaValue, setSearchCriteriaValue] = useState("");
     const [paginationData, setPaginationData] = useState([]); // Staff to  be displayed on screen depending on how many per page
     const [total, setTotal] = useState(0); // Sum of total staff listed on screen
@@ -43,7 +46,9 @@ function PublicHolidays(props) {
     };
     // set up the page to display Staff List and pagination.
     const loadStaffListScreen = async () => {
+        console.log("BEFORE TEH DATA");
         const { data } = await getAllPublicHolidays();
+        console.log(data);
         setAllStaffList(data);
         setScreen(data, false, numberOfStaffPerPage);
     };
@@ -119,7 +124,7 @@ function PublicHolidays(props) {
                     <LeftSidebar />
                 </MDBCol>
             </MDBRow>
-            <MDBRow >
+            <MDBRow>
                 {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
                 <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
                     <MDBRow>
@@ -191,23 +196,19 @@ function PublicHolidays(props) {
                                         <th>ID</th>
                                         <th>State</th>
                                         <th>Date</th>
+                                        <th>Name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {paginationData.map(
                                         (staffMember, index) => (
-                                            <tr
-                                                onClick={() =>
-                                                    history.push(
-                                                        "/StaffEditScreen",
-                                                        staffMember
-                                                    )
-                                                }
-                                                key={index}
-                                            >
+                                            <tr>
                                                 <td>{staffMember.phol_id}</td>
-                                                <td>{staffMember.phol_state}</td>
+                                                <td>
+                                                    {staffMember.phol_state}
+                                                </td>
                                                 <td>{staffMember.phol_date}</td>
+                                                <td>{staffMember.phol_name}</td>
                                             </tr>
                                         )
                                     )}
@@ -228,10 +229,14 @@ function PublicHolidays(props) {
             </MDBRow>
             <MDBRow className="button-panel">
                 <MDBCol sm="6" md="5" lg="4" xl="3">
-                    <Button href="/StaffNewScreen" btn-block>Create New Staff</Button>
+                    <Button href="/StaffNewScreen" btn-block>
+                        Create New Staff
+                    </Button>
                 </MDBCol>
                 <MDBCol sm="6" md="5" lg="4" xl="3">
-                    <Button href="/admin" btn-block>Back</Button>
+                    <Button href="/admin" btn-block>
+                        Back
+                    </Button>
                 </MDBCol>
             </MDBRow>
         </MDBContainer>

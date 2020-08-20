@@ -52,7 +52,7 @@ VALUES
     ('fj@gj.com', 'password123');
 
 
--- THIS TABLE CREATES THE ROLES THAT WORKERS WILL BE ASSIGNED TO
+
 CREATE TABLE groups
 (
     group_id SERIAL PRIMARY KEY,
@@ -133,53 +133,38 @@ CREATE TABLE publicHolidays
 (
     phol_id SERIAL PRIMARY KEY,
     phol_state VARCHAR(3) NOT NULL,
-    phol_date DATE NOT NULL
+    phol_date DATE NOT NULL,
+    phol_name VARCHAR(200)
 );
 
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('NA', '2020-01-01');
+    ('NA', '2020-01-01','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-08-14');
+    ('VIC', '2020-08-14','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-08-20');
+    ('VIC', '2020-08-20','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-08-24');
+    ('VIC', '2020-08-24','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-08-28');
+    ('VIC', '2020-08-28','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-09-01');
+    ('VIC', '2020-09-01','Xmas');
 INSERT INTO publicHolidays
-    (phol_state, phol_date)
+    (phol_state, phol_date, phol_name)
 VALUES
-    ('VIC', '2020-09-06');
-INSERT INTO publicHolidays
-    (phol_state, phol_date)
-VALUES
-    ('VIC', '2020-09-15');
-INSERT INTO publicHolidays
-    (phol_state, phol_date)
-VALUES
-    ('NSW', '2020-08-23');
-INSERT INTO publicHolidays
-    (phol_state, phol_date)
-VALUES
-    ('NSW', '2020-08-29');
-INSERT INTO publicHolidays
-    (phol_state, phol_date)
-VALUES
-    ('NSW', '2020-09-15');
+    ('VIC', '2020-09-06','Xmas');
 
 
 
