@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBNavLink, MDBNavbarToggler, MDBCollapse,
 } from "mdbreact";
-import { BrowserRouter as Router } from 'react-router-dom';
 
 class NavbarPage extends Component {
     state = {
@@ -18,7 +17,7 @@ class NavbarPage extends Component {
 
             <MDBNavbar color="indigo" dark expand="md">
                 <MDBNavbarBrand>
-                    <strong className="white-text">Navbar</strong>
+                    <strong className="white-text">Roster</strong>
                 </MDBNavbarBrand>
                 <MDBNavbarToggler onClick={this.toggleCollapse} />
                 <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>

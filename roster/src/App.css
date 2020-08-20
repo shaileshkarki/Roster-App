@@ -74,3 +74,20 @@
     box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
   }
 }
+
+@media screen and (min-width: 768px) {
+  .footer {
+    position: fixed;
+    bottom: 9.5%;
+    left:0;
+    width:100%;
+    margin:auto;
+  }
+  .report-menu {
+    position: fixed;
+    bottom: 16%;
+    left:0;
+    width:100%;
+    margin:auto;
+  }
+}
