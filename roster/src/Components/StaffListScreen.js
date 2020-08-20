@@ -249,10 +249,10 @@ function StaffListScreen(props) {
       </MDBRow>
       <MDBRow className="button-panel">
         <MDBCol sm="6" md="5" lg="4" xl="3">
-          <Button href="/StaffNewScreen">Create New Staff</Button>
+          <Button href="/StaffNewScreen" btn-block>Create New Staff</Button>
         </MDBCol>
         <MDBCol sm="6" md="5" lg="4" xl="3">
-          <Button href="/admin">Back</Button>
+          <Button href="/admin" btn-block>Back</Button>
         </MDBCol>
       </MDBRow>
     </MDBContainer>

@@ -5,7 +5,10 @@ var router = express.Router();
 const { getAllPublicHolidays } = require("../db/publicHolidays");
 
 /* GET all public holidays */
+
 router.get("/", async function (req, res, next) {
     const allPublicHolidays = await getAllPublicHolidays();
     res.send(allPublicHolidays);
 });
+
+module.exports = router;

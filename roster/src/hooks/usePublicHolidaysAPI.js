@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 
 // get all the public holidays straight away via a hook
-export default function usePublicHolidays() {
+export default function usePublicHolidaysAPI() {
     const [data, setData] = useState([]);
 
     const request = async () => {

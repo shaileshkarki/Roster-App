@@ -13,6 +13,7 @@ import AdminPanel from "./Components/AdminPanel";
 import Footer from "./Components/Footer";
 import NavbarPage from "./Components/NavbarPage";
 import Register from "./Components/Register";
+import PublicHolidays from "./Components/PublicHolidays";
 
 const App = () => {
   return (
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/StaffListScreen" component={StaffListScreen} />
             <Route path="/StaffNewScreen" component={StaffNewScreen} />
             <Route path="/StaffEditScreen" component={StaffEditScreen} />
+            <Route path="/PublicHolidays" component={PublicHolidays} />
           </MDBCol>
         </MDBRow>
         <MDBRow className="report-menu">
