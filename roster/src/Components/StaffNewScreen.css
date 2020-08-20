@@ -10,7 +10,8 @@
 
 .button-panel {
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: row;
+  justify-content: center;
 }
 
 input:invalid {
@@ -21,5 +22,8 @@ input:valid {
 }
 
 .btn {
+  display: flex;
   font-size: 12px !important;
+  align-items: center !important;
+  justify-content: center !important;
 }

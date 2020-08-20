@@ -7,7 +7,6 @@
 }
 
 .button-width {
-  width: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,6 +15,10 @@
 .button-panel {
   display: flex;
   justify-content: space-evenly;
+}
+.button-panel-staff-list {
+  display: flex;
+  justify-content: center;
 }
 .mid-container {
   display: flex;
