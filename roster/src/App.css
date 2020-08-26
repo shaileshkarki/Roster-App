@@ -79,15 +79,14 @@
   .footer {
     position: fixed;
     bottom: 9.5%;
-    left:0;
-    width:100%;
-    margin:auto;
+    width: 100%;
+    margin: 0 auto;
   }
   .report-menu {
     position: fixed;
     bottom: 16%;
-    left:0;
-    width:100%;
-    margin:auto;
+    left: 0;
+    width: 100%;
+    margin: auto;
   }
 }

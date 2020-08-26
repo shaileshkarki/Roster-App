@@ -1,107 +1,79 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 /* THIS IS FOR THE MAIN APP PAGE LAYOUT */
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
-    margin-bottom: 0;
-    border-radius: 0;
+  margin-bottom: 0;
+  border-radius: 0;
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
-    height: 450px;
-}
-
-/* Set gray background color and 100% height */
-.sidenav {
-    padding-top: 20px;
-    background-color: #f1f1f1;
-    height: 100%;
+  height: 450px;
 }
 
 /* Set black background color, white text and some padding */
 footer {
-    background-color: #555;
-    color: white;
-    padding: 15px;
-    /* position: fixed; 
-    bottom: 0; */
-    /* left:0; */
+  background-color: #555;
+  color: white;
+  padding: 15px;
 }
 
 .reportBackgroundColor {
-    background-color: #f1f1f1;
+  background-color: #f1f1f1;
 }
 
 .reportButton {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
-    .sidenav {
-        height: auto;
-        padding: 15px;
-    }
-    .row.content {
-        height: auto;
-    }
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+  .row.content {
+    height: auto;
+  }
 }
 
-/* GJ: added the bleow to change button font size and see if max width makes all buttons the same size */
-.sidebar-buttons > .btn {
-    /* font-size: 15px; */
-    /* max-width: 100%; */
-    /* height: 75%;
-    padding: 15px 5px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center; */
-}
-.sidenav .btn {
-    /* font-size: large; */
-}
 .table > thead:first-child > tr:first-child > th,
 .table-bordered > tbody > tr > td {
-    font-size: 14px !important;
+  font-size: 14px !important;
 }
-
+td,
+th {
+  font-size: small !important;
+}
 .sidebar-buttons {
-    height: 100%;
-    display: grid !important;
-    /* grid-template-rows: repeat(1fr,6); */
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    /* padding:25% 5px !important; */
+  height: 100%;
+  display: grid !important;
+  /* grid-template-rows: repeat(1fr,6); */
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  /* padding:25% 5px !important; */
 }
-
-/* .fullwidth {
-    width: 100% !important;
-    display: flex;
-    justify-content: space-between;
+/* 
+.admin-panel-menu {
+  height: 2%;
 } */
-
-div > .btn {
-    /* width: 100% !important;
-    display: flex;
-    justify-content: space-between;
-    text-align: center; */
-}

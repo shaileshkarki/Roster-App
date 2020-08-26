@@ -4,8 +4,8 @@ import { MDBRow, MDBCol } from "mdbreact";
 class LeftSidebar extends React.Component {
   render() {
     return (
-      <MDBRow center className="m-1">
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+      <MDBRow left className="m-1">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             variant="primary"
             href="/StaffListScreen"
@@ -14,7 +14,7 @@ class LeftSidebar extends React.Component {
             Add Staff
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="warning"
@@ -23,7 +23,7 @@ class LeftSidebar extends React.Component {
             Admin Shift Screen
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="danger"
@@ -32,7 +32,7 @@ class LeftSidebar extends React.Component {
             Delete Staff
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="primary"
@@ -41,7 +41,7 @@ class LeftSidebar extends React.Component {
             View Roster
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="warning"
@@ -50,7 +50,7 @@ class LeftSidebar extends React.Component {
             Update Roster
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="danger"
@@ -59,7 +59,7 @@ class LeftSidebar extends React.Component {
             Create Roster
           </Button>
         </MDBCol>
-        <MDBCol sm="6" md="4" lg="1" xl="2">
+        <MDBCol sm="6" md="3" lg="2" xl="2">
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="danger"

@@ -18,6 +18,9 @@ import RosterScreen from "./Components/Roster/RosterScreen";
 import CreateRosterScreen from "./Components/Roster/CreateRosterScreen";
 import AdminShiftScreen from "./Components/Admin/AdminShiftScreen";
 
+import ViewRoster from "./Components/Roster/ViewRoster";
+import WeeklyRoster from "./Components/Roster/WeeklyRoster";
+import RosterTemplate from "./Components/Roster/RosterTemplate";
 const App = () => {
   return (
     <Router>
@@ -36,16 +39,17 @@ const App = () => {
             <NavbarPage />
           </MDBCol>
         </MDBRow>
-        <MDBRow>
+        <MDBRow className="main-content">
           <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-            <Route path="/ViewRosterScreen" component={RosterScreen} />
+            <Route path="/ViewSavedRoster" component={RosterScreen} />
+            <Route path="/viewWeeklyRoster" component={WeeklyRoster} />
+            <Route path="/ViewRosterScreen" component={ViewRoster} />
             <Route path="/CreateRosterScreen" component={CreateRosterScreen} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={ContactUs} />
             <Route path="/admin" component={AdminPanel} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
-
             <Route exact path="/" component={Home} />
             <Route path="/StaffListScreen" component={StaffListScreen} />
             <Route path="/StaffNewScreen" component={StaffNewScreen} />

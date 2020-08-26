@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FormErrors from "./FormErrors";
 import { Redirect } from "react-router-dom";
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { ToastContainer, MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -12,7 +12,7 @@ import {
   invalidMinMaxMsg,
 } from "../lib/formValidation";
 
-function Register({}) {
+function Register({ }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
