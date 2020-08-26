@@ -84,6 +84,9 @@ INSERT INTO groups
 VALUES
     ('Magician');
 
+
+
+
 CREATE TABLE staff
 (
     staff_id SERIAL PRIMARY KEY NOT NULL,
