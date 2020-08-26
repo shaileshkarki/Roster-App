@@ -16,6 +16,7 @@ import Register from "./Components/Register";
 import PublicHolidays from "./Components/PublicHolidays";
 import RosterScreen from "./Components/Roster/RosterScreen";
 import CreateRosterScreen from "./Components/Roster/CreateRosterScreen";
+import AdminShiftScreen from "./Components/Admin/AdminShiftScreen";
 
 const App = () => {
   return (
@@ -50,18 +51,19 @@ const App = () => {
             <Route path="/StaffNewScreen" component={StaffNewScreen} />
             <Route path="/StaffEditScreen" component={StaffEditScreen} />
             <Route path="/PublicHolidays" component={PublicHolidays} />
+            <Route path="/AdminShiftScreen" component={AdminShiftScreen} />
           </MDBCol>
         </MDBRow>
-        <MDBRow className="report-menu">
+        {/* <MDBRow className="report-menu">
           <MDBCol size="12" sm="12">
             Reports
           </MDBCol>
-        </MDBRow>
-        <MDBRow className="footer">
+        </MDBRow> */}
+        {/* <MDBRow className="footer">
           <MDBCol size="12" sm="12" lg="12">
             <Footer />
           </MDBCol>
-        </MDBRow>
+        </MDBRow> */}
       </MDBContainer>
     </Router>
   );

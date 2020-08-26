@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import useStaffApi from "../hooks/useStaffApi";
-import Table from "react-bootstrap/Table";
+import { MDBRow, MDBCol } from "mdbreact";
+import PaginationTable from "rbtpagination";
+import { Button } from "react-bootstrap";
+
+import "../../node_modules/rbtpagination/dist/index.css";
 import LeftSidebar from "./LeftSidebar";
-import ReportsFooter from "./ReportsFooter";
-import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
 
-import Pagination from "react-bootstrap-4-pagination";
-import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
-
-import "./StaffListScreen.css";
-
-import { paginate } from "../lib/pagination";
 const searchByCriteraiList = [
   { label: "ID", key: "staff_id" },
   { label: "First Name", key: "firstname" },
@@ -22,240 +17,55 @@ const searchByCriteraiList = [
   { label: "Post Code", key: "postcode" },
   { label: "Email", key: "email" },
 ];
+
+const tableColumnsAndDataKeys = [
+  { label: "ID", key: "staff_id" },
+  { label: "First Name", key: "firstname" },
+  { label: "Last Name", key: "lastname" },
+  { label: "Address", key: "address" },
+  { label: "City", key: "city" },
+  { label: "State", key: "state" },
+  { label: "Post Code", key: "postcode" },
+  { label: "Email", key: "email" },
+  { label: "Photo", key: "photo" },
+];
 function StaffListScreen(props) {
-  //Added back code:
-  const { request: getAllActiveStaffList } = useStaffApi();
-  const [allStaffList, setAllStaffList] = useState([]); // All staff from database
-  const [filteredStaffList, setFilteredStaffList] = useState([]); // All staff that meet seacrh criteria
-  const [searchCriteria, setSearchCriteria] = useState(searchByCriteraiList[0]);
-  const [searchCriteriaValue, setSearchCriteriaValue] = useState("");
-  const [paginationData, setPaginationData] = useState([]); // Staff to  be displayed on screen depending on how many per page
-  const [total, setTotal] = useState(0); // Sum of total staff listed on screen
-  const [current, setCurrent] = useState(0); // Displaying value of 1st staff member on screen (ie 1 of 5)
-  const [currentPage, setCurrentPage] = useState(0); // Current page of pagination
-  const [numberOfStaffPerPage, setNumberOfStaffPerPage] = useState(10); // How many staff members to display per screen (pagination)
-  let history = useHistory();
-
-  const changeNumberOfItemsPerPage = (e) => {
-    setNumberOfStaffPerPage(Number(e.target.value));
-    //if (e.target.value === "") return;
-
-    setScreen(
-      filteredStaffList.length > 0 ? filteredStaffList : allStaffList,
-      filteredStaffList.length > 0 ? true : false,
-      Number(e.target.value)
-    );
-  };
-  // set up the page to display Staff List and pagination.
-  const loadStaffListScreen = async () => {
-    const { data } = await getAllActiveStaffList();
-    setAllStaffList(data);
-    setScreen(data, false, numberOfStaffPerPage);
-  };
-
-  const setScreen = (data, isFiltered, number) => {
-    console.log("Number of staff per page = ", number);
-    setFilteredStaffList(isFiltered ? data : []);
-    setTotal(data.length);
-    setCurrent(data.length > 0 ? 1 : 0);
-    setCurrentPage(0);
-    setPaginationData(paginate(data, 0, number));
-  };
-
-  const getFilteredStaff = (criteria) => {
-    return allStaffList.filter((staffMember) => {
-      if (
-        String(staffMember[searchCriteria.key])
-          .toLowerCase()
-          .includes(criteria.toLowerCase())
-      )
-        return staffMember;
-      return "";
-    });
-  };
-  // Return List of staff that meet search criteria
-  const searchForStaffMember = (e) => {
-    setSearchCriteriaValue(e.target.value);
-    if (e.target.value === "") {
-      setScreen(allStaffList, false, numberOfStaffPerPage);
-      return;
-    }
-    setScreen(getFilteredStaff(e.target.value), true, numberOfStaffPerPage);
-  };
+  const { data, request: getAllActiveStaffList } = useStaffApi();
+  // All staff from database
 
   useEffect(() => {
-    loadStaffListScreen();
+    getAllActiveStaffList();
   }, []);
 
-  // Added back code :
-  let paginationConfig = {
-    totalPages:
-      numberOfStaffPerPage > 0
-        ? Math.ceil(total / numberOfStaffPerPage)
-        : 0,
-    currentPage: currentPage + 1,
-    showMax: 20,
-    prevNext: true,
-    activeBgColor: "dogerblue",
-    activeBorderColor: "dogerblue",
-    color: "dodgerblue",
-    onClick: function (page) {
-      if (page !== currentPage + 1) {
-        setCurrentPage(page - 1);
-        setPaginationData(
-          paginate(
-            filteredStaffList.length > 0
-              ? filteredStaffList
-              : allStaffList,
-            page - 1,
-            numberOfStaffPerPage
-          )
-        );
-        setCurrent(
-          page === 1 ? 1 : (page - 1) * numberOfStaffPerPage + 1
-        );
-      }
-    },
-  };
   return (
-    <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
+    <div>
       <MDBRow center>
         <MDBCol sm="12" md="12" lg="12" xl="12">
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
-      <MDBRow >
-        {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
-        <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-          <MDBRow>
-            <MDBCol sm="12" md="12" lg="12">
-              <div className={"staff-list-search"}>
-                <div className={"space-evenly"}>
-                  <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by ..."
-                    onChange={searchForStaffMember}
-                    value={searchCriteriaValue}
-                  />
-                  {[SplitButton].map((DropdownType, idx) => (
-                    <DropdownType
-                      as={ButtonGroup}
-                      key={idx}
-                      id={`dropdown-button-drop-${idx}`}
-                      size="sm"
-                      title={searchCriteria.label}
-                    >
-                      {searchByCriteraiList.map(
-                        (criteria, index) => (
-                          <Dropdown.Item
-                            key={index}
-                            onClick={(e) => {
-                              setSearchCriteria(
-                                criteria
-                              );
-                              setSearchCriteriaValue(
-                                ""
-                              );
-                              setScreen(
-                                allStaffList,
-                                false,
-                                numberOfStaffPerPage
-                              );
-                            }}
-                            eventKey={index}
-                          >
-                            {criteria.label}
-                          </Dropdown.Item>
-                        )
-                      )}
-                    </DropdownType>
-                  ))}
-                </div>
-                <div className="space-evenly">
-                  <label>Staff per page</label>
-                  <input
-                    type="number"
-                    name="numberOfItemsPerPage"
-                    onChange={changeNumberOfItemsPerPage}
-                    value={numberOfStaffPerPage}
-                  />
-                </div>
-              </div>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-            <MDBCol>
-              <MDBTable
-                style={{ wordBreak: "break-all" }}
-                bordered
-                hover
-              >
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>Post Code</th>
-                    <th>Email</th>
-                    <th>Photo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginationData.map(
-                    (staffMember, index) => (
-                      <tr
-                        onClick={() =>
-                          history.push(
-                            "/StaffEditScreen",
-                            staffMember
-                          )
-                        }
-                        key={index}
-                      >
-                        <td>{staffMember.staff_id}</td>
-                        <td>{staffMember.firstname}</td>
-                        <td>{staffMember.lastname}</td>
-                        <td>{staffMember.address}</td>
-                        <td>{staffMember.city}</td>
-                        <td>{staffMember.state}</td>
-                        <td>{staffMember.postcode}</td>
-                        <td>{staffMember.email}</td>
-                        <td>
-                          {
-                            <img src="https://api.adorable.io/avatars/40/abott@adorable.png"></img>
-                          }
-                        </td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </MDBTable>
-            </MDBCol>
-          </MDBRow>
+      <PaginationTable
+        dataSet={data}
+        searchData={searchByCriteraiList}
+        tableData={tableColumnsAndDataKeys}
+        handleItemClick={true}
+        itemClickRedirect="/StaffEditScreen"
+        itemsPerPage={20}
+      />
 
-          <Pagination className="pagination" {...paginationConfig} />
-          <div className={"results"}>
-            <label>
-              {numberOfStaffPerPage > 0
-                ? `${current} of ${total}`
-                : "0 of 0"}
-            </label>
-          </div>
-        </MDBCol>
-      </MDBRow>
       <MDBRow className="button-panel">
-        <MDBCol sm="6" md="5" lg="4" xl="3">
-          <Button href="/StaffNewScreen" btn-block>Create New Staff</Button>
+        <MDBCol>
+          <Button href="/StaffNewScreen" block>
+            Create New Staff
+          </Button>
         </MDBCol>
-        <MDBCol sm="6" md="5" lg="4" xl="3">
-          <Button href="/admin" btn-block>Back</Button>
+        <MDBCol>
+          <Button href="/admin" block>
+            Back
+          </Button>
         </MDBCol>
       </MDBRow>
-    </MDBContainer>
+    </div>
   );
 }
 

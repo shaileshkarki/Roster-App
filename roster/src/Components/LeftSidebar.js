@@ -18,9 +18,9 @@ class LeftSidebar extends React.Component {
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="warning"
-            href="#"
+            href="/AdminShiftScreen"
           >
-            Update Staff
+            Admin Shift Screen
           </Button>
         </MDBCol>
         <MDBCol sm="6" md="4" lg="1" xl="2">

@@ -12,7 +12,6 @@ import {
 } from "../lib/formValidation";
 
 function StaffForm({ data }) {
-  console.log("data = ", data ? data.staff_id : "");
   const [staffId] = useState(data ? data.staff_id : "");
   const [firstname, setFirstName] = useState(data ? data.firstname : "");
   const [lastname, setLastName] = useState(data ? data.lastname : "");

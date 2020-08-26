@@ -2,19 +2,19 @@
   .staff-list-search {
     display: grid;
     grid-template-columns: 1fr;
-  } 
+  }
 
   .space-evenly {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    margin: .5rem 1rem;
+    margin: 0.5rem 1rem;
   }
-  .space-evenly:nth-child(2){
+  .space-evenly:nth-child(2) {
     flex-direction: row-reverse;
     justify-content: flex-end;
   }
-  .space-evenly> input{
+  .space-evenly > input {
     width: 50%;
     margin-right: 1rem;
   }
@@ -27,7 +27,7 @@
     color: black;
     margin-bottom: 1rem;
   }
-  
+
   .space-evenly {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -45,6 +45,7 @@
 .button-panel {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 .button-panel-staff-list {
   display: flex;
