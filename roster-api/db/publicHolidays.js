@@ -19,14 +19,21 @@ const getAllPublicHolidays = async () => {
 const getPublicHolidaysFromAPI = async () => {
     let allPublicHolidays = [];
 
+    // estabish an array that stores the links for API public hoildays: 2020,2021,2022
+    let allPublicHolidaysAPILinks = [
+        "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c4163dc4-4f5a-4cae-b787-43ef0fcf8d8b&limit=120",
+        "https://data.gov.au/data/api/3/action/datastore_search?resource_id=2dee10ef-2d0c-44a0-a66b-eb8ce59d9110&limit=120",
+        "https://data.gov.au/data/api/3/action/datastore_search?resource_id=d256f989-8f49-46eb-9770-1c6ee9bd2661&limit=120",
+    ];
+
     const baseURL2020 =
         "https://data.gov.au/data/api/3/action/datastore_search?resource_id=c4163dc4-4f5a-4cae-b787-43ef0fcf8d8b&limit=120";
 
-    const baseURL2021 =
-        "https://data.gov.au/data/api/3/action/datastore_search?resource_id=2dee10ef-2d0c-44a0-a66b-eb8ce59d9110&limit=120";
+    // const baseURL2021 =
+    //     "https://data.gov.au/data/api/3/action/datastore_search?resource_id=2dee10ef-2d0c-44a0-a66b-eb8ce59d9110&limit=120";
 
-    const baseURL2022 =
-        "https://data.gov.au/data/api/3/action/datastore_search?resource_id=d256f989-8f49-46eb-9770-1c6ee9bd2661&limit=120";
+    // const baseURL2022 =
+    //     "https://data.gov.au/data/api/3/action/datastore_search?resource_id=d256f989-8f49-46eb-9770-1c6ee9bd2661&limit=120";
 
     try {
         const response = await axios.get(baseURL2020);
