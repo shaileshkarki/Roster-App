@@ -12,6 +12,7 @@ var registerRouter = require("./routes/register");
 var testAPIRouter = require("./routes/testAPI");
 var publicholidaysRouter = require("./routes/publicholidays");
 var groupsRouter = require("./routes/groups");
+var rosterRouter = require("./routes/roster");
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use("/testAPI", testAPIRouter);
 app.use("/register", registerRouter);
 app.use("/publicholidays", publicholidaysRouter);
 app.use("/groups", groupsRouter);
+app.use("/roster", rosterRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
