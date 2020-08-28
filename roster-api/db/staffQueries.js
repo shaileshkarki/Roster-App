@@ -9,6 +9,31 @@ const getAllActiveStaff = async () => {
   return allStaff;
 };
 
+const getStaffRoles = async (staff) => {
+  let staffWithRoles = [];
+
+  for (let i = 0; i < staff.length; i++) {
+    try {
+      const sql = "Select * FROM stafftogroups Where staff_member_id = $1;";
+      const params = [staff[i].staff_id];
+      console.log("staff id = ", staff[i].staff_id);
+
+      try {
+        const { rows } = await runSql(sql, params);
+        rows.forEach((row) => {
+          staffWithRoles.push({ ...row, name: staff[i].firstname });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  return staffWithRoles;
+};
+
 const createStaffMember = async ({
   firstname,
   lastname,
@@ -94,4 +119,5 @@ module.exports = {
   createStaffMember,
   updateStaffMember,
   removeStaffMember,
+  getStaffRoles,
 };

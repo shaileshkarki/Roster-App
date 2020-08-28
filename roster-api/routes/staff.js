@@ -6,12 +6,20 @@ const {
   createStaffMember,
   updateStaffMember,
   removeStaffMember,
+  getStaffRoles,
 } = require("../db/staffQueries");
 
 /* GET all staff */
 router.get("/", async function (req, res, next) {
   const allStaff = await getAllActiveStaff();
   res.send(allStaff);
+});
+
+router.get("/roles", async (req, res) => {
+  const allStaff = await getAllActiveStaff();
+
+  const staffWithRoles = await getStaffRoles(allStaff);
+  res.send(staffWithRoles);
 });
 
 /* Create staff member */
