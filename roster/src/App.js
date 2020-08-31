@@ -42,7 +42,10 @@ const App = () => {
         <MDBRow className="main-content">
           <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
             <Route path="/ViewRoster" component={RosterScreen} />
-            <Route path="/viewWeeklyRoster" component={WeeklyRoster} />
+            <Route
+              path="/viewWeeklyRoster/:rosterID"
+              component={WeeklyRoster}
+            />
             <Route path="/ViewRosterScreen" component={ViewRoster} />
             <Route path="/CreateRosterScreen" component={CreateRosterScreen} />
             <Route path="/about" component={About} />
@@ -50,12 +53,12 @@ const App = () => {
             <Route path="/admin" component={AdminPanel} />
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
-            <Route exact path="/" component={Home} />
             <Route path="/StaffListScreen" component={StaffListScreen} />
             <Route path="/StaffNewScreen" component={StaffNewScreen} />
             <Route path="/StaffEditScreen" component={StaffEditScreen} />
             <Route path="/PublicHolidays" component={PublicHolidays} />
             <Route path="/AdminShiftScreen" component={AdminShiftScreen} />
+            <Route exact path="/" component={Home} />
           </MDBCol>
         </MDBRow>
         {/* <MDBRow className="report-menu">

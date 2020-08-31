@@ -207,7 +207,7 @@ const searchByCriteraiList = [
 ];
 function WeeklyRoster(props) {
   const { data: shifts, request: getShifts } = useApi(
-    "http://localhost:9000/roster"
+    `http://localhost:9000/roster/${props.match.params.rosterID}`
   );
   //Added back code:
   const { request: getAllActiveStaffList } = useStaffApi();
@@ -298,12 +298,31 @@ function WeeklyRoster(props) {
       }
     },
   };
+  // for (var i = 0; i < weekInfo.duration; i++) {
+  //   var date = new Date(weekInfo.weekStart);
+  //   date.setDate(date.getDate() + i);
+  //   tableHeader.push(<th>{date.toDateString()}</th>);
+  // }
   const tableHeader = [];
-  for (var i = 0; i < weekInfo.duration; i++) {
-    var date = new Date(weekInfo.weekStart);
-    date.setDate(date.getDate() + i);
-    tableHeader.push(<th>{date.toDateString()}</th>);
-  }
+  let count = 0;
+  Object.values(shifts).map((shift_, index1) => {
+    shift_.map((shift, index) => {
+      if (index1 === 0 && index == 0) {
+        let weekStart = new Date(shift.week_start);
+        let weekEnd = new Date(shift.week_end);
+        let rosterPeriod = (weekEnd - weekStart) / 1000 / 60 / 60 / 24;
+        // console.log(rosterPeriod);
+        for (let i = 0; i <= rosterPeriod; i++) {
+          count++;
+          let nextDay = new Date(weekStart);
+          nextDay.setDate(nextDay.getDate() + i);
+          tableHeader.push(<th>{nextDay.toDateString()}</th>);
+        }
+      }
+    });
+  });
+  console.log({ count });
+
   const uniqueStaff = [];
   for (var i = 0; i < defaultItems.length; i++) {
     if (!uniqueStaff.includes(defaultItems[i].staff_name))
@@ -460,15 +479,8 @@ function WeeklyRoster(props) {
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Day 1</th>
-                    <th>Day 2</th>
-                    <th>Day 3</th>
-                    <th>Day 4</th>
-                    <th>Day 5</th>
-                    <th>Day 6</th>
-                    <th>Day 7</th>
-                    <th>Total Hours</th>
-                    {/* {tableHeader} */}
+                    {tableHeader}
+                    <th>Total</th>
                   </tr>
                 </thead>
                 {/* <tbody>{tableBody}</tbody> */}
@@ -476,11 +488,30 @@ function WeeklyRoster(props) {
                   {Object.keys(shifts).map((staff) => (
                     <tr>
                       <th>{staff}</th>
-                      {shifts[staff].map((shift) => (
-                        <td>
-                          {shift} {shift}
-                        </td>
-                      ))}
+                      {Object.values(shifts).map((shift_) =>
+                        shift_.map((shift, index, arr) =>
+                          staff === shift.username ? (
+                            shift.start_time === "" ? (
+                              <td></td>
+                            ) : (
+                              <td>
+                                {shift.work_date}
+                                <br />
+                                {shift.start_time}
+                                {" To "} {shift.end_time}
+                                <br />
+                                {shift.break_length}
+                                {" Hour Break"}
+                                <br />
+                                {shift.shift_duration}
+                                {" Hours"}
+                              </td>
+                            )
+                          ) : (
+                            ""
+                          )
+                        )
+                      )}
                     </tr>
                   ))}
                   {/* {

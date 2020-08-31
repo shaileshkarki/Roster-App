@@ -1,116 +1,119 @@
 const { runSql } = require("./queries");
-const { convertStringDateToMilliseconds } = require("../lib/roster");
-
-const getRoster = async (
-  rosterStartDate,
-  rosterEndDate,
-  status = "Finalised"
-) => {
-  let startDate = convertStringDateToMilliseconds(rosterStartDate).toString();
-  let endDate = convertStringDateToMilliseconds(rosterEndDate).toString();
-  console.log({ startDate }, { endDate });
+const {
+  convertStringDateToMilliseconds,
+  convertMillisecondsToLocalTime,
+  convertMillisecondsToDate,
+  calculateBreak,
+  calculateShiftDurationExcludingBreak,
+} = require("../lib/roster");
+const getRoster = async (week_Number = 1) => {
+  // let startDate = convertStringDateToMilliseconds(rosterStartDate).toString();
+  // let endDate = convertStringDateToMilliseconds(rosterEndDate).toString();
+  let weekNumber = Number(week_Number);
   const sql =
-    "select title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where roster.shift_id = shifts.shift_id and shifts.staff_id=staff.staff_id and roster.week_number=1 and roster.status='Finalised';";
-  /* "select firstname, status, week_number, timeslot_from, timeslot_to, start_date, end_date from roster, shifts, staff where roster.shift_id = shifts.shift_id and shifts.staff_id=staff.staff_id and roster.status='Finalised' order by week_number;";*/
-  /* "select * from roster, shifts, staff where roster.shift_id = shifts.shift_id and shifts.staff_id=staff.staff_id and shifts.timeslot_from <= $1 and shifts.timeslot_from >= $2 and roster.status=$3;";
-   const params = [startDate, endDate, status];*/
-  const params = [];
+    "select title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.week_number=$1;";
+  const params = [weekNumber];
+  var weekStart;
+  var weekEnd;
   try {
-    // console.log("rows");
+    console.log("rows");
     const { rows } = await runSql(sql, params);
-    // console.log({ rows });
-    let shiftsForStaffMember = [];
-    let allShifts = []; //outer array
-    let names = [];
+
     let data = {};
     rows.forEach((row, index) => {
       let shift = {};
-      shift["start_time"] = row.timeslot_from;
-      shift["end_time"] = row.timeslot_to;
+      shift["start_time"] = convertMillisecondsToLocalTime(row.timeslot_from);
+      shift["end_time"] = convertMillisecondsToLocalTime(row.timeslot_to);
+      shift["break_length"] = calculateBreak(
+        row.timeslot_from,
+        row.timeslot_to
+      );
+      shift["shift_duration"] = calculateShiftDurationExcludingBreak(
+        row.timeslot_from,
+        row.timeslot_to
+      );
       shift["week_start"] = row.start_date;
       shift["week_end"] = row.end_date;
       shift["username"] = row.username;
+      shift["work_date"] = convertMillisecondsToDate(row.timeslot_from);
+
+      weekStart = shift["week_start"];
+      weekEnd = shift["week_end"];
+
       if (Object.keys(data).includes(row.username)) {
         data[row.username].push(shift);
       } else {
         data[row.username] = [shift];
-        // data[row.username].push(shift);
       }
-      // console.log({ shift });
-      // if (allShifts.length === 0) {
-      //   allShifts.push({ name: row.username, shifts: [] });
-      // }
-
-      // for(let i = 0; i<allShifts.length; i++) {
-      //   if (allShifts[i].name == row.username) {
-      //     // add shifts to the array
-      //     console.log("need to add shifts");
-      //   } else {
-
-      //     // if name does not match we have to add the name
-      //     allShifts.push({ name: row.username, shifts: [] });
-      //     //need to add shifts
-      //   }
-      // };
     });
-    // console.log({ data });
-    // let  allShifts = [
-    //   {
-    //     name: "john",
-    //     shifts: [
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     name: "sam",
-    //     shifts: [
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //       {
-    //         startTime: "11:00",
-    //         endTime: "5:00",
-    //         date: "26 Aug 2020",
-    //       },
-    //     ],
-    //   },
-    // ];
-    // console.log(data[1].name);
-    // console.log(data[1].shifts);
+
+    weekStart = new Date(weekStart);
+    weekEnd = new Date(weekEnd);
+    let rosterPeriod = (weekEnd - weekStart) / 1000 / 60 / 60 / 24;
+    let rosterDaysArr = [];
+    for (let i = 0; i <= rosterPeriod; i++) {
+      let nextDay = new Date(weekStart);
+      nextDay.setDate(nextDay.getDate() + i);
+      rosterDaysArr.push(nextDay.toDateString());
+    }
+
+    Object.keys(data).forEach((staff, index1) => {
+      let match = false;
+      rosterDaysArr.forEach((day, index3) => {
+        data[staff].forEach((shift, index2) => {
+          if (shift.work_date === day) {
+            match = true;
+          }
+        });
+        if (match === false) {
+          let blankShift = {
+            start_time: "",
+            end_time: "",
+            break_length: 0,
+            shift_duration: 0,
+            week_start: "",
+            week_end: "",
+            username: "",
+            work_date: "",
+          };
+          blankShift.week_start = weekStart;
+          blankShift.week_end = weekEnd;
+          blankShift.work_date = day;
+          blankShift.username = staff;
+          data[staff].unshift(blankShift);
+        }
+      });
+    });
+
+    //sorting shifts according to dates in ascending order
+    console.log(Object.keys(data));
+    Object.keys(data).forEach((staff) => {
+      data[staff].sort((a, b) =>
+        Date(a.work_date) < Date(b.work_date) ? -1 : 1
+      );
+    });
+
+    console.log(data);
+
     return data;
   } catch (e) {
     console.log("Error while quering database: ", e);
   }
 };
-// [{john:[shift1,shift2,shift3....shift]},{nick:[shift1,shift2,shift3,shift]}]
 
+const getAllRosterWeeks = async () => {
+  try {
+    const sql = "select * from roster ORDER BY week_number DESC;";
+    const { rows } = await runSql(sql, []);
+    let allRosters = [];
+    rows.forEach((row) => allRosters.push(row));
+
+    return allRosters;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   getRoster,
+  getAllRosterWeeks,
 };
-//convertStringDateToMilliseconds(rosterStartDate),
-// convertStringDateToMilliseconds(rosterEndDate),
-// status,
-/*select * from roster, shifts, staff where roster.shift_id = shifts.shift_id and shifts.staff_id=staff.staff_id and roster.roster_id=1 roster.status='Finalised';
- */ //1598227200000  1598745600000
-//  select * from roster, shifts, staff where roster.shift_id = shifts.shift_id and shifts.staff_id=staff.staff_id and shifts.timeslot_from <= '1598227200000' and shifts.timeslot_from >= '1598227200000' and roster.status='Finalised';
