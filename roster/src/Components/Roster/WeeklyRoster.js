@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import useStaffApi from "../../hooks/useStaffApi";
+import useApi from "../../hooks/useApi";
 import Table from "react-bootstrap/Table";
 import LeftSidebar from "../LeftSidebar";
 import ReportsFooter from "../ReportsFooter";
@@ -205,6 +206,9 @@ const searchByCriteraiList = [
   // { label: "Email", key: "email" },
 ];
 function WeeklyRoster(props) {
+  const { data: shifts, request: getShifts } = useApi(
+    `http://localhost:9000/roster/${props.match.params.rosterID}`
+  );
   //Added back code:
   const { request: getAllActiveStaffList } = useStaffApi();
   const [allStaffList, setAllStaffList] = useState([]); // All staff from database
@@ -215,7 +219,7 @@ function WeeklyRoster(props) {
   const [total, setTotal] = useState(0); // Sum of total staff listed on screen
   const [current, setCurrent] = useState(0); // Displaying value of 1st staff member on screen (ie 1 of 5)
   const [currentPage, setCurrentPage] = useState(0); // Current page of pagination
-  const [numberOfStaffPerPage, setNumberOfStaffPerPage] = useState(10); // How many staff members to display per screen (pagination)
+  const [numberOfStaffPerPage, setNumberOfStaffPerPage] = useState(20); // How many staff members to display per screen (pagination)
   let history = useHistory();
 
   const changeNumberOfItemsPerPage = (e) => {
@@ -267,9 +271,9 @@ function WeeklyRoster(props) {
   };
 
   useEffect(() => {
-    loadStaffListScreen();
+    getShifts();
   }, []);
-
+  console.log(shifts);
   // Added back code :
   let paginationConfig = {
     totalPages:
@@ -294,12 +298,31 @@ function WeeklyRoster(props) {
       }
     },
   };
+  // for (var i = 0; i < weekInfo.duration; i++) {
+  //   var date = new Date(weekInfo.weekStart);
+  //   date.setDate(date.getDate() + i);
+  //   tableHeader.push(<th>{date.toDateString()}</th>);
+  // }
   const tableHeader = [];
-  for (var i = 0; i < weekInfo.duration; i++) {
-    var date = new Date(weekInfo.weekStart);
-    date.setDate(date.getDate() + i);
-    tableHeader.push(<th>{date.toDateString()}</th>);
-  }
+  let count = 0;
+  Object.values(shifts).map((shift_, index1) => {
+    shift_.map((shift, index) => {
+      if (index1 === 0 && index == 0) {
+        let weekStart = new Date(shift.week_start);
+        let weekEnd = new Date(shift.week_end);
+        let rosterPeriod = (weekEnd - weekStart) / 1000 / 60 / 60 / 24;
+        // console.log(rosterPeriod);
+        for (let i = 0; i <= rosterPeriod; i++) {
+          count++;
+          let nextDay = new Date(weekStart);
+          nextDay.setDate(nextDay.getDate() + i);
+          tableHeader.push(<th>{nextDay.toDateString()}</th>);
+        }
+      }
+    });
+  });
+  console.log({ count });
+
   const uniqueStaff = [];
   for (var i = 0; i < defaultItems.length; i++) {
     if (!uniqueStaff.includes(defaultItems[i].staff_name))
@@ -388,6 +411,7 @@ function WeeklyRoster(props) {
   }, 0);
   tableBody.push(<th>{sum}</th>);
   tableBody.push(<tr />);
+  // console.log(temp);
   return (
     <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
       <MDBRow center>
@@ -456,10 +480,64 @@ function WeeklyRoster(props) {
                   <tr>
                     <th>Name</th>
                     {tableHeader}
-                    <th>Total Hour</th>
+                    <th>Total</th>
                   </tr>
                 </thead>
-                <tbody>{tableBody}</tbody>
+                {/* <tbody>{tableBody}</tbody> */}
+                <tbody>
+                  {Object.keys(shifts).map((staff) => (
+                    <tr>
+                      <th>{staff}</th>
+                      {Object.values(shifts).map((shift_) =>
+                        shift_.map((shift, index, arr) =>
+                          staff === shift.username ? (
+                            shift.start_time === "" ? (
+                              <td></td>
+                            ) : (
+                              <td>
+                                {shift.work_date}
+                                <br />
+                                {shift.start_time}
+                                {" To "} {shift.end_time}
+                                <br />
+                                {shift.break_length}
+                                {" Hour Break"}
+                                <br />
+                                {shift.shift_duration}
+                                {" Hours"}
+                              </td>
+                            )
+                          ) : (
+                            ""
+                          )
+                        )
+                      )}
+                    </tr>
+                  ))}
+                  {/* {
+    id: 13,
+    group: 1,
+    staff_name: "Nick",
+    start_time: "7:00",
+    end_time: "15:00",
+    date: "Mon Aug 31 2020",
+  } */}
+                  {/* {shifts.map((staff) => (
+                    <tr>
+                      <td>{staff[0].username}</td>
+                      {staff.map((shift) => (
+                        <td>
+                          {shift.id != 0
+                            ? `${shift.timeslot_from} To ${shift.timeslot_to} (Hour)Break
+                        
+                          Hour`
+                            : ""}
+                        </td>
+                      ))}
+                      <td>27.5</td>
+                    </tr>
+                  ))} */}
+                </tbody>
               </MDBTable>
             </MDBCol>
           </MDBRow>
