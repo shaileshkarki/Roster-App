@@ -11,13 +11,8 @@ router.get("/", async function (req, res, next) {
 
 router.post("/roster/create", async function (req, res) {
   try {
-    await createRoster(req.body.weekNumber);
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
-    await addShifts(req.body.shifts);
+    const { roster_id } = await createRoster(req.body.weekNumber);
+    await addShifts(roster_id, req.body.shifts);
   } catch (error) {
     console.log(error);
   }

@@ -16,6 +16,7 @@ const searchByCriteraiList = [
   { label: "State", key: "state" },
   { label: "Post Code", key: "postcode" },
   { label: "Email", key: "email" },
+  { label: "Phone", key: "phone_number" },
 ];
 
 const tableColumnsAndDataKeys = [
@@ -27,6 +28,7 @@ const tableColumnsAndDataKeys = [
   { label: "State", key: "state" },
   { label: "Post Code", key: "postcode" },
   { label: "Email", key: "email" },
+  { label: "Phone", key: "phone_number" },
   { label: "Photo", key: "photo" },
 ];
 function StaffListScreen(props) {

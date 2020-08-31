@@ -22,6 +22,7 @@ CREATE TABLE users
 
 );
 
+INSERT INTO users(email,password) VALUES ('Blank@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Kaiya@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Keon@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Makena@geemail.com','password123');
@@ -34,7 +35,7 @@ INSERT INTO users(email,password) VALUES ('Alvin@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Porter@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Natalee@geemail.com','password123');
 INSERT INTO users(email,password) VALUES ('Allyson@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Blank@geemail.com','password123');
+
 
 
 

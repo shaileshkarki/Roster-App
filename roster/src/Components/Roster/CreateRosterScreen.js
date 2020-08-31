@@ -111,50 +111,61 @@ function CreateRosterScreen(props) {
             onSubmit={handleSubmit}
             className="staff-new-form border border-light p-5"
           >
-            {" "}
-            <MDBInput
-              className="grey-text"
-              label={"Week Number"}
-              icon="calendar"
-              // id={group.group_id}
-              group
-              type="text"
-              validate
-              error="wrong"
-              success="right"
-              required
-              name={"weekNumber"}
-              minLength="1"
-              maxLength="4"
-              onChange={handleWeekNumberChange}
-              onInvalid={(e) => invalidNumber(e, 1, 2)}
-              onInput={(e) => invalidNumber(e, 1, 2)}
-              autoComplete="new-password"
-              // value={}
-            />
+            <MDBRow center>
+              <MDBCol sm="12" md="9" lg="7">
+                {" "}
+                <MDBInput
+                  size="lg"
+                  className="grey-text"
+                  label={"Week Number"}
+                  icon="calendar"
+                  // id={group.group_id}
+                  group
+                  type="text"
+                  validate
+                  error="wrong"
+                  success="right"
+                  required
+                  name={"weekNumber"}
+                  minLength="1"
+                  maxLength="4"
+                  onChange={handleWeekNumberChange}
+                  onInvalid={(e) => invalidNumber(e, 1, 2)}
+                  onInput={(e) => invalidNumber(e, 1, 2)}
+                  autoComplete="new-password"
+                  // value={}
+                />
+              </MDBCol>
+            </MDBRow>
+
             {groups.map((group, index) => (
-              <MDBInput
-                key={index}
-                className="grey-text"
-                label={`${group.title} Number Of Shifts`}
-                icon="users"
-                // id={group.group_id}
-                group
-                type="text"
-                validate
-                error="wrong"
-                success="right"
-                required
-                name={group.title}
-                minLength="1"
-                maxLength="2"
-                onChange={handleNumberOfShiftChange}
-                onInvalid={(e) => invalidNumber(e, 1, 2)}
-                onInput={(e) => invalidNumber(e, 1, 2)}
-                autoComplete="new-password"
-                // value={}
-              />
+              <MDBRow center>
+                <MDBCol key={index} sm="12" md="9" lg="7">
+                  <MDBInput
+                    size="lg"
+                    className="grey-text"
+                    label={`${group.title} Number Of Shifts`}
+                    icon="users"
+                    // id={group.group_id}
+                    group
+                    type="text"
+                    validate
+                    error="wrong"
+                    success="right"
+                    required
+                    name={group.title}
+                    minLength="1"
+                    maxLength="2"
+                    onChange={handleNumberOfShiftChange}
+                    onInvalid={(e) => invalidNumber(e, 1, 2)}
+                    onInput={(e) => invalidNumber(e, 1, 2)}
+                    autoComplete="new-password"
+                    // value={}
+                  />
+                </MDBCol>
+              </MDBRow>
             ))}
+
             <Button
               type="submit"
               value="Submit"

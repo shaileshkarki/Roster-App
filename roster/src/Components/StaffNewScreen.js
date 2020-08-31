@@ -6,9 +6,7 @@ import StaffForm from "./StaffForm";
 function StaffNewScreen(props) {
   return (
     <div>
-      <MDBContainer className="staff-new-form border border-light p-5">
-        <StaffForm />
-      </MDBContainer>
+      <StaffForm />
     </div>
   );
 }
