@@ -12,6 +12,7 @@ import {
 } from "../../lib/formValidation";
 
 import moment from "moment";
+
 const colours = ["red", "yellow", "blue", "green", "orange", "purple"];
 const createNext15MinuteTime = () => {
   let minutes15 = moment();
@@ -28,45 +29,52 @@ function CreateRosterScreen(props) {
   );
   const [selectedGroup, setSelectedGroup] = useState({});
   const [numberOfShifts, setNumberOfShifts] = useState([]);
+  const [weekNumber, setWeekNumber] = useState("");
 
   let history = useHistory();
 
   useEffect(() => {
     getAllGroups();
+    console.log("1");
   }, []);
-
+  console.log(2);
+  console.log(groups);
   const createShifts = (numberOfShifts) => {
     const groupsWithShifts = Object.keys(numberOfShifts);
     let shifts = [];
     groupsWithShifts.forEach((groupName, index) => {
       const shiftCount = numberOfShifts[groupName];
       let groupId;
+      let minDuration;
       console.log(groupName);
       console.log(groups);
       for (let j = 0; j < groups.length; j++) {
-        if (groups[j].staff_role === groupName) {
-          groupId = groups[j].group_id;
+        if (groups[j].title === groupName) {
+          groupId = groups[j].id;
+          minDuration = groups[j].group_duration;
           console.log("true condition");
           break;
         }
       }
       const itemStyles = {
-        backgroundColor: colours[index],
         borderRadius: "5px",
-        color: "yellow",
       };
       for (let i = 0; i < shiftCount; i++) {
         let shift = {
           id: index + 1,
           group: groupId,
-          title: `${groupName}`,
+          title: "Unallocated",
+          weekNumber: weekNumber,
           start_time: createNext15MinuteTime().add(4, "hour").unix(),
-          end_time: createNext15MinuteTime().add(12, "hour").unix(),
+          end_time: createNext15MinuteTime()
+            .add(4 + minDuration, "hour")
+            .unix(),
           canMove: true,
           canResize: true,
           itemProps: {
             style: itemStyles,
           },
+          staffId: 1,
         };
         shifts.push(shift);
       }
@@ -81,47 +89,83 @@ function CreateRosterScreen(props) {
     setNumberOfShifts(newNumberOfShifts);
   };
 
+  const handleWeekNumberChange = (e) => {
+    setWeekNumber(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     let shifts = createShifts(numberOfShifts);
     console.log("shifts = " + shifts);
-    history.push("/ViewRosterScreen", [shifts]);
+    history.push("/ViewRoster", [shifts, groups, weekNumber]);
     // history.push("/ViewRosterScreen", [...shifts]);
   };
   return (
     <div>
+      {console.log(3)}
+      <p className="text-center h4  mb-4">Create Roster</p>
       <MDBRow center>
         <MDBCol sm="12" md="6" lg="5" className="grey-text">
           <form
             onSubmit={handleSubmit}
             className="staff-new-form border border-light p-5"
           >
-            {" "}
-            <p className="text-center h4  mb-4">Create Roster</p>
+            <MDBRow center>
+              <MDBCol sm="12" md="9" lg="7">
+                {" "}
+                <MDBInput
+                  size="lg"
+                  className="grey-text"
+                  label={"Week Number"}
+                  icon="calendar"
+                  // id={group.group_id}
+                  group
+                  type="text"
+                  validate
+                  error="wrong"
+                  success="right"
+                  required
+                  name={"weekNumber"}
+                  minLength="1"
+                  maxLength="4"
+                  onChange={handleWeekNumberChange}
+                  onInvalid={(e) => invalidNumber(e, 1, 2)}
+                  onInput={(e) => invalidNumber(e, 1, 2)}
+                  autoComplete="new-password"
+                  // value={}
+                />
+              </MDBCol>
+            </MDBRow>
+
             {groups.map((group, index) => (
-              <MDBInput
-                key={index}
-                className="grey-text"
-                label={`${group.staff_role} Number Of Shifts`}
-                icon="users"
-                // id={group.group_id}
-                group
-                type="text"
-                validate
-                error="wrong"
-                success="right"
-                required
-                name={group.staff_role}
-                minLength="1"
-                maxLength="2"
-                onChange={handleNumberOfShiftChange}
-                onInvalid={(e) => invalidNumber(e, 1, 2)}
-                onInput={(e) => invalidNumber(e, 1, 2)}
-                autoComplete="new-password"
-                // value={}
-              />
+              <MDBRow center>
+                <MDBCol key={index} sm="12" md="9" lg="7">
+                  <MDBInput
+                    size="lg"
+                    className="grey-text"
+                    label={`${group.title} Number Of Shifts`}
+                    icon="users"
+                    // id={group.group_id}
+                    group
+                    type="text"
+                    validate
+                    error="wrong"
+                    success="right"
+                    required
+                    name={group.title}
+                    minLength="1"
+                    maxLength="2"
+                    onChange={handleNumberOfShiftChange}
+                    onInvalid={(e) => invalidNumber(e, 1, 2)}
+                    onInput={(e) => invalidNumber(e, 1, 2)}
+                    autoComplete="new-password"
+                    // value={}
+                  />
+                </MDBCol>
+              </MDBRow>
             ))}
+
             <Button
               type="submit"
               value="Submit"

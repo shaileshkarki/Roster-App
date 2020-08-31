@@ -6,9 +6,7 @@ import StaffForm from "./StaffForm";
 function StaffEditScreen({ location }) {
   return (
     <div>
-      <MDBContainer className="staff-new-form border border-light p-5">
-        <StaffForm data={location.state} />
-      </MDBContainer>
+      <StaffForm data={location.state} />
     </div>
   );
 }

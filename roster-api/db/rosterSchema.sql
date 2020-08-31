@@ -8,7 +8,7 @@ drop database roster;
 create database roster;
 
 -- connect to the database. Note: you need to on the cli psql
-\c roster;
+    \c roster;
 
 -- now create the main tables.
 
@@ -22,40 +22,40 @@ CREATE TABLE users
 
 );
 
-INSERT INTO users(email,password) VALUES ('Kaiya@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Keon@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Makena@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Korbin@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Skyler@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Lindsay@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Alejandro@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Khalil@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Alvin@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Porter@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Natalee@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Allyson@geemail.com','password123');
-INSERT INTO users(email,password) VALUES ('Blank@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Kaiya@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Keon@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Makena@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Korbin@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Skyler@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Lindsay@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Alejandro@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Khalil@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Alvin@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Porter@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Natalee@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Allyson@geemail.com','password123');
+    INSERT INTO users(email,password) VALUES ('Blank@geemail.com','password123');
 
 
 
 CREATE TABLE groups
 (
-    group_id SERIAL PRIMARY KEY,
-    group_role VARCHAR(40),
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(40),
     group_duration INTEGER
 );
 
-INSERT INTO groups(group_role,group_duration) VALUES ('Manager',6);
-INSERT INTO groups(group_role,group_duration) VALUES ('Supervisor',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Chef',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Pastry Chef',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Dishwasher',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Sandwich Artist',3);
-INSERT INTO groups(group_role,group_duration) VALUES ('Bar Tender',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Cocktail maker',4);
-INSERT INTO groups(group_role,group_duration) VALUES ('Kitchen Hand',3);
-INSERT INTO groups(group_role,group_duration) VALUES ('Waiter',3);
-INSERT INTO groups(group_role,group_duration) VALUES ('Waitress',3);
+INSERT INTO groups(title,group_duration) VALUES ('Manager',6);
+INSERT INTO groups(title,group_duration) VALUES ('Supervisor',4);
+INSERT INTO groups(title,group_duration) VALUES ('Chef',4);
+INSERT INTO groups(title,group_duration) VALUES ('Pastry Chef',4);
+INSERT INTO groups(title,group_duration) VALUES ('Dishwasher',4);
+INSERT INTO groups(title,group_duration) VALUES ('Sandwich Artist',3);
+INSERT INTO groups(title,group_duration) VALUES ('Bar Tender',4);
+INSERT INTO groups(title,group_duration) VALUES ('Cocktail maker',4);
+INSERT INTO groups(title,group_duration) VALUES ('Kitchen Hand',3);
+INSERT INTO groups(title,group_duration) VALUES ('Waiter',3);
+INSERT INTO groups(title,group_duration) VALUES ('Waitress',3);
 
 
 
@@ -98,7 +98,7 @@ CREATE TABLE stafftogroups (
     staff_role_id INTEGER,
     PRIMARY KEY (staff_member_id, staff_role_id),
     FOREIGN KEY (staff_member_id) REFERENCES staff(staff_id),
-    FOREIGN KEY (staff_role_id) REFERENCES groups(group_id)
+    FOREIGN KEY (staff_role_id) REFERENCES groups(id)
     
 );
 
@@ -139,7 +139,7 @@ INSERT INTO stafftogroups (staff_member_id,staff_role_id) VALUES (13,10);
 INSERT INTO stafftogroups (staff_member_id,staff_role_id) VALUES (13,11);
 
 
--- select staff_member_id,  staff_role_id, group_role, group_duration, firstname from stafftogroups, staff, groups  where staff.staff_id = stafftogroups.staff_member_id and groups.group_id = stafftogroups.staff_role_id;
+-- select staff_member_id,  staff_role_id, title, group_duration, firstname from stafftogroups, staff, groups  where staff.staff_id = stafftogroups.staff_member_id and groups.group_id = stafftogroups.staff_role_id;
 
 
 CREATE TABLE publicholidays
@@ -259,8 +259,8 @@ INSERT INTO publicholidays(phol_state,phol_date,phol_name) VALUES ('wa','2020-12
 CREATE TABLE shifts
 (
     shift_id SERIAL PRIMARY KEY NOT NULL,
-    timeslot_from VARCHAR(13) NOT NULL,
-    timeslot_to VARCHAR(13) NOT NULL,
+    timeslot_from VARCHAR(100) NOT NULL,
+    timeslot_to VARCHAR(100) NOT NULL,
     isAllocated BOOLEAN DEFAULT 'False' NOT NULL,
     staff_id INTEGER,
     FOREIGN KEY (staff_id) REFERENCES staff (staff_id)
