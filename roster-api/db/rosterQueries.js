@@ -16,49 +16,63 @@ const getRoster = async (week_Number = 1) => {
   const sql =
     "select title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.week_number=$1;";
   const params = [weekNumber];
-  var weekStart;
-  var weekEnd;
+  let weekStart;
+  let weekEnd;
+  let rosterDaysArr = [];
   try {
-    console.log("rows");
     const { rows } = await runSql(sql, params);
-
-    let data = {};
-    rows.forEach((row, index) => {
-      let shift = {};
-      shift["start_time"] = convertMillisecondsToLocalTime(row.timeslot_from);
-      shift["end_time"] = convertMillisecondsToLocalTime(row.timeslot_to);
-      shift["break_length"] = calculateBreak(
-        row.timeslot_from,
-        row.timeslot_to
-      );
-      shift["shift_duration"] = calculateShiftDurationExcludingBreak(
-        row.timeslot_from,
-        row.timeslot_to
-      );
-      shift["week_start"] = row.start_date;
-      shift["week_end"] = row.end_date;
-      shift["username"] = row.username;
-      shift["work_date"] = convertMillisecondsToDate(row.timeslot_from);
-
-      weekStart = shift["week_start"];
-      weekEnd = shift["week_end"];
-
-      if (Object.keys(data).includes(row.username)) {
-        data[row.username].push(shift);
-      } else {
-        data[row.username] = [shift];
-      }
-    });
-
-    weekStart = new Date(weekStart);
-    weekEnd = new Date(weekEnd);
+    console.log("rows", rows);
+    weekStart = new Date(rows[0].start_date);
+    weekEnd = new Date(rows[0].end_date);
     let rosterPeriod = (weekEnd - weekStart) / 1000 / 60 / 60 / 24;
-    let rosterDaysArr = [];
+    rosterDaysArr = [];
     for (let i = 0; i <= rosterPeriod; i++) {
       let nextDay = new Date(weekStart);
       nextDay.setDate(nextDay.getDate() + i);
       rosterDaysArr.push(nextDay.toDateString());
     }
+    console.log("rosterDaysArr", rosterDaysArr);
+    let data = {};
+    rows.forEach((row, index) => {
+      let shiftDate = convertMillisecondsToDate(row.timeslot_from);
+      console.log({ shiftDate });
+      if (rosterDaysArr.includes(shiftDate)) {
+        let shift = {};
+        shift["start_time"] = convertMillisecondsToLocalTime(row.timeslot_from);
+        shift["end_time"] = convertMillisecondsToLocalTime(row.timeslot_to);
+        shift["break_length"] = calculateBreak(
+          row.timeslot_from,
+          row.timeslot_to
+        );
+        shift["shift_duration"] = calculateShiftDurationExcludingBreak(
+          row.timeslot_from,
+          row.timeslot_to
+        );
+        shift["week_start"] = row.start_date;
+        shift["week_end"] = row.end_date;
+        shift["username"] = row.username;
+        shift["work_date"] = convertMillisecondsToDate(row.timeslot_from);
+
+        weekStart = shift["week_start"];
+        weekEnd = shift["week_end"];
+
+        if (Object.keys(data).includes(row.username)) {
+          data[row.username].push(shift);
+        } else {
+          data[row.username] = [shift];
+        }
+      }
+    });
+
+    // weekStart = new Date(weekStart);
+    // weekEnd = new Date(weekEnd);
+    // let rosterPeriod = (weekEnd - weekStart) / 1000 / 60 / 60 / 24;
+    // let rosterDaysArr = [];
+    // for (let i = 0; i <= rosterPeriod; i++) {
+    //   let nextDay = new Date(weekStart);
+    //   nextDay.setDate(nextDay.getDate() + i);
+    //   rosterDaysArr.push(nextDay.toDateString());
+    // }
 
     Object.keys(data).forEach((staff, index1) => {
       let match = false;
@@ -95,6 +109,14 @@ const getRoster = async (week_Number = 1) => {
         Date(a.work_date) < Date(b.work_date) ? -1 : 1
       );
     });
+
+    // Object.keys(data).forEach((staff) => {
+    //   data[staff].filter((shift, index) => {
+    //     if (!rosterDaysArr.includes(shift.work_date)) {
+    //       data[staff].splice(index, 1);
+    //     }
+    //   });
+    // });
 
     console.log(data);
 
