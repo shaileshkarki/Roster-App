@@ -11,11 +11,9 @@ const {
 /* GET all public holidays */
 
 router.put("/", async function (req, res, next) {
-    // const allPublicHolidays = await getAllPublicHolidays();
-    // console.log("SHAILESH IS HERE!!!!!");
     await synchronisePublicHolidays();
 
-    res.send("SHAILESH IS HERE");
+    res.send("INSERTING RECORDS...");
 });
 
 router.get("/", async function (req, res, next) {
