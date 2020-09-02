@@ -6,6 +6,9 @@ const {
   calculateBreak,
   calculateShiftDurationExcludingBreak,
 } = require("../lib/roster");
+
+const moment = require("moment");
+
 const getRoster = async (week_Number = 1) => {
   // let startDate = convertStringDateToMilliseconds(rosterStartDate).toString();
   // let endDate = convertStringDateToMilliseconds(rosterEndDate).toString();
@@ -113,7 +116,138 @@ const getAllRosterWeeks = async () => {
     console.log(error);
   }
 };
+
+const createRoster = async (weekNumber) => {
+  try {
+    const sql =
+      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-08-24','2020-08-30',$1,'Open');";
+    const params = [weekNumber];
+    const results = await runSql(sql, params);
+  } catch (error) {
+    console.log(error);
+  }
+  try {
+    return await getRosterIdFromWeekNumber(weekNumber);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRosterIdFromWeekNumber = async (weekNumber) => {
+  try {
+    const sql = "SELECT roster_id from roster WHERE week_number = $1";
+    const params = [weekNumber];
+    const { rows } = await runSql(sql, params);
+    console.log(rows[0].roster_id);
+    return rows[0].roster_id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addShifts = async (rosterId, shifts) => {
+  // INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id) VALUES (1599444000000,1599454800000,FALSE,6);
+
+  for (let i = 0; i < shifts.length; i++) {
+    const shift = shifts[i];
+    try {
+      const sql =
+        "INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id,roster_id, group_id, title)VALUES ($1,$2,FALSE,$3,$4,$5,$6)";
+      const params = [
+        moment(shift.start_time).unix(),
+        moment(shift.end_time).unix(),
+        shift.staffId,
+        rosterId,
+        shift.group,
+        shift.title,
+      ];
+      console.log(params[0], moment(params[1]));
+      await runSql(sql, params);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+const updateShifts = async (weekNumber, shifts) => {
+  const oldShifts = await getShiftsForWeekNumber(weekNumber);
+  console.log(oldShifts);
+  for (let i = 0; i < shifts.length; i++) {
+    let match = false;
+    for (let x = 0; x < oldShifts.length; x++) {
+      if (shifts[i].shift_id === oldShifts[x].shift_id) {
+        match = true;
+
+        const sql =
+          "UPDATE shifts SET timeslot_from = $1, timeslot_to =$2, staff_id =$3, group_id = $4, title = $5 WHERE shift_id = $6;";
+        const params = [
+          moment(shifts[i].start_time).unix(),
+          moment(shifts[i].end_time).unix(),
+          shifts[i].staffId,
+          shifts[i].group,
+          shifts[i].title,
+          shifts[i].shift_id,
+        ];
+        await runSql(sql, params);
+      }
+    }
+
+    if (!match) {
+      await addShifts(weekNumber, shifts[i]);
+    }
+  }
+};
+
+const getCurrentWeekNumber = async () => {
+  const sql =
+    "SELECT week_number  FROM roster ORDER BY week_number DESC LIMIT 1;";
+
+  const params = [];
+  try {
+    const { rows } = await runSql(sql, params);
+    return rows[0].week_number + 1;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getRosterWeeks = async () => {
+  const sql = "SELECT week_number from roster;";
+  params = [];
+  try {
+    const weeks = await runSql(sql, params);
+    return weeks;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getShiftsForWeekNumber = async (weekNumber) => {
+  try {
+    const rosterId = await getRosterIdFromWeekNumber(weekNumber);
+    const sql = "Select * from shifts where roster_id = $1;";
+    const params = [rosterId];
+    const { rows } = await runSql(sql, params);
+    let results = [];
+    rows.forEach((row) => {
+      row.start_time = row.timeslot_from;
+      row.end_time = row.timeslot_to;
+      row.group = row.group_id;
+      results.push(row);
+      console.log("time slot from = ", row.timeslot_from);
+    });
+    return results;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   getRoster,
   getAllRosterWeeks,
+  createRoster,
+  addShifts,
+  getCurrentWeekNumber,
+  getRosterWeeks,
+  getShiftsForWeekNumber,
+  updateShifts,
 };

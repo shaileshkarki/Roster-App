@@ -21,6 +21,7 @@ import AdminShiftScreen from "./Components/Admin/AdminShiftScreen";
 import ViewRoster from "./Components/Roster/ViewRoster";
 import WeeklyRoster from "./Components/Roster/WeeklyRoster";
 import RosterTemplate from "./Components/Roster/RosterTemplate";
+import ViewRosterScreen from "./Components/Roster/ViewRosterScreen";
 const App = () => {
   return (
     <Router>
@@ -48,6 +49,7 @@ const App = () => {
             />
             <Route path="/ViewRosterScreen" component={ViewRoster} />
             <Route path="/CreateRosterScreen" component={CreateRosterScreen} />
+            <Route path="/ViewRosterScreen2" component={ViewRosterScreen} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={ContactUs} />
             <Route path="/admin" component={AdminPanel} />

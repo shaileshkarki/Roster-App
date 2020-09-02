@@ -45,6 +45,12 @@ footer {
   margin-right: 10px;
 }
 
+.table > thead:first-child > tr:first-child > th,
+.table-bordered > tbody > tr > td {
+  font-size: 14px !important;
+  word-break: normal;
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {
@@ -54,12 +60,12 @@ footer {
   .row.content {
     height: auto;
   }
+  .table > thead:first-child > tr:first-child > th,
+  .table-bordered > tbody > tr > td {
+    font-size: 10px !important;
+  }
 }
 
-.table > thead:first-child > tr:first-child > th,
-.table-bordered > tbody > tr > td {
-  font-size: 14px !important;
-}
 td,
 th {
   font-size: small !important;

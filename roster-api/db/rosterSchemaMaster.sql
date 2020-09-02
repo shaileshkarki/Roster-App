@@ -285,6 +285,7 @@ CREATE TABLE shifts
     roster_id INTEGER,
     phol_id INTEGER,
     group_id INTEGER,
+    title VARCHAR(50),
     FOREIGN KEY (staff_id) REFERENCES staff (staff_id),
     FOREIGN KEY (roster_id) REFERENCES roster (roster_id),
     FOREIGN KEY (phol_id) REFERENCES publicholidays (phol_id),

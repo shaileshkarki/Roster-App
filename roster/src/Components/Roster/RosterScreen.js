@@ -8,6 +8,7 @@ function RosterScreen({ location }) {
       shifts={location.state[0]}
       groups={location.state[1]}
       weekNumber={location.state[2]}
+      create={true}
     />
   );
 }

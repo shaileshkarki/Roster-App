@@ -27,7 +27,7 @@ const itemStyles = {
   color: "red",
 };
 
-function Roster({ shifts, groups, weekNumber }) {
+function Roster({ shifts, groups, weekNumber, create }) {
   // const { shifts: groups, request: getAllGroups } = useApi(
   //   "http://localhost:9000/groups"
 
@@ -75,7 +75,7 @@ function Roster({ shifts, groups, weekNumber }) {
         newItems[i].title = "Unallocated";
         console.log(newItems[i].title);
         e.target.textContent = "Unallocated";
-        newItems[i].staffId = 0;
+        newItems[i].staff_id = "none";
 
         break;
       }
@@ -200,21 +200,36 @@ function Roster({ shifts, groups, weekNumber }) {
   const handleSubmit = async (e) => {
     // debugger;
     e.preventDefault();
-
-    try {
-      const response = await axios.post(
-        "http://localhost:9000/groups//roster/create",
-        {
+    if (create) {
+      try {
+        const response = await axios.post("http://localhost:9000/roster", {
           shifts: items,
           weekNumber,
+        });
+        if (response.status === 200) {
+          console.log(response.statusText);
+          history.replace("/admin");
         }
-      );
-      if (response.status === 200) {
-        console.log(response.statusText);
-        history.replace("/admin");
+      } catch (error) {
+        alert(
+          `${error.response.statusText} \n${error}\n${error.response.data}`
+        );
       }
-    } catch (error) {
-      alert(`${error.response.statusText} \n${error}\n${error.response.data}`);
+    } else {
+      try {
+        const response = await axios.put("http://localhost:9000/roster", {
+          shifts: items,
+          weekNumber,
+        });
+        if (response.status === 200) {
+          console.log(response.statusText);
+          history.replace("/admin");
+        }
+      } catch (error) {
+        alert(
+          `${error.response.statusText} \n${error}\n${error.response.data}`
+        );
+      }
     }
   };
 
@@ -226,7 +241,7 @@ function Roster({ shifts, groups, weekNumber }) {
           className="btn btn-green my-3 btn-block mr-2"
           onClick={handleSubmit}
         >
-          Save
+          {create ? "Save" : "Update"}
         </Button>
         <Button className="btn btn-primary my-3 btn-block mr-2">close</Button>
       </div>
