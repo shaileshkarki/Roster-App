@@ -18,12 +18,22 @@ router.get("/allRosters", async function (req, res, next) {
 });
 
 router.post("/", async function (req, res) {
+<<<<<<< HEAD
     try {
         const rosterId = await createRoster(req.body.weekNumber);
         await addShifts(rosterId, req.body.shifts);
     } catch (error) {
         console.log(error);
     }
+=======
+  try {
+    console.log(req.body.shifts);
+    const rosterId = await createRoster(req.body.weekNumber);
+    await addShifts(rosterId, req.body.shifts);
+  } catch (error) {
+    console.log(error);
+  }
+>>>>>>> Roster added day total hours to roster
 
     res.send("success");
 });
