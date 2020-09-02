@@ -1,4 +1,5 @@
 const { runSql } = require("./queries");
+const { getAllGroups } = require("./groupQueries");
 
 const getAllActiveStaff = async () => {
   const sql = "Select * FROM staff Where is_active = true ORDER BY lastname;";
@@ -8,7 +9,35 @@ const getAllActiveStaff = async () => {
 
   return allStaff;
 };
+const getAllActiveStaffAndRoles = async () => {
+  const staff = await getAllActiveStaff();
+  const groups = await getAllGroups();
+  let staffWithRoles = [];
+  for (let i = 0; i < staff.length; i++) {
+    staff[i].roles = "";
+    try {
+      const sql = "SELECT * FROM stafftogroups WHERE staff_member_id = $1;";
+      const params = [staff[i].staff_id];
+      const staffRoles = await runSql(sql, params);
 
+      staffRoles.rows.map((role) => {
+        groups.map((group) => {
+          if (group.id === role.staff_role_id) {
+            console.log(
+              "staff id = " + staff[i].staff_id + " role = " + group.title
+            );
+            staff[i].roles += `\n${group.title}, `;
+          }
+        });
+      });
+      console.log("Staff roles = " + staff[i].roles);
+      staffWithRoles.push(staff[i]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return staffWithRoles;
+};
 const getStaffRoles = async (staff) => {
   let staffWithRoles = [];
 
@@ -139,4 +168,5 @@ module.exports = {
   updateStaffMember,
   removeStaffMember,
   getStaffRoles,
+  getAllActiveStaffAndRoles,
 };

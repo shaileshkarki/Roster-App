@@ -5,7 +5,7 @@ export default function useStaffApi() {
   const [data, setData] = useState([]);
 
   const request = async () => {
-    const response = await axios.get("http://localhost:9000/staff");
+    const response = await axios.get("http://localhost:9000/staff/withroles");
 
     setData(response.data);
     return response;

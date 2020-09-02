@@ -30,6 +30,7 @@ const tableColumnsAndDataKeys = [
   { label: "Email", key: "email" },
   { label: "Phone", key: "phone_number" },
   { label: "Photo", key: "photo" },
+  { label: "Roles", key: "roles" },
 ];
 function StaffListScreen(props) {
   const { data, request: getAllActiveStaffList } = useStaffApi();

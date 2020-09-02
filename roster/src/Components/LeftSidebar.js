@@ -45,9 +45,9 @@ class LeftSidebar extends React.Component {
           <Button
             className="w-100 h-100 d-inline-block m-1"
             variant="warning"
-            href="#"
+            href="/ViewRosterScreen2"
           >
-            Update Roster
+            View Roster Screen 2
           </Button>
         </MDBCol>
         <MDBCol sm="6" md="3" lg="2" xl="2">

@@ -1,11 +1,71 @@
 var express = require("express");
 var router = express.Router();
-const { getRoster, getAllRosterWeeks } = require("../db/rosterQueries");
+const {
+  getRoster,
+  getAllRosterWeeks,
+  createRoster,
+  addShifts,
+  getCurrentWeekNumber,
+  getShiftsForWeekNumber,
+  getRosterWeeks,
+  updateShifts,
+} = require("../db/rosterQueries");
 
 /* GET all rosters */
 router.get("/allRosters", async function (req, res, next) {
   const allRosters = await getAllRosterWeeks();
   res.send(allRosters);
+});
+
+router.post("/", async function (req, res) {
+  try {
+    const rosterId = await createRoster(req.body.weekNumber);
+    await addShifts(rosterId, req.body.shifts);
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.send("success");
+});
+
+router.put("/", async function (req, res) {
+  try {
+    await updateShifts(req.body.weekNumber, req.body.shifts);
+  } catch (error) {
+    console.log(error);
+  }
+
+  res.send("success");
+});
+
+router.get("/weekNumber", async function (req, res) {
+  try {
+    const weekNumber = await getCurrentWeekNumber();
+    console.log(weekNumber);
+    res.send({ weekNumber: weekNumber });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/weeks", async (req, res) => {
+  try {
+    const { rows } = await getRosterWeeks();
+    console.log(rows);
+    res.send(rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.get("/shifts/:week", async (req, res) => {
+  const weekNumber = req.params.week;
+  try {
+    const shifts = await getShiftsForWeekNumber(weekNumber);
+    res.send(shifts);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 /* GET all shifts of a roster */

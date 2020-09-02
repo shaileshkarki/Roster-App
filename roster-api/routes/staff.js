@@ -7,6 +7,7 @@ const {
   updateStaffMember,
   removeStaffMember,
   getStaffRoles,
+  getAllActiveStaffAndRoles,
 } = require("../db/staffQueries");
 
 /* GET all staff */
@@ -14,7 +15,14 @@ router.get("/", async function (req, res, next) {
   const allStaff = await getAllActiveStaff();
   res.send(allStaff);
 });
-
+router.get("/withroles", async function (req, res, next) {
+  try {
+    const staffWithRoles = await getAllActiveStaffAndRoles();
+    res.send(staffWithRoles);
+  } catch (error) {
+    console.log(error);
+  }
+});
 router.get("/roles", async (req, res) => {
   const allStaff = await getAllActiveStaff();
 

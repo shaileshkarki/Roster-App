@@ -27,15 +27,24 @@ function CreateRosterScreen(props) {
   const { data: groups, request: getAllGroups } = useApi(
     "http://localhost:9000/groups"
   );
+  const { data: weekNumberFromDatabase, request: getWeekNumber } = useApi(
+    "http://localhost:9000/roster/weekNumber"
+  );
   const [selectedGroup, setSelectedGroup] = useState({});
   const [numberOfShifts, setNumberOfShifts] = useState([]);
-  const [weekNumber, setWeekNumber] = useState("");
+  const [weekNumber, setWeekNumber] = useState(
+    weekNumberFromDatabase.weekNumber
+  );
 
   let history = useHistory();
 
   useEffect(() => {
     getAllGroups();
-    console.log("1");
+    getWeekNumber();
+    console.log(weekNumberFromDatabase);
+    let a = moment.unix(15988923350);
+    let b = a.unix();
+    console.log("aaa", a);
   }, []);
   console.log(2);
   console.log(groups);
@@ -98,7 +107,11 @@ function CreateRosterScreen(props) {
 
     let shifts = createShifts(numberOfShifts);
     console.log("shifts = " + shifts);
-    history.push("/ViewRoster", [shifts, groups, weekNumber]);
+    history.push("/ViewRoster", [
+      shifts,
+      groups,
+      weekNumberFromDatabase.weekNumber,
+    ]);
     // history.push("/ViewRosterScreen", [...shifts]);
   };
   return (
@@ -133,7 +146,8 @@ function CreateRosterScreen(props) {
                   onInvalid={(e) => invalidNumber(e, 1, 2)}
                   onInput={(e) => invalidNumber(e, 1, 2)}
                   autoComplete="new-password"
-                  // value={}
+                  value={weekNumberFromDatabase.weekNumber}
+                  disabled
                 />
               </MDBCol>
             </MDBRow>
