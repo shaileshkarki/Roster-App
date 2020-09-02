@@ -206,6 +206,7 @@ const searchByCriteraiList = [
   // { label: "Email", key: "email" },
 ];
 function WeeklyRoster(props) {
+  const [totalHour, setTotalHour] = useState(0);
   const { data: shifts, request: getShifts } = useApi(
     `http://localhost:9000/roster/${props.match.params.rosterID}`
   );
@@ -272,6 +273,7 @@ function WeeklyRoster(props) {
 
   useEffect(() => {
     getShifts();
+    // setTotalHour();
   }, []);
   console.log(shifts);
   // Added back code :
@@ -316,7 +318,7 @@ function WeeklyRoster(props) {
           count++;
           let nextDay = new Date(weekStart);
           nextDay.setDate(nextDay.getDate() + i);
-          tableHeader.push(<th>{nextDay.toDateString()}</th>);
+          tableHeader.push(nextDay.toDateString());
         }
       }
     });
@@ -412,6 +414,7 @@ function WeeklyRoster(props) {
   tableBody.push(<th>{sum}</th>);
   tableBody.push(<tr />);
   // console.log(temp);
+  // let totalHour = 0;
   return (
     <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
       <MDBRow center>
@@ -423,64 +426,16 @@ function WeeklyRoster(props) {
         {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
         <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
           <MDBRow>
-            <MDBCol sm="12" md="12" lg="12">
-              <div className={"staff-list-search"}>
-                <div className={"space-evenly"}>
-                  {/* <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by ..."
-                    onChange={searchForStaffMember}
-                    value={searchCriteriaValue}
-                  /> */}
-                  {/* {[SplitButton].map((DropdownType, idx) => (
-                    <DropdownType
-                      as={ButtonGroup}
-                      key={idx}
-                      id={`dropdown-button-drop-${idx}`}
-                      size="sm"
-                      staff_name={searchCriteria.label}
-                    >
-                      {searchByCriteraiList.map((criteria, index) => (
-                        <Dropdown.Item
-                          key={index}
-                          onClick={(e) => {
-                            setSearchCriteria(criteria);
-                            setSearchCriteriaValue("");
-                            setScreen(
-                              allStaffList,
-                              false,
-                              numberOfStaffPerPage
-                            );
-                          }}
-                          eventKey={index}
-                        >
-                          {criteria.label}
-                        </Dropdown.Item>
-                      ))}
-                    </DropdownType>
-                  ))} */}
-                </div>
-                {/* <div className="space-evenly">
-                  <label>Staff per page</label>
-                  <input
-                    type="number"
-                    name="numberOfItemsPerPage"
-                    onChange={changeNumberOfItemsPerPage}
-                    value={numberOfStaffPerPage}
-                  />
-                </div> */}
-              </div>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
             <MDBCol>
               <MDBTable style={{ wordBreak: "break-all" }} bordered hover>
                 <thead>
                   <tr>
                     <th>Name</th>
-                    {tableHeader}
-                    <th>Total</th>
+                    {tableHeader.map((rosterDay) => (
+                      <th>{rosterDay}</th>
+                    ))}
+                    {/* <th>Total</th> */}
+                    <th>Total Hours</th>
                   </tr>
                 </thead>
                 {/* <tbody>{tableBody}</tbody> */}
@@ -488,30 +443,51 @@ function WeeklyRoster(props) {
                   {Object.keys(shifts).map((staff) => (
                     <tr>
                       <th>{staff}</th>
-                      {Object.values(shifts).map((shift_) =>
-                        shift_.map((shift, index, arr) =>
-                          staff === shift.username ? (
-                            shift.start_time === "" ? (
-                              <td></td>
-                            ) : (
-                              <td>
-                                {shift.work_date}
-                                <br />
-                                {shift.start_time}
-                                {" To "} {shift.end_time}
-                                <br />
-                                {shift.break_length}
-                                {" Hour Break"}
-                                <br />
-                                {shift.shift_duration}
-                                {" Hours"}
-                              </td>
+                      {tableHeader.map((rosterDay) => (
+                        <td>
+                          {Object.values(shifts).map((shift_) =>
+                            shift_.map((shift, index, arr) =>
+                              staff === shift.username &&
+                              rosterDay == shift.work_date ? (
+                                shift.start_time === "" &&
+                                rosterDay == shift.work_date ? (
+                                  ""
+                                ) : (
+                                  <p
+                                    onLoad={() =>
+                                      (totalHour +=
+                                        totalHour + shift.shift_duration)
+                                    }
+                                  >
+                                    {/* totalHour+ = totalHour +
+                                    shift.shift_duration */}
+                                    {shift.work_date}
+                                    <br />
+                                    {shift.start_time}
+                                    {" To "} {shift.end_time}
+                                    <br />
+                                    {shift.break_length}
+                                    {" Hour Break"}
+                                    <br />
+                                    {shift.shift_duration}
+                                    {" Hours"}
+                                  </p>
+                                )
+                              ) : (
+                                ""
+                              )
                             )
-                          ) : (
-                            ""
-                          )
-                        )
-                      )}
+                          )}
+                        </td>
+                      ))}
+                      <td>
+                        {shifts[staff].reduce(
+                          (totalHour, shift) =>
+                            totalHour + shift.shift_duration,
+                          0
+                        )}
+                      </td>
+                      {/* {setTotalHour(0)} */}
                     </tr>
                   ))}
                   {/* {
