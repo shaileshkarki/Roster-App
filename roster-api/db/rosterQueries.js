@@ -9,13 +9,13 @@ const {
 
 const moment = require("moment");
 
-const getRoster = async (week_Number = 1) => {
+const getRoster = async (roster_id = 1) => {
   // let startDate = convertStringDateToMilliseconds(rosterStartDate).toString();
   // let endDate = convertStringDateToMilliseconds(rosterEndDate).toString();
-  let weekNumber = Number(week_Number);
+  let rosterID = Number(roster_id);
   const sql =
-    "select roster.title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.week_number=$1;";
-  const params = [weekNumber];
+    "select roster.title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.roster_id=$1;";
+  const params = [rosterID];
   let weekStart;
   let weekEnd;
   let rosterDaysArr = [];
@@ -163,7 +163,7 @@ const getAllRosterWeeks = async () => {
 const createRoster = async (weekNumber) => {
   try {
     const sql =
-      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-08-24','2020-08-30',$1,'Open');";
+      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-09-01','2020-09-08',$1,'Open');";
     const params = [weekNumber];
     const results = await runSql(sql, params);
   } catch (error) {
@@ -176,30 +176,6 @@ const createRoster = async (weekNumber) => {
   }
 };
 
-const addShifts = async (rosterId, shifts) => {
-  // INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id) VALUES (1599444000000,1599454800000,FALSE,6);
-
-  for (let i = 0; i < shifts.length; i++) {
-    const shift = shifts[i];
-    try {
-      const sql =
-        "INSERT INTO shifts(timeslot_from,timeslot_to,isallocated,staff_id,roster_id, group_id, title)VALUES ($1,$2,$3,$4,$5,$6,$7)";
-      const params = [
-        moment(shift.start_time).unix(),
-        moment(shift.end_time).unix(),
-        shift.isallocated,
-        shift.staff_id,
-        rosterId,
-        shift.group,
-        shift.title,
-      ];
-      console.log(params[0], moment(params[1]));
-      await runSql(sql, params);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
 const getRosterIdFromWeekNumber = async (weekNumber) => {
   try {
     const sql = "SELECT roster_id from roster WHERE week_number = $1";
@@ -212,53 +188,57 @@ const getRosterIdFromWeekNumber = async (weekNumber) => {
   }
 };
 
-const updateShifts = async (weekNumber, shifts) => {
-  const oldShifts = await getShiftsForWeekNumber(weekNumber);
-  const rosterId = await getRosterIdFromWeekNumber(weekNumber);
-  // console.log(oldShifts);
-  for (let i = 0; i < oldShifts.length; i++) {
+const addShifts = async (rosterId, shifts) => {
+  // INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id) VALUES (1599444000000,1599454800000,FALSE,6);
+
+  for (let i = 0; i < shifts.length; i++) {
+    const shift = shifts[i];
     try {
-      const sql = "UPDATE shifts SET isallocated = false where shift_id = $1";
-      const params = [oldShifts[i].shift_id];
+      const sql =
+        "INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id,roster_id, group_id, title)VALUES ($1,$2,FALSE,$3,$4,$5,$6)";
+      const params = [
+        moment(shift.start_time).unix(),
+        moment(shift.end_time).unix(),
+        shift.staffId,
+        rosterId,
+        shift.group,
+        shift.title,
+      ];
+      console.log(params[0], moment(params[1]));
       await runSql(sql, params);
     } catch (error) {
       console.log(error);
     }
   }
+};
 
-  try {
-    await addShifts(rosterId, shifts);
-  } catch (error) {
-    console.log(error);
-  }
-
+const updateShifts = async (weekNumber, shifts) => {
+  const oldShifts = await getShiftsForWeekNumber(weekNumber);
   // console.log(oldShifts);
-  // for (let i = 0; i < shifts.length; i++) {
-  //   let match = false;
-  //   for (let x = 0; x < oldShifts.length; x++) {
-  //     if (shifts[i].shift_id === oldShifts[x].shift_id) {
-  //       match = true;
+  for (let i = 0; i < shifts.length; i++) {
+    let match = false;
+    for (let x = 0; x < oldShifts.length; x++) {
+      if (shifts[i].shift_id === oldShifts[x].shift_id) {
+        match = true;
 
-  //       const sql =
-  //         "UPDATE shifts SET timeslot_from = $1, timeslot_to =$2, isallocated = $3 ,staff_id =$4, group_id = $5, title = $6 WHERE shift_id = $7;";
+        const sql =
+          "UPDATE shifts SET timeslot_from = $1, timeslot_to =$2, staff_id =$3, group_id = $4, title = $5 WHERE shift_id = $6;";
+        const params = [
+          moment(shifts[i].start_time).unix(),
+          moment(shifts[i].end_time).unix(),
+          shifts[i].staffId,
+          shifts[i].group,
+          shifts[i].title,
+          shifts[i].shift_id,
+        ];
+        await runSql(sql, params);
+      }
+    }
 
-  //       const params = [
-  //         moment(shifts[i].start_time).unix(),
-  //         moment(shifts[i].end_time).unix(),
-  //         shifts[i].isallocated,
-  //         shifts[i].staffId,
-  //         shifts[i].group,
-  //         shifts[i].title,
-  //         shifts[i].shift_id,
-  //       ];
-  //       await runSql(sql, params);
-  //     }
-  //   }
-
-  //   if (!match) {
-  //     await addShifts(weekNumber, shifts[i]);
-  //   }
-  // }
+    if (!match) {
+      await addShifts(weekNumber, shifts[i]);
+    }
+  }
 };
 
 const getCurrentWeekNumber = async () => {
@@ -288,14 +268,11 @@ const getRosterWeeks = async () => {
 const getShiftsForWeekNumber = async (weekNumber) => {
   try {
     const rosterId = await getRosterIdFromWeekNumber(weekNumber);
-    const sql =
-      "Select * from shifts where roster_id = $1 AND isallocated = true;";
+    const sql = "Select * from shifts where roster_id = $1;";
     const params = [rosterId];
     const { rows } = await runSql(sql, params);
     let results = [];
-
     rows.forEach((row) => {
-      // moment(shifts[i].start_time).unix()
       row.start_time = row.timeslot_from;
       row.end_time = row.timeslot_to;
       row.group = row.group_id;
