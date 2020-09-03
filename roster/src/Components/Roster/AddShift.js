@@ -20,22 +20,49 @@ import moment from "moment";
 
 import { Button } from "react-bootstrap";
 
-function ShiftDetail({
-  startTime,
-  endTime,
-  name,
-  handleAllocate,
-  handleDeallocate,
-  handleRemoveShift,
+const createNext15MinuteTime = () => {
+  let minutes15 = moment();
+  minutes15 = Math.round(minutes15.minutes() / 15) * 15;
+  let newStartTime = moment().minutes(minutes15);
+
+  // console.log(newStartTime.toLocaleString());
+  return newStartTime;
+};
+function AddShift({
+  groups,
   handleClose,
-  event,
-  staff,
-  id,
-  shiftId,
+  handleAddItem,
+  weekNumber,
+  items,
+  handleSetAddShift,
 }) {
-  const duration = endTime - startTime;
-  const [staffMember, setStaffMember] = useState(name);
+  const [selectedGroup, setSelectedGroup] = useState(groups[0]);
   const [staffId, setStaffId] = useState(0);
+
+  const addShift = () => {
+    console.log("add shift");
+    let newItems = [...items];
+    let shift = {
+      id: Math.ceil(Math.random() * 100000),
+      group: selectedGroup.id,
+      title: "Unallocated",
+      weekNumber: weekNumber,
+      start_time: moment.unix(createNext15MinuteTime().add(4, "hour").unix()),
+      end_time: moment.unix(
+        createNext15MinuteTime()
+          .add(4 + selectedGroup.group_duration, "hour")
+          .unix()
+      ),
+      canMove: true,
+      canResize: true,
+      staffId: 1,
+      isallocated: true,
+    };
+    newItems.push(shift);
+
+    handleAddItem([...newItems]);
+    handleSetAddShift(null);
+  };
 
   return (
     <div className="popup">
@@ -43,37 +70,27 @@ function ShiftDetail({
         <div className="popup-wrapper">
           <MDBContainer>
             <MDBCard>
-              <MDBCardHeader color="blue lighten-1">
-                {" "}
-                Date {moment(startTime).format("dddd, MMMM Do YYYY")}
-              </MDBCardHeader>
+              <MDBCardHeader color="blue lighten-1"> </MDBCardHeader>
               <MDBCardBody>
                 <MDBCardTitle>Shift Detail</MDBCardTitle>
-                <div>Name {staffMember}</div>
+                <div>Group </div>
 
-                <div>{`Start Time: ${moment(startTime).format("h:mm a")}`}</div>
-                <div>{`End Time: : ${moment(endTime).format("h:mm a")}`}</div>
-                <div>{`Duration: ${(duration / 60 / 1000 / 60).toFixed(
-                  2
-                )} hrs`}</div>
                 <div>
                   <MDBBtnGroup>
                     <MDBDropdown>
                       <Button className="btn btn-primary mr-0">
-                        {staffMember}
+                        {selectedGroup.title}
                       </Button>
                       <MDBDropdownToggle caret color="primary" />
                       <MDBDropdownMenu color="primary">
-                        {staff.map((member, index) => (
+                        {groups.map((group, index) => (
                           <MDBDropdownItem
                             key={index}
                             onClick={(e) => {
-                              setStaffMember(member.name);
-                              setStaffId(member.staff_member_id);
-                              console.log("member = ", member);
+                              setSelectedGroup(group);
                             }}
                           >
-                            {member.name}
+                            {group.title}
                           </MDBDropdownItem>
                         ))}
                       </MDBDropdownMenu>
@@ -84,24 +101,11 @@ function ShiftDetail({
               <MDBCardFooter className="button-panel">
                 <Button
                   className="btn btn-green my-3 btn-block mr-2"
-                  onClick={() =>
-                    handleAllocate(staffMember, id, event, staffId)
-                  }
+                  onClick={addShift}
                 >
-                  Allocate
+                  Add
                 </Button>
-                <Button
-                  className="btn btn-danger my-3 btn-block mr-2"
-                  onClick={() => handleRemoveShift(shiftId)}
-                >
-                  Remove Shift
-                </Button>
-                <Button
-                  className="btn btn-danger my-3 btn-block mr-2"
-                  onClick={() => handleDeallocate(staffMember, id, event)}
-                >
-                  Deallocate
-                </Button>
+
                 <Button
                   className="btn btn-primary my-3 btn-block mr-2"
                   onClick={handleClose}
@@ -117,4 +121,4 @@ function ShiftDetail({
   );
 }
 
-export default ShiftDetail;
+export default AddShift;

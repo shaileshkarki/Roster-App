@@ -10,6 +10,7 @@ import ShiftDetail from "./ShiftDetail";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import AddShift from "./AddShift";
 
 // const staff = ["Peter", "Glen", "Shailesh", "John"];
 
@@ -37,7 +38,7 @@ function Roster({ shifts, groups, weekNumber, create }) {
   const [roles, setRoles] = useState(groups);
   const [rosterWeekNumber, setRosterWeekNumber] = useState(weekNumber);
   const [shiftDetails, setShiftDetails] = useState(null);
-  const [focus, setFocus] = useState(false);
+  const [addShift, setAddShift] = useState(null);
   const { data: staff, request: getStaff } = useApi(
     "http://localhost:9000/staff/roles"
   );
@@ -84,6 +85,22 @@ function Roster({ shifts, groups, weekNumber, create }) {
     setItems([...newItems]);
   };
   // All staff from database
+  const handleRemoveShift = (shiftId) => {
+    let newItems = [...items];
+
+    for (let i = 0; i < newItems.length; i++) {
+      if (newItems[i].shift_id === shiftId) {
+        newItems.splice(i, 1);
+        break;
+      }
+    }
+    setShiftDetails(null);
+    setItems([...newItems]);
+  };
+
+  const handleAddShift = () => {
+    setAddShift(true);
+  };
 
   const transformTimes = () => {
     let transformedData = [...shifts];
@@ -192,6 +209,7 @@ function Roster({ shifts, groups, weekNumber, create }) {
           event: e,
           filteredStaff: filteredStaff,
           id: items[i].id,
+          shiftId: items[i].shift_id,
         });
         return;
       }
@@ -241,7 +259,13 @@ function Roster({ shifts, groups, weekNumber, create }) {
           className="btn btn-green my-3 btn-block mr-2"
           onClick={handleSubmit}
         >
-          {create ? "Save" : "Update"}
+          {create ? "Save Roster" : "Update Roster"}
+        </Button>
+        <Button
+          className="btn btn-primary my-3 btn-block mr-2"
+          onClick={handleAddShift}
+        >
+          Add Shift
         </Button>
         <Button className="btn btn-primary my-3 btn-block mr-2">close</Button>
       </div>
@@ -267,11 +291,25 @@ function Roster({ shifts, groups, weekNumber, create }) {
           handleAllocate={handleAllocation}
           name={shiftDetails.name}
           handleDeallocate={handleDeallocate}
+          handleRemoveShift={handleRemoveShift}
           handleClose={() => {
             setShiftDetails(null);
           }}
           event={shiftDetails.event}
           id={shiftDetails.id}
+          shiftId={shiftDetails.shiftId}
+        />
+      )}
+      {addShift && (
+        <AddShift
+          groups={roles}
+          handleClose={() => {
+            setAddShift(null);
+          }}
+          handleAddItem={setItems}
+          items={items}
+          handleSetAddShift={setAddShift}
+          weekNumber={weekNumber}
         />
       )}
     </div>

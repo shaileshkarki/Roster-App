@@ -32,13 +32,13 @@ function ViewRosterScreen(props) {
     const { data } = await getWeekNumbers();
     setWeekNumber(data[0].week_number);
     const shiftsData = await getShifts();
-    console.log("shift data ", shiftsData);
+
     setShifts(shiftsData.data);
   };
   useEffect(() => {
     loadData();
     getAllGroups();
-    console.log("datae", moment(1598310000000000));
+    console.log("date", moment(1598310000000000));
   }, []);
   console.log("shifts length ", shifts.length);
   return (

@@ -28,7 +28,7 @@ function CreateRosterScreen(props) {
     "http://localhost:9000/groups"
   );
   const { data: weekNumberFromDatabase, request: getWeekNumber } = useApi(
-    "http://localhost:9000/roster/weekNumber"
+    "http://localhost:9000/roster/weeknumber"
   );
   const [selectedGroup, setSelectedGroup] = useState({});
   const [numberOfShifts, setNumberOfShifts] = useState([]);
@@ -42,7 +42,7 @@ function CreateRosterScreen(props) {
     getAllGroups();
     getWeekNumber();
     console.log(weekNumberFromDatabase);
-    let a = moment.unix(15988923350);
+    let a = moment.unix(1598346000);
     let b = a.unix();
     console.log("aaa", a);
   }, []);
@@ -84,6 +84,7 @@ function CreateRosterScreen(props) {
             style: itemStyles,
           },
           staffId: 1,
+          isallocated: true,
         };
         shifts.push(shift);
       }
