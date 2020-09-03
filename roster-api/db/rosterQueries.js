@@ -176,18 +176,6 @@ const createRoster = async (weekNumber) => {
   }
 };
 
-const getRosterIdFromWeekNumber = async (weekNumber) => {
-  try {
-    const sql = "SELECT roster_id from roster WHERE week_number = $1";
-    const params = [weekNumber];
-    const { rows } = await runSql(sql, params);
-    console.log(rows[0].roster_id);
-    return rows[0].roster_id;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const addShifts = async (rosterId, shifts) => {
   // INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,staff_id) VALUES (1599444000000,1599454800000,FALSE,6);
 
