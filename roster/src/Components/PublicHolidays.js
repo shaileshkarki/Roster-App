@@ -19,10 +19,6 @@ const tableColumnsAndDataKeys = [
 ];
 function PublicHolidays(props) {
     const { data, request: getAllPublicHolidays } = usePublicHolidaysAPI();
-    let history = useHistory();
-
-    // constants for status for reloading screen.
-    const isReloaded = [];
 
     useEffect(() => {
         // run a query to obtain all public holidays from the database

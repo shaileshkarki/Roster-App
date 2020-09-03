@@ -1028,7 +1028,7 @@ CREATE TABLE blank_roster
 
 -- WHAT WERE EACH PERSONS WAGE ON A SPECIFIC DATE?
 
-select shift_start_date, SUM((timeslot_to - timeslot_from) / 3600000) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600000) * pay_rate) AS total_shift_pay, shifts.staff_id, firstname, shifts.group_id, groups.title 
+select shift_start_date, SUM((timeslot_to - timeslot_from) / 3600) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600) * pay_rate) AS total_shift_pay, shifts.staff_id, firstname, shifts.group_id, groups.title 
 from shifts, groups, staff 
 WHERE shift_start_date='2020-08-24' 
 AND shifts.group_id = groups.id
@@ -1039,7 +1039,7 @@ GROUP BY shift_start_date, shifts.staff_id, firstname, shifts.group_id, groups.t
 -- THE BELOW SHOWS THE TOTAL WAGES AMOUNT PAID FOR ROSTER 1...(i.e. 1 WEEK)
 
 select SUM(subq.hours_worked * pay_rate) from (
-select SUM((timeslot_to - timeslot_from) / 3600000) AS hours_worked, shifts.staff_id, firstname, groups.title, pay_rate 
+select SUM((timeslot_to - timeslot_from) / 3600) AS hours_worked, shifts.staff_id, firstname, groups.title, pay_rate 
 from shifts, groups, staff 
 WHERE shifts.roster_id=1 
 AND shifts.group_id = groups.id
@@ -1051,7 +1051,7 @@ ORDER BY shifts.staff_id
 
 -- THE BELOW SHOWS HOW MANY HOURS WORKED AND WAGES PER PERSON FOR ROSTER ID 1 (WEEKLY)
 
-select  shifts.staff_id, firstname, groups.title, pay_rate, SUM((timeslot_to - timeslot_from) / 3600000) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600000) * pay_rate) AS total_shift_pay 
+select  shifts.staff_id, firstname, groups.title, pay_rate, SUM((timeslot_to - timeslot_from) / 3600) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600) * pay_rate) AS total_shift_pay 
 from shifts, groups, staff 
 WHERE shifts.roster_id=1 
 AND shifts.group_id = groups.id
@@ -1064,7 +1064,7 @@ ORDER BY shifts.staff_id;
 
 -- THE BELOW SHOWS DAILY WAGES FOR THOSE ON ROSTER 1
 
-select  shifts.staff_id, firstname, groups.title, shift_start_date, pay_rate, SUM((timeslot_to - timeslot_from) / 3600000) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600000) * pay_rate) AS total_shift_pay 
+select  shifts.staff_id, firstname, groups.title, shift_start_date, pay_rate, SUM((timeslot_to - timeslot_from) / 3600) AS hours_worked, SUM(((timeslot_to - timeslot_from) / 3600) * pay_rate) AS total_shift_pay 
 from shifts, groups, staff 
 WHERE shifts.roster_id=1 
 AND shifts.group_id = groups.id

@@ -1,15 +1,15 @@
 var express = require("express");
 var router = express.Router();
 
-const { getAllWageInfo } = require("../db/wagesQueries");
+const { getTotalRosterOneWages } = require("../db/wagesQueries");
 
 // insert code here
 router.get("/", async function (req, res, next) {
     // obtain all public holidays from DB
-    const allWageInfo = await getAllWageInfo();
+    const allTotalRosterOneWages = await getTotalRosterOneWages();
 
     // return results back
-    res.send(allWageInfo);
+    res.send(allTotalRosterOneWages);
 });
 
 module.exports = router;
