@@ -14,7 +14,7 @@ const convertMillisecondsToLocalTime = function (timeInMilliseconds) {
   return time;
 };
 const convertMillisecondsToHour = function (timeInMilliseconds) {
-  return Number(timeInMilliseconds) / 60 / 60;
+  return Number(timeInMilliseconds) / 1000 / 60 / 60;
 };
 const calculateBreak = function (shiftStartTime, shiftEndTime) {
   let startTime = convertMillisecondsToHour(shiftStartTime);
