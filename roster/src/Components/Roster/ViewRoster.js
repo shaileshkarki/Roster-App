@@ -1,9 +1,15 @@
 // import React from "react";
 import React, { useEffect, useState } from "react";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
-import { Button } from "react-bootstrap";
+import { Button, ThemeProvider } from "react-bootstrap";
 import useApi from "../../hooks/useApi";
 import LeftSidebar from "../LeftSidebar";
+import {
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
+} from "mdbreact";
 
 function ViewRoster({}) {
   const { data: rosters, request: getRosters } = useApi(
@@ -12,72 +18,51 @@ function ViewRoster({}) {
   useEffect(() => {
     getRosters();
   }, []);
+
+  let statusArray = [];
+  rosters.map((roster) => {
+    if (!statusArray.includes(roster.status)) {
+      statusArray.push(roster.status);
+    }
+  });
   return (
     <MDBRow center>
       <MDBRow center>
         <MDBCol sm="12" md="12" lg="12" xl="12">
           <LeftSidebar />
         </MDBCol>
+
+        <MDBCol sm="12" md="12" lg="12" xl="12">
+          <MDBRow center>
+            {statusArray.map((status) => (
+              <MDBCol sm="2" className="grey-text">
+                <MDBDropdown>
+                  <MDBDropdownToggle caret color="primary">
+                    {status}
+                  </MDBDropdownToggle>
+                  <MDBDropdownMenu basic>
+                    {rosters.map((roster) =>
+                      roster.status == status ? (
+                        <MDBDropdownItem
+                          href={`/viewWeeklyRoster/${roster.roster_id}`}
+                        >
+                          {roster.title}
+                        </MDBDropdownItem>
+                      ) : (
+                        ""
+                      )
+                    )}
+                  </MDBDropdownMenu>
+                </MDBDropdown>
+              </MDBCol>
+            ))}
+          </MDBRow>
+        </MDBCol>
       </MDBRow>
-      <MDBCol sm="12" className="grey-text">
-        <MDBBtn variant="danger" disabled>
-          Fianlised Roster
-        </MDBBtn>
-      </MDBCol>
-      <MDBCol sm="12" className="grey-text">
-        {rosters.map((roster) =>
-          roster.status == "Finalised" ? (
-            <MDBBtn
-              variant="primary"
-              href={`/viewWeeklyRoster/${roster.roster_id}`}
-            >
-              {roster.title}
-            </MDBBtn>
-          ) : (
-            ""
-          )
-        )}
-      </MDBCol>
-
-      <MDBCol sm="12" className="grey-text">
-        <MDBBtn variant="danger" disabled>
-          Open Roster
-        </MDBBtn>
-      </MDBCol>
-      <MDBCol sm="12" className="grey-text">
-        {rosters.map((roster) =>
-          roster.status == "Open" ? (
-            <MDBBtn
-              variant="warning"
-              href={`/viewWeeklyRoster/${roster.roster_id}`}
-            >
-              {roster.title}
-            </MDBBtn>
-          ) : (
-            ""
-          )
-        )}
-      </MDBCol>
-
-      <MDBCol sm="12" className="grey-text">
-        <MDBBtn disabled>Closed Roster</MDBBtn>
-      </MDBCol>
-      <MDBCol sm="12" className="grey-text">
-        {rosters.map((roster) =>
-          roster.status == "Closed" ? (
-            <MDBBtn
-              variant="primary"
-              href={`/viewWeeklyRoster/${roster.roster_id}`}
-            >
-              {roster.title}
-            </MDBBtn>
-          ) : (
-            ""
-          )
-        )}
-      </MDBCol>
     </MDBRow>
   );
 }
-
 export default ViewRoster;
+//select roster_id, from roster group by status order by roster_id;
+
+//href={`/viewWeeklyRoster/${roster.roster_id}`}
