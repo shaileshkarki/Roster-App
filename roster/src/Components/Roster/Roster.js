@@ -57,7 +57,7 @@ function Roster({ shifts, groups, weekNumber, create }) {
         console.log(newItems[i].title);
         console.log(("selected", newItems[i].selected));
         e.target.textContent = name;
-        newItems[i].staffId = staffId;
+        newItems[i].staff_id = staffId;
 
         break;
       }
@@ -90,6 +90,7 @@ function Roster({ shifts, groups, weekNumber, create }) {
 
     for (let i = 0; i < newItems.length; i++) {
       if (newItems[i].shift_id === shiftId) {
+        newItems.isallocated = false;
         newItems.splice(i, 1);
         break;
       }
