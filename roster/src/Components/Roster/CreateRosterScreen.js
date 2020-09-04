@@ -83,7 +83,7 @@ function CreateRosterScreen(props) {
           itemProps: {
             style: itemStyles,
           },
-          staffId: 1,
+          staff_id: 1,
           isallocated: true,
         };
         shifts.push(shift);

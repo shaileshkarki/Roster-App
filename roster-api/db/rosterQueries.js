@@ -14,7 +14,7 @@ const getRoster = async (roster_id = 1) => {
   // let endDate = convertStringDateToMilliseconds(rosterEndDate).toString();
   let rosterID = Number(roster_id);
   const sql =
-    "select roster.title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.roster_id=$1;";
+    "select roster.title,start_date,end_date,week_number,timeslot_from,timeslot_to,username from roster, shifts, staff where shifts.roster_id = roster.roster_id and shifts.staff_id=staff.staff_id and roster.roster_id=$1 and shifts.isallocated = true;";
   const params = [rosterID];
   let weekStart;
   let weekEnd;
@@ -163,7 +163,7 @@ const getAllRosterWeeks = async () => {
 const createRoster = async (weekNumber) => {
   try {
     const sql =
-      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-09-01','2020-09-07',$1,'Open');";
+      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-09-03','2020-09-09',$1,'Open');";
     const params = [weekNumber];
     const results = await runSql(sql, params);
   } catch (error) {

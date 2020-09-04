@@ -55,7 +55,7 @@ function AddShift({
       ),
       canMove: true,
       canResize: true,
-      staffId: 1,
+      staff_id: 1,
       isallocated: true,
     };
     newItems.push(shift);
