@@ -28,12 +28,22 @@ const itemStyles = {
   color: "red",
 };
 
-function Roster({ shifts, groups, weekNumber, create }) {
+function Roster({
+  shifts,
+  groups,
+  weekNumber,
+  create,
+  startDate,
+  endDate,
+  title,
+}) {
   // const { shifts: groups, request: getAllGroups } = useApi(
   //   "http://localhost:9000/groups"
 
   // );
+  console.log("^^^^^", title);
   console.log("groups", groups);
+  console.log("start date = " + startDate + " end date = " + endDate);
   const [items, setItems] = useState(shifts);
   const [roles, setRoles] = useState(groups);
   const [rosterWeekNumber, setRosterWeekNumber] = useState(weekNumber);
@@ -224,6 +234,9 @@ function Roster({ shifts, groups, weekNumber, create }) {
         const response = await axios.post("http://localhost:9000/roster", {
           shifts: items,
           weekNumber,
+          title,
+          startDate,
+          endDate,
         });
         if (response.status === 200) {
           console.log(response.statusText);

@@ -15,6 +15,7 @@ import moment from "moment";
 function ViewRosterScreen(props) {
   const [weekNumber, setWeekNumber] = useState(1);
   const [shifts, setShifts] = useState([]);
+  const [rosterPeriodDates, setRosterPeriodDates] = useState({});
   const { data: weekNumbersFromDatabase, request: getWeekNumbers } = useApi(
     "http://localhost:9000/roster/weeks"
   );
@@ -26,18 +27,24 @@ function ViewRosterScreen(props) {
     `http://localhost:9000/roster/shifts/${weekNumber}`
   );
 
+  const { request: getRosterPeriodDates } = useApi(
+    `http://localhost:9000/roster/dates/${weekNumber}`
+  );
+
   const [displayRoster, setDisplayRoster] = useState(false);
 
   const loadData = async () => {
     const { data } = await getWeekNumbers();
     setWeekNumber(data[0].week_number);
     const shiftsData = await getShifts();
-
+    const rosterPeriodData = await getRosterPeriodDates(data[0].week_number);
     setShifts(shiftsData.data);
+    setRosterPeriodDates(rosterPeriodData.data[0]);
   };
   useEffect(() => {
     loadData();
     getAllGroups();
+
     console.log("date", moment(1598310000000000));
   }, []);
   console.log("shifts length ", shifts.length);
@@ -77,6 +84,9 @@ function ViewRosterScreen(props) {
           groups={groups}
           weekNumber={weekNumber}
           create={false}
+          startDate={rosterPeriodDates.start_date.slice(0, 10)}
+          endDate={rosterPeriodDates.end_date.slice(0, 10)}
+          title={rosterPeriodDates.title}
         />
       )}
     </div>
