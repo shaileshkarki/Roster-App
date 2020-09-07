@@ -10,7 +10,7 @@ const ref = React.createRef();
 const options = {
   orientation: "potrait",
   unit: "in",
-  format: [6000, 1400],
+  format: [2500, 400],
 };
 
 function WeeklyRoster(props) {
@@ -69,9 +69,9 @@ function WeeklyRoster(props) {
                   targetRef={ref}
                   filename="roster.pdf"
                   options={options}
-                  x={1}
-                  y={0.1}
-                  scale={1.5}
+                  x={0.5}
+                  y={0.5}
+                  scale={0.5}
                 >
                   {({ toPdf }) => <Button onClick={toPdf}>Download pdf</Button>}
                 </ReactToPdf>
