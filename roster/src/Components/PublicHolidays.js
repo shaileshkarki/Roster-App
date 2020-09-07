@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
+import LeftSidebar from "../Components/LeftSidebar.js";
 
 import usePublicHolidaysAPI from "../hooks/usePublicHolidaysAPI";
 import PaginationTable from "rbtpagination";
@@ -54,6 +56,9 @@ function PublicHolidays(props) {
 
     return (
         <div>
+            <MDBCol sm="12" md="12" lg="12" xl="12">
+                <LeftSidebar />
+            </MDBCol>
             <button
                 onClick={handleLoadPublicHolidays}
                 className="btn btn-primary"
