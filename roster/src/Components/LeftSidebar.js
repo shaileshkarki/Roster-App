@@ -11,7 +11,16 @@ class LeftSidebar extends React.Component {
             href="/StaffListScreen"
             className="w-100 h-100 d-inline-block m-1"
           >
-            Staff Admin
+            Staff Admin Add Staff
+          </Button>
+        </MDBCol>
+        <MDBCol sm="6" md="3" lg="2" xl="2">
+          <Button
+            className="w-100 h-100 d-inline-block m-1"
+            variant="danger"
+            href="/ViewGroups"
+          >
+            View Roles
           </Button>
         </MDBCol>
         <MDBCol sm="6" md="3" lg="2" xl="2">
