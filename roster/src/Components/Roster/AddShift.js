@@ -47,10 +47,10 @@ function AddShift({
       group: selectedGroup.id,
       title: "Unallocated",
       weekNumber: weekNumber,
-      start_time: moment.unix(createNext15MinuteTime().add(4, "hour").unix()),
+      start_time: moment.unix(createNext15MinuteTime().unix()),
       end_time: moment.unix(
         createNext15MinuteTime()
-          .add(4 + selectedGroup.group_duration, "hour")
+          .add(selectedGroup.group_duration, "hour")
           .unix()
       ),
       canMove: true,

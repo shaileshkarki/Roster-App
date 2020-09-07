@@ -312,6 +312,9 @@ const getRosterPeriod = async (rosterId) => {
     "SELECT start_date , end_date, title FROM roster where roster_id = $1;";
   const params = [rosterId];
   const rosterPeriod = await runSql(sql, params);
+  console.log(rosterPeriod.rows);
+  let a = new Date(rosterPeriod.rows[0].start_date);
+  console.log("Date " + a.toDateString());
   return rosterPeriod.rows;
 };
 

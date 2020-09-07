@@ -90,10 +90,8 @@ function CreateRosterScreen(props) {
           group: groupId,
           title: "Unallocated",
           weekNumber: weekNumber,
-          start_time: createNext15MinuteTime().add(4, "hour").unix(),
-          end_time: createNext15MinuteTime()
-            .add(4 + minDuration, "hour")
-            .unix(),
+          start_time: createNext15MinuteTime().add("hour").unix(),
+          end_time: createNext15MinuteTime().add(minDuration, "hour").unix(),
           canMove: true,
           canResize: true,
           itemProps: {
