@@ -15,6 +15,7 @@ import moment from "moment";
 function ViewRosterScreen(props) {
   const [weekNumber, setWeekNumber] = useState(1);
   const [shifts, setShifts] = useState([]);
+  const [rosterPeriodDates, setRosterPeriodDates] = useState({});
   const { data: weekNumbersFromDatabase, request: getWeekNumbers } = useApi(
     "http://localhost:9000/roster/weeks"
   );
@@ -26,21 +27,29 @@ function ViewRosterScreen(props) {
     `http://localhost:9000/roster/shifts/${weekNumber}`
   );
 
+  const { request: getRosterPeriodDates } = useApi(
+    `http://localhost:9000/roster/dates/${weekNumber}`
+  );
+
   const [displayRoster, setDisplayRoster] = useState(false);
 
   const loadData = async () => {
     const { data } = await getWeekNumbers();
     setWeekNumber(data[0].week_number);
     const shiftsData = await getShifts();
+    const rosterPeriodData = await getRosterPeriodDates();
 
     setShifts(shiftsData.data);
+    setRosterPeriodDates(rosterPeriodData.data[0]);
   };
   useEffect(() => {
     loadData();
     getAllGroups();
+
     console.log("date", moment(1598310000000000));
   }, []);
   console.log("shifts length ", shifts.length);
+  console.log("roster period data" + rosterPeriodDates.start_date);
   return (
     <div>
       View Roster Screen
@@ -58,6 +67,9 @@ function ViewRosterScreen(props) {
                 onMouseLeave={async () => {
                   let { data } = await getShifts();
                   setShifts(data);
+                  let rosterPeriods = await getRosterPeriodDates();
+
+                  setRosterPeriodDates(rosterPeriods.data[0]);
                   setDisplayRoster(true);
                 }}
                 onClick={(e) => {
@@ -77,6 +89,9 @@ function ViewRosterScreen(props) {
           groups={groups}
           weekNumber={weekNumber}
           create={false}
+          startDate={rosterPeriodDates.start_date}
+          endDate={rosterPeriodDates.end_date}
+          title={rosterPeriodDates.title}
         />
       )}
     </div>

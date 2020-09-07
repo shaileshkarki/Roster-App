@@ -28,12 +28,22 @@ const itemStyles = {
   color: "red",
 };
 
-function Roster({ shifts, groups, weekNumber, create }) {
+function Roster({
+  shifts,
+  groups,
+  weekNumber,
+  create,
+  startDate,
+  endDate,
+  title,
+}) {
   // const { shifts: groups, request: getAllGroups } = useApi(
   //   "http://localhost:9000/groups"
 
   // );
+  console.log("^^^^^", new Date(startDate).toISOString());
   console.log("groups", groups);
+  console.log("start date = " + startDate + " end date = " + endDate);
   const [items, setItems] = useState(shifts);
   const [roles, setRoles] = useState(groups);
   const [rosterWeekNumber, setRosterWeekNumber] = useState(weekNumber);
@@ -42,6 +52,8 @@ function Roster({ shifts, groups, weekNumber, create }) {
   const { data: staff, request: getStaff } = useApi(
     "http://localhost:9000/staff/roles"
   );
+  const [startTime, setStartTime] = useState(new Date(startDate));
+  const [endTime, setEndTime] = useState(moment(endDate).add(24, "hours"));
   let history = useHistory();
 
   const handleAllocation = (name, id, e, staffId) => {
@@ -224,6 +236,9 @@ function Roster({ shifts, groups, weekNumber, create }) {
         const response = await axios.post("http://localhost:9000/roster", {
           shifts: items,
           weekNumber,
+          title,
+          startDate,
+          endDate,
         });
         if (response.status === 200) {
           console.log(response.statusText);
@@ -254,7 +269,11 @@ function Roster({ shifts, groups, weekNumber, create }) {
 
   return (
     <div>
-      Week Number : {rosterWeekNumber}
+      <div>
+        <h1>Week Number: {rosterWeekNumber}</h1>
+        <h2>Start Date: {startTime.toLocaleDateString()}</h2>
+        <h2>End Date: {new Date(endDate).toLocaleDateString()}</h2>
+      </div>
       <div className="button-panel">
         <Button
           className="btn btn-green my-3 btn-block mr-2"
@@ -278,8 +297,8 @@ function Roster({ shifts, groups, weekNumber, create }) {
         onItemResize={(itemId, time, edge) =>
           handleItemResize(itemId, time, edge)
         }
-        defaultTimeStart={moment().add(-12, "hour")}
-        defaultTimeEnd={moment().add(12, "hour")}
+        defaultTimeStart={startTime}
+        defaultTimeEnd={endTime}
         lineHeight={100}
         onItemMove={(itemId, time) => handleItemMove(itemId, time)}
         onItemClick={(itemId, e, time) => handleItemClick(itemId, e, time)}

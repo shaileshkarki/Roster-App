@@ -160,11 +160,10 @@ const getAllRosterWeeks = async () => {
   }
 };
 
-const createRoster = async (weekNumber) => {
+const createRoster = async (weekNumber, title, startDate, endDate) => {
   try {
-    const sql =
-      "INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ('From Api','2020-09-03','2020-09-09',$1,'Open');";
-    const params = [weekNumber];
+    const sql = `INSERT INTO roster(title,start_date,end_date,week_number,status) VALUES ($1,$2,$3,$4,'Open');`;
+    const params = [title, startDate, endDate, weekNumber];
     const results = await runSql(sql, params);
   } catch (error) {
     console.log(error);
@@ -275,7 +274,7 @@ const getCurrentWeekNumber = async () => {
 };
 
 const getRosterWeeks = async () => {
-  const sql = "SELECT week_number from roster;";
+  const sql = "SELECT week_number from roster ORDER BY week_number DESC;";
   params = [];
   try {
     const weeks = await runSql(sql, params);
@@ -307,6 +306,18 @@ const getShiftsForWeekNumber = async (weekNumber) => {
     console.log(error);
   }
 };
+
+const getRosterPeriod = async (rosterId) => {
+  const sql =
+    "SELECT start_date , end_date, title FROM roster where roster_id = $1;";
+  const params = [rosterId];
+  const rosterPeriod = await runSql(sql, params);
+  console.log(rosterPeriod.rows);
+  let a = new Date(rosterPeriod.rows[0].start_date);
+  console.log("Date " + a.toDateString());
+  return rosterPeriod.rows;
+};
+
 module.exports = {
   getRoster,
   getAllRosterWeeks,
@@ -316,4 +327,6 @@ module.exports = {
   getRosterWeeks,
   getShiftsForWeekNumber,
   updateShifts,
+  getRosterIdFromWeekNumber,
+  getRosterPeriod,
 };

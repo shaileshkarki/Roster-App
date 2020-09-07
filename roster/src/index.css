@@ -83,3 +83,11 @@ th {
 .admin-panel-menu {
   height: 2%;
 } */
+.MuiFormControl-root {
+  width: 100%;
+  /* border: 0px; */
+}
+
+.MuiInputBase-input:valid {
+  border: 0;
+}

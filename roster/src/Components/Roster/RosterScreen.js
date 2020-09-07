@@ -9,6 +9,9 @@ function RosterScreen({ location }) {
       groups={location.state[1]}
       weekNumber={location.state[2]}
       create={true}
+      startDate={location.state[3]}
+      endDate={location.state[4]}
+      title={location.state[5]}
     />
   );
 }
