@@ -70,7 +70,7 @@ function ShiftDetail({
                             onClick={(e) => {
                               setStaffMember(member.name);
                               setStaffId(member.staff_member_id);
-                              console.log("member = ", member);
+                              console.log("member = ", member.name);
                             }}
                           >
                             {member.name}

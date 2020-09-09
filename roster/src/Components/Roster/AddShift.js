@@ -20,14 +20,15 @@ import moment from "moment";
 
 import { Button } from "react-bootstrap";
 
-const createNext15MinuteTime = () => {
-  let minutes15 = moment();
-  minutes15 = Math.round(minutes15.minutes() / 15) * 15;
-  let newStartTime = moment().minutes(minutes15);
+// const createNext15MinuteTime = () => {
+//   let minutes15 = moment();
+//   minutes15 = Math.round(minutes15.minutes() / 15) * 15;
+//   let newStartTime = moment().minutes(minutes15);
 
-  // console.log(newStartTime.toLocaleString());
-  return newStartTime;
-};
+//   // console.log(newStartTime.toLocaleString());
+//   return newStartTime;
+// };
+
 function AddShift({
   groups,
   handleClose,
@@ -35,15 +36,31 @@ function AddShift({
   weekNumber,
   items,
   handleSetAddShift,
+  startDate,
 }) {
   const [selectedGroup, setSelectedGroup] = useState(groups[0]);
   const [staffId, setStaffId] = useState(0);
 
+  const createNext15MinuteTime = () => {
+    const now = moment();
+    console.log("test", moment.unix(Math.round(startDate.getTime() / 1000)));
+    let startTime = moment.unix(Math.round(startDate.getTime() / 1000));
+    let rounding = Math.round(now.minutes() / 15) * 15;
+    startTime.hour(now.hour()).minutes(rounding);
+
+    return startTime;
+  };
+
   const addShift = () => {
     console.log("add shift");
     let newItems = [...items];
+    const sortedItems = newItems.sort((a, b) => {
+      return b.id - a.id;
+    });
+    console.log("sort id = " + sortedItems[0].id);
     let shift = {
-      id: Math.ceil(Math.random() * 100000),
+      id: sortedItems[0].id + 1,
+      shift_id: sortedItems[0].id + 1,
       group: selectedGroup.id,
       title: "Unallocated",
       weekNumber: weekNumber,

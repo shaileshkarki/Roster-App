@@ -64,6 +64,7 @@ function CreateRosterScreen(props) {
   }, []);
   console.log(2);
   console.log(groups);
+
   const createShifts = (numberOfShifts) => {
     const groupsWithShifts = Object.keys(numberOfShifts);
     let shifts = [];
@@ -232,7 +233,7 @@ function CreateRosterScreen(props) {
               </MDBCol>
             </MDBRow>
             {groups.map((group, index) => (
-              <MDBRow center>
+              <MDBRow key={index} center>
                 <MDBCol key={index} sm="12" md="9" lg="7">
                   <MDBInput
                     size="lg"
