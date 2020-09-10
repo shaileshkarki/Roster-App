@@ -1,10 +1,10 @@
 // import React from "react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
 import { Button } from "react-bootstrap";
-
+import { useAuth } from "../context/auth";
 import {
   displayInvalid,
   displayValid,
@@ -12,10 +12,20 @@ import {
   invalidMinMaxMsg,
 } from "../lib/formValidation";
 
-function Login({}) {
+function Login(props) {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let history = useHistory();
+  const { setAuthTokens } = useAuth();
+
+  let referer;
+  if (props.location.state !== null) {
+    referer = props.location.state.referer;
+  } else {
+    referer = "/";
+  }
+
   const passwordMinLength = 6;
   const passwordMaxLength = 20;
 
@@ -29,20 +39,27 @@ function Login({}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:9000/users/login", {
+      const result = await axios.post("http://localhost:9000/users/login", {
         user: {
           email,
           password,
         },
       });
-      if (response.status === 200) {
-        console.log(response.statusText);
-        history.replace("/admin");
+      // console.log(result.data[0].email);
+      if (result.data[0].email === email) {
+        setAuthTokens(result.data[0]);
+        setLoggedIn(true);
+      } else {
+        setIsError(true);
       }
-    } catch (error) {
-      alert("response.statusText");
+    } catch (e) {
+      setIsError(true);
     }
   };
+  // console.log("AuthTokens", authTokens);
+  if (isLoggedIn) {
+    return <Redirect to={referer} />;
+  }
   return (
     <div>
       <MDBRow center>
@@ -101,6 +118,7 @@ function Login({}) {
               </Button>
             </div>
           </form>
+          {isError && <p>The username or password provided were incorrect!</p>}
         </MDBCol>
       </MDBRow>
     </div>
