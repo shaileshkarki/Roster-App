@@ -4,80 +4,53 @@ import LeftSidebar from "../LeftSidebar";
 import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
 import ReactToPdf from "react-to-pdf";
 import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
-import convertUnixTime from "../../lib/convertUnixTime";
-import calculateBreak from "../../lib/calculateBreak";
-import calculateCorrectPay from "../../lib/calculateCorrectPayWeeklyWagersRoster";
+// import "../StaffListScreen.css";
+import calculateCorrectJobWagesPay from "../../lib/calculateCorrectPayWeeklyJobTitleRoster";
 import calculateReportTotals from "../../lib/calculateReportTotals";
 import calculateHeadings from "../../lib/calculateHeadingsForReports.js";
-// import "../StaffListScreen.css";
 
 const ref = React.createRef();
 const options = {
-    orientation: "portrait",
+    orientation: "potrait",
     unit: "in",
-    format: [3000, 8000],
+    format: [6000, 1400],
 };
 
-function ViewWeeklyWageRoster(props) {
-    const [totalHour, setTotalHour] = useState(0);
-    const { data, request: getDesiredWeekWages } = useApi(
-        `http://localhost:9000/wages/${props.match.params.rosterID}`
+function ViewWeeklyJobWageRoster(props) {
+    const { data, request: getDesiredWeekJobWages } = useApi(
+        `http://localhost:9000/wages/jobtitle/${props.match.params.rosterID}`
     );
 
-    let first_record = {};
-    // just assign the object record to be used to ascertain the heading for the table
-    if (data.length > 0) {
-        first_record = data[0];
-    }
-
     useEffect(() => {
-        getDesiredWeekWages();
+        getDesiredWeekJobWages();
         // setTotalHour();
     }, []);
-    // console.log("**************************");
-    //console.log(data);
+    console.log("**************************");
+    console.log(data);
 
-    // to get the length of the entire records returned in one objectyou can do the following
-    // console.log(Object.keys(data).length);
-    var objectLength = Object.keys(data).length;
+    // const tableHeader = [];
+    let count = 0;
 
-    // loop through the data object and calcuate required fields and remove 2 redundant columns that have issues with invalid dates.
-    for (var i = 0; i < objectLength; i++) {
-        if (data[i].hasOwnProperty("timeslot_from")) {
-            // add 2 new keys
-            data[i].shift_start = convertUnixTime(
-                Number(data[i].timeslot_from)
-            );
-            data[i].shift_end = convertUnixTime(Number(data[i].timeslot_to));
-            // convert the text timeslot data to numbers and then convert
-            // var temp_ts_from = convertUnixTime(Number(data[i].timeslot_from));
-            // var temp_ts_to = convertUnixTime(Number(data[i].timeslot_to));
+    // data.map((item) => {
+    //     Object.keys(item).forEach((key, value) => {
+    //         console.log(key, value);
+    //     });
+    // });
 
-            // data[i].timeslot_from = temp_ts_from;
-            // data[i].timeslot_to = temp_ts_to;
+    // data.map((item) => {
+    //     Object.values(item).map((value, index) => {
+    //         console.log(value);
+    //     });
+    // });
 
-            // calculate breaktime
-            data[i].breakTime = calculateBreak(data[i].rostered_hours);
-            // calculate actual work time
-            data[i].actualWorkTime = data[i].rostered_hours - data[i].breakTime;
-            data[i].pay = data[i].actualWorkTime * data[i].pay_rate;
-
-            // remove the redundant timeslot_from, timeslot_to keys as they seem to have invalid dates being displayed.
-            delete data[i].timeslot_from;
-            delete data[i].timeslot_to;
-
-            // delete the shift start end times.
-            delete data[i].shift_start;
-            delete data[i].shift_end;
-        }
-    }
-
-    var newDataObject = calculateCorrectPay(data);
+    // take a copy and clone the data object
+    var clonedObject = Object.assign({}, data);
+    var data2 = calculateCorrectJobWagesPay(clonedObject);
 
     // determine the table headings
-    var tableHeader = calculateHeadings(newDataObject);
+    var tableHeader = calculateHeadings(data2);
     // calculate TOTALS for the bottom of the report
-    var reportTotals = calculateReportTotals(newDataObject);
+    var reportTotals = calculateReportTotals(data2);
 
     return (
         <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
@@ -86,7 +59,6 @@ function ViewWeeklyWageRoster(props) {
                     <LeftSidebar />
                 </MDBCol>
             </MDBRow>
-
             <MDBRow>
                 {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
                 <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
@@ -125,7 +97,7 @@ function ViewWeeklyWageRoster(props) {
                                         </thead>
                                         {/* <tbody>{tableBody}</tbody> */}
                                         <tbody>
-                                            {newDataObject.map((item) => (
+                                            {data2.map((item) => (
                                                 <tr>
                                                     {Object.values(item).map(
                                                         (value, index) => (
@@ -136,7 +108,6 @@ function ViewWeeklyWageRoster(props) {
                                             ))}
                                             <tr>
                                                 Total Wages:
-                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td>
@@ -182,4 +153,4 @@ function ViewWeeklyWageRoster(props) {
     );
 }
 
-export default ViewWeeklyWageRoster;
+export default ViewWeeklyJobWageRoster;
