@@ -2,6 +2,7 @@ const { runSql } = require("./queries");
 const bcrypt = require("bcrypt");
 
 const doLogin = async (email, password) => {
+  //changed here
   const sql =
     "select users.email,users.password, users.user_id, groups.title from users,staff,stafftogroups,groups where users.email=staff.email and staff.staff_id=stafftogroups.staff_member_id and stafftogroups.staff_role_id=groups.id and users.email=$1;";
   const params = [email];
