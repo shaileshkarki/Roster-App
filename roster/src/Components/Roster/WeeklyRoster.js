@@ -163,11 +163,11 @@ function WeeklyRoster(props) {
         </MDBCol>
       </MDBRow>
       <MDBRow className="button-panel">
-        <MDBCol sm="6" md="5" lg="4" xl="3">
+        {/* <MDBCol sm="6" md="5" lg="4" xl="3">
           <Button href="#" btn-block>
             Publish
           </Button>
-        </MDBCol>
+        </MDBCol> */}
         <MDBCol sm="6" md="5" lg="4" xl="3">
           <Button href="/admin" btn-block>
             Back to Admin

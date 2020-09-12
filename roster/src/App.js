@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useMemo } from "react";
 import "./App.css";
 import { Route, NavLink, BrowserRouter as Router } from "react-router-dom";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
@@ -30,154 +30,119 @@ import WeeklyRoster from "./Components/Roster/WeeklyRoster";
 import RosterTemplate from "./Components/Roster/RosterTemplate";
 import ViewRosterScreen from "./Components/Roster/ViewRosterScreen";
 import RosterAdmin from "./Components/Admin/RosterAdmin";
-const App = () => {
-    return (
-        <Router>
-            <MDBContainer className="wrapper screen-font" fluid>
-                <MDBRow className="header">
-                    <MDBCol size="12" sm="12" lg="12">
-                        <header>
-                            <h1>
-                                <center>Roster Application</center>{" "}
-                            </h1>
-                        </header>
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow className="navigation">
-                    <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-                        <NavbarPage />
-                    </MDBCol>
-                </MDBRow>
-                <MDBRow className="main-content">
-                    <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-                        {/* 02/09 GJ: Added View Wages component */}
-                        <Route path="/wages" component={Wages} />
-                        <Route
-                            path="/viewWeeklyWages/:rosterID"
-                            component={WeeklyWageRoster}
-                        />
-                        {/* 07/09: GJ: Added this */}
-                        <Route
-                            path="/viewWeeklyJobWages/:rosterID"
-                            component={WeeklyWageJobRoster}
-                        />
-                        {/* 07/09: GJ: Added this */}
-                        <Route
-                            path="/viewWeeklyStaffWages/:username"
-                            component={WeeklyWageStaffWagesRoster}
-                        />
-                        <Route path="/rosterAdmin" component={RosterAdmin} />
-                        <Route path="/ViewRoster" component={RosterScreen} />
-                        <Route
-                            path="/viewWeeklyRoster/:rosterID"
-                            component={WeeklyRoster}
-                        />
-                        <Route
-                            path="/ViewRosterScreen"
-                            component={ViewRoster}
-                        />
-                        <Route
-                            path="/CreateRosterScreen"
-                            component={CreateRosterScreen}
-                        />
-                        <Route
-                            path="/ViewRosterScreen2"
-                            component={ViewRosterScreen}
-                        />
-                        <Route path="/about" component={About} />
-                        <Route path="/contact" component={ContactUs} />
-                        <Route path="/admin" component={AdminPanel} />
-                        <Route path="/register" component={Register} />
-                        <Route path="/login" component={Login} />
-                        <Route path="/createGroup" component={CreateGroup} />
-                        <Route
-                            path="/StaffListScreen"
-                            component={StaffListScreen}
-                        />
-                        <Route
-                            path="/StaffNewScreen"
-                            component={StaffNewScreen}
-                        />
-                        <Route
-                            path="/StaffEditScreen"
-                            component={StaffEditScreen}
-                        />
-                        <Route
-                            path="/PublicHolidays"
-                            component={PublicHolidays}
-                        />
-                        <Route path="/ViewGroups" component={ViewGroups} />
-                        <Route
-                            path="/GroupEditScreen"
-                            component={GroupEditScreen}
-                        />
-                        <Route
-                            path="/AdminShiftScreen"
-                            component={AdminShiftScreen}
-                        />
-                        <Route exact path="/" component={Home} />
-                    </MDBCol>
-                </MDBRow>
-                {/* <MDBRow className="report-menu">
-          <MDBCol size="12" sm="12">
-            Reports
-          </MDBCol>
-        </MDBRow> */}
-                {/* <MDBRow className="footer">
-          <MDBCol size="12" sm="12" lg="12">
-            <Footer />
-          </MDBCol>
-        </MDBRow> */}
-            </MDBContainer>
-        </Router>
-    );
-};
+import PrivateRoute from "./PrivateRoute";
+import { AuthContext } from "./context/auth";
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <Router>
-//         <Row>
-//           <Col>
-//             <header>
-//               <h1>
-//                 <center>Roster Application</center>{" "}
-//               </h1>
-//             </header>
-//           </Col>
-//         </Row>
-//         <CustomNavbar />
+function App(props) {
+  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+  console.log("existingitem", existingTokens);
+  const [authTokens, setAuthTokens] = useState(existingTokens);
 
-//         {/* <div class="row content">
+  const setTokens = (data) => {
+    localStorage.setItem("tokens", JSON.stringify(data));
+    setAuthTokens(data);
+  };
+  return (
+    <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
+      <Router>
+        <MDBContainer className="wrapper screen-font" fluid>
+          <MDBRow className="header">
+            <MDBCol size="12" sm="12" lg="12">
+              <header>
+                <h1>
+                  <center>Roster Application</center>{" "}
+                </h1>
+              </header>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow className="navigation">
+            <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+              <NavbarPage />
+            </MDBCol>
+          </MDBRow>
+          <MDBRow className="main-content">
+            <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+              {/* 02/09 GJ: Added View Wages component */}
+              <Route path="/wages" component={Wages} />
+              <Route
+                path="/viewWeeklyWages/:rosterID"
+                component={WeeklyWageRoster}
+              />
+              {/* 07/09: GJ: Added this */}
+              <Route
+                path="/viewWeeklyJobWages/:rosterID"
+                component={WeeklyWageJobRoster}
+              />
+              {/* 07/09: GJ: Added this */}
+              <Route
+                path="/viewWeeklyStaffWages/:username"
+                component={WeeklyWageStaffWagesRoster}
+              />
+              <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
+              <PrivateRoute path="/wages" component={Wages} />
+              <PrivateRoute path="/ViewRoster" component={RosterScreen} />
+              <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
 
-//           <MiddleContainer />
-//         </div> */}
+              <PrivateRoute
+                path="/ViewRosterScreen2"
+                component={ViewRosterScreen}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/contact" component={ContactUs} />
+              <PrivateRoute path="/admin" component={AdminPanel} />
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
 
-//         {/* <Footer /> */}
-//         {/* <footer class="container-fluid text-center">
-//           <p>Footer Text</p>
-//         </footer> */}
-//         <Row>
-//           <Col>
-//             <Route path="/about" component={About} />
-//             <Route path="/contact" component={ContactUs} />
-//             <Route path="/admin" component={AdminPanel} />
-//             <Route path="/register" component={Register} />
-//             <Route path="/login" component={Login} />
-//             <Route exact path="/" component={Home} />
-//             <Route path="/StaffListScreen" component={StaffListScreen} />
-//             <Route path="/StaffNewScreen" component={StaffNewScreen} />
-//             <Route path="/StaffEditScreen" component={StaffEditScreen} />
-//           </Col>
-//         </Row>
-
-//         {/* GJ: removed the ROW and COL tags as this was preventing the footer in being on the botom */}
-//         <footer class="container-fluid text-center glenfooter">
-//           <p>Footer Text</p>
-//         </footer>
-//       </Router>
-//     );
-//   }
-// }
+              {authTokens != null &&
+              (authTokens.role.includes("Manager") ||
+                authTokens.role.includes("Supervisor")) ? (
+                <>
+                  <PrivateRoute
+                    path="/StaffNewScreen"
+                    component={StaffNewScreen}
+                  />
+                  <PrivateRoute
+                    path="/StaffEditScreen"
+                    component={StaffEditScreen}
+                  />
+                  <PrivateRoute path="/ViewGroups" component={ViewGroups} />
+                  <PrivateRoute
+                    path="/GroupEditScreen"
+                    component={GroupEditScreen}
+                  />
+                  <PrivateRoute
+                    path="/CreateRosterScreen"
+                    component={CreateRosterScreen}
+                  />
+                  <PrivateRoute
+                    path="/viewWeeklyWages/:rosterID"
+                    component={WeeklyWageRoster}
+                  />
+                  <PrivateRoute path="/createGroup" component={CreateGroup} />
+                  <PrivateRoute
+                    path="/StaffListScreen"
+                    component={StaffListScreen}
+                  />
+                </>
+              ) : (
+                "" // alert("Only managers and supervisors can add or edit")
+              )}
+              <PrivateRoute path="/PublicHolidays" component={PublicHolidays} />
+              <PrivateRoute
+                path="/viewWeeklyRoster/:rosterID"
+                component={WeeklyRoster}
+              />
+              <PrivateRoute
+                path="/AdminShiftScreen"
+                component={AdminShiftScreen}
+              />
+              <Route exact path="/" component={Home} />
+            </MDBCol>
+          </MDBRow>
+        </MDBContainer>
+      </Router>
+    </AuthContext.Provider>
+  );
+}
 
 export default App;

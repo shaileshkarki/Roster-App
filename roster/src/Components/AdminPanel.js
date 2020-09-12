@@ -8,21 +8,9 @@ import MiddleContainer from "./MiddleContainer";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 function AdminPanel(props) {
   return (
-    // <div>
-    //   <div class="container-fluid text-center">
-    //     <LeftSidebar />
-    //     {/* <MiddleContainer /> */}
-    //     <div class="col-sm-10 text-left">
-    //       <p>Actual login content goes here</p>
-    //       <h1>PLACE MAIN SCREEN HERE</h1>
-    //       <p>This is where the main action will occur</p>
-    //     </div>
-    //   </div>
-    //   <ReportsFooter />
-    // </div>
     <div>
       <MDBRow center>
-        <MDBCol >
+        <MDBCol>
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
