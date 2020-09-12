@@ -17,12 +17,7 @@ function NavbarPage(props) {
   const { authTokens, setAuthTokens } = useAuth();
   console.log("nvbar authContext", authTokens);
   function logOut() {
-    // console.log("Logout", authTokens);
-    // console.log("tokens", localStorage.getItem("tokens"));
-    // localStorage.removeItem("tokens");
-    // console.log("getItem", localStorage.getItem("tokens"));
     setAuthTokens(null);
-    // console.log("Logout", authTokens);
     return <Redirect to="/" />;
   }
   return (
@@ -54,15 +49,15 @@ function NavbarPage(props) {
         </MDBNavbarNav>
         <MDBNavbarNav right>
           {authTokens ? (
-            <MDBNavItem>
+            <>
               <MDBNavLink to="#">{authTokens.email}</MDBNavLink>{" "}
               <MDBBtn onClick={logOut}>Log out</MDBBtn>
-            </MDBNavItem>
+            </>
           ) : (
-            <MDBNavItem>
+            <>
               <MDBNavLink to="/register">Register</MDBNavLink>{" "}
               <MDBNavLink to="/login">Login</MDBNavLink>
-            </MDBNavItem>
+            </>
           )}
         </MDBNavbarNav>
       </MDBCollapse>

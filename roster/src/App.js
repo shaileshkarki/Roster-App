@@ -36,7 +36,6 @@ import { AuthContext } from "./context/auth";
 function App(props) {
   const existingTokens = JSON.parse(localStorage.getItem("tokens"));
   console.log("existingitem", existingTokens);
-  // const existingTokens = localStorage.getItem("tokens");
   const [authTokens, setAuthTokens] = useState(existingTokens);
 
   const setTokens = (data) => {
@@ -80,16 +79,10 @@ function App(props) {
                 component={WeeklyWageStaffWagesRoster}
               />
               <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
+              <PrivateRoute path="/wages" component={Wages} />
               <PrivateRoute path="/ViewRoster" component={RosterScreen} />
-              <PrivateRoute
-                path="/viewWeeklyRoster/:rosterID"
-                component={WeeklyRoster}
-              />
               <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
-              <PrivateRoute
-                path="/CreateRosterScreen"
-                component={CreateRosterScreen}
-              />
+
               <PrivateRoute
                 path="/ViewRosterScreen2"
                 component={ViewRosterScreen}
@@ -99,11 +92,7 @@ function App(props) {
               <PrivateRoute path="/admin" component={AdminPanel} />
               <Route path="/register" component={Register} />
               <Route path="/login" component={Login} />
-              <PrivateRoute path="/createGroup" component={CreateGroup} />
-              <PrivateRoute
-                path="/StaffListScreen"
-                component={StaffListScreen}
-              />
+
               {authTokens != null &&
               (authTokens.role.includes("Manager") ||
                 authTokens.role.includes("Supervisor")) ? (
@@ -116,15 +105,32 @@ function App(props) {
                     path="/StaffEditScreen"
                     component={StaffEditScreen}
                   />
+                  <PrivateRoute path="/ViewGroups" component={ViewGroups} />
+                  <PrivateRoute
+                    path="/GroupEditScreen"
+                    component={GroupEditScreen}
+                  />
+                  <PrivateRoute
+                    path="/CreateRosterScreen"
+                    component={CreateRosterScreen}
+                  />
+                  <PrivateRoute
+                    path="/viewWeeklyWages/:rosterID"
+                    component={WeeklyWageRoster}
+                  />
+                  <PrivateRoute path="/createGroup" component={CreateGroup} />
+                  <PrivateRoute
+                    path="/StaffListScreen"
+                    component={StaffListScreen}
+                  />
                 </>
               ) : (
                 "" // alert("Only managers and supervisors can add or edit")
               )}
               <PrivateRoute path="/PublicHolidays" component={PublicHolidays} />
-              <PrivateRoute path="/ViewGroups" component={ViewGroups} />
               <PrivateRoute
-                path="/GroupEditScreen"
-                component={GroupEditScreen}
+                path="/viewWeeklyRoster/:rosterID"
+                component={WeeklyRoster}
               />
               <PrivateRoute
                 path="/AdminShiftScreen"
@@ -133,67 +139,10 @@ function App(props) {
               <Route exact path="/" component={Home} />
             </MDBCol>
           </MDBRow>
-          {/* <MDBRow className="report-menu">
-          <MDBCol size="12" sm="12">
-            Reports
-          </MDBCol>
-        </MDBRow> */}
-          {/* <MDBRow className="footer">
-          <MDBCol size="12" sm="12" lg="12">
-            <Footer />
-          </MDBCol>
-        </MDBRow> */}
         </MDBContainer>
       </Router>
     </AuthContext.Provider>
   );
 }
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <Router>
-//         <Row>
-//           <Col>
-//             <header>
-//               <h1>
-//                 <center>Roster Application</center>{" "}
-//               </h1>
-//             </header>
-//           </Col>
-//         </Row>
-//         <CustomNavbar />
-
-//         {/* <div class="row content">
-
-//           <MiddleContainer />
-//         </div> */}
-
-//         {/* <Footer /> */}
-//         {/* <footer class="container-fluid text-center">
-//           <p>Footer Text</p>
-//         </footer> */}
-//         <Row>
-//           <Col>
-//             <Route path="/about" component={About} />
-//             <Route path="/contact" component={ContactUs} />
-//             <Route path="/admin" component={AdminPanel} />
-//             <Route path="/register" component={Register} />
-//             <Route path="/login" component={Login} />
-//             <Route exact path="/" component={Home} />
-//             <Route path="/StaffListScreen" component={StaffListScreen} />
-//             <Route path="/StaffNewScreen" component={StaffNewScreen} />
-//             <Route path="/StaffEditScreen" component={StaffEditScreen} />
-//           </Col>
-//         </Row>
-
-//         {/* GJ: removed the ROW and COL tags as this was preventing the footer in being on the botom */}
-//         <footer class="container-fluid text-center glenfooter">
-//           <p>Footer Text</p>
-//         </footer>
-//       </Router>
-//     );
-//   }
-// }
 
 export default App;
