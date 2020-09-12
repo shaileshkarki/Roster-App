@@ -68,7 +68,7 @@ function Roster({
         newItems[i].title = name;
         console.log(newItems[i].title);
         console.log(("selected", newItems[i].selected));
-        e.target.textContent = name;
+        // e.target.textContent = name;
         newItems[i].staff_id = staffId;
 
         break;
@@ -87,7 +87,7 @@ function Roster({
         console.log(newItems[i].title);
         newItems[i].title = "Unallocated";
         console.log(newItems[i].title);
-        e.target.textContent = "Unallocated";
+        //e.target.textContent = "unallocated";
         newItems[i].staff_id = "none";
 
         break;
@@ -218,7 +218,7 @@ function Roster({
         setShiftDetails({
           startTime: items[i].start_time,
           endTime: items[i].end_time,
-          name: e.target.textContent,
+          name: items[i].title,
           event: e,
           filteredStaff: filteredStaff,
           id: items[i].id,
@@ -302,6 +302,105 @@ function Roster({
         lineHeight={100}
         onItemMove={(itemId, time) => handleItemMove(itemId, time)}
         onItemClick={(itemId, e, time) => handleItemClick(itemId, e, time)}
+        itemRenderer={({
+          item,
+          timelineContext,
+          itemContext,
+          getItemProps,
+          getResizeProps,
+        }) => {
+          const {
+            left: leftResizeProps,
+            right: rightResizeProps,
+          } = getResizeProps();
+          const backgroundColor = itemContext.selected
+            ? itemContext.dragging
+              ? "red"
+              : "beige"
+            : itemContext.title.toLowerCase() === "unallocated"
+            ? "red"
+            : "green";
+          const borderColor = itemContext.resizing ? "red" : item.color;
+          return (
+            <div
+              {...getItemProps({
+                style: {
+                  backgroundColor,
+                  color: item.color,
+                  // borderColor,
+                  // borderStyle: "solid",
+                  // borderWidth: 1,
+                  borderRadius: 4,
+                  borderLeftWidth: itemContext.selected ? 3 : 1,
+                  borderRightWidth: itemContext.selected ? 3 : 1,
+                },
+              })}
+            >
+              {itemContext.useResizeHandle ? (
+                <div {...leftResizeProps} />
+              ) : null}
+
+              <div
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    lineHeight: "initial",
+                    textAlign: "left",
+                  }}
+                >
+                  Start:
+                  {moment(item.start_time).format("h:mm a")}
+                </div>
+                <div
+                  style={{
+                    height: "100%",
+                    lineHeight: "initial",
+                  }}
+                >
+                  {itemContext.title}
+                </div>
+                <div
+                  style={{
+                    height: "100%",
+                    textAlign: "left",
+                    lineHeight: "initial",
+                  }}
+                >
+                  End: {moment(item.end_time).format("h:mm a")}
+                </div>
+              </div>
+              {/* <div
+                style={{
+                  height: itemContext.dimensions.height,
+                  overflow: "hidden",
+                  paddingLeft: 3,
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {itemContext.title}
+              </div> */}
+
+              {itemContext.useResizeHandle ? (
+                <div {...rightResizeProps} />
+              ) : null}
+            </div>
+          );
+        }}
+        timeSteps={{
+          minute: 30,
+          hour: 1,
+          day: 1,
+          month: 1,
+          year: 1,
+        }}
       />
       {shiftDetails && (
         <ShiftDetail
@@ -330,6 +429,7 @@ function Roster({
           items={items}
           handleSetAddShift={setAddShift}
           weekNumber={weekNumber}
+          startDate={startTime}
         />
       )}
     </div>

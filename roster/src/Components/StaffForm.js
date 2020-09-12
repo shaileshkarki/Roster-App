@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MDBRow, MDBCol, MDBInput } from "mdbreact";
 import "./StaffNewScreen.css";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import useApi from "../hooks/useApi";
 
 import {
   invalidEmailMsg,
@@ -21,6 +22,34 @@ function StaffForm({ data }) {
   const [postCode, setPostCode] = useState(data ? data.postcode : "");
   const [email, setEmail] = useState(data ? data.email : "");
   const [phone, setPhone] = useState(data ? data.phone_number : "");
+  const [roles, setRoles] = useState([]);
+
+  const { data: groups, request: getAllGroups } = useApi(
+    "http://localhost:9000/groups"
+  );
+  const { data: staffRoles, request: getStaffRoles } = useApi(
+    `http://localhost:9000/staff/assignedroles/${staffId}`
+  );
+
+  const loadGroups = async () => {
+    let groups = await getAllGroups();
+    let roles = { data: [] };
+    if (staffId !== "") {
+      roles = await getStaffRoles();
+    }
+    for (let i = 0; i < groups.data.length; i++) {
+      for (let x = 0; x < roles.data.length; x++) {
+        if (roles.data[x].staff_role_id === groups.data[i].id) {
+          groups.data[i].checked = true;
+        }
+      }
+    }
+    setRoles(groups.data);
+  };
+  useEffect(() => {
+    loadGroups();
+  }, []);
+
   let history = useHistory();
 
   const handleFirstNameChange = (e) => {
@@ -80,6 +109,23 @@ function StaffForm({ data }) {
   };
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
+    let hasRole = false;
+    let assignedRoles = [];
+    groups.forEach((group) => {
+      console.log(
+        "update groups = " + group.title + " checked = " + group.checked
+      );
+    });
+
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].checked) {
+        hasRole = true;
+        assignedRoles.push(groups[i]);
+      }
+    }
+    if (!hasRole) {
+      return;
+    }
     const response = await axios.put(`http://localhost:9000/staff/${staffId}`, {
       updatedStaffMember: {
         staffId,
@@ -91,6 +137,7 @@ function StaffForm({ data }) {
         postCode,
         email,
         phone,
+        roles: assignedRoles,
       },
     });
     console.log(response.status);
@@ -102,9 +149,24 @@ function StaffForm({ data }) {
     }
   };
   const handleSubmit = async (e) => {
-    e.target.classList.add("waves-effect");
-    // debugger;
     e.preventDefault();
+    groups.forEach((group) => {
+      console.log(
+        "submit groups = " + group.title + " checked = " + group.checked
+      );
+    });
+    let hasRole = false;
+    let assignedRoles = [];
+    for (let i = 0; i < groups.length; i++) {
+      if (groups[i].checked) {
+        hasRole = true;
+        assignedRoles.push(groups[i]);
+      }
+    }
+    if (!hasRole) {
+      return;
+    }
+    // debugger;
 
     try {
       const response = await axios.post("http://localhost:9000/staff", {
@@ -118,6 +180,7 @@ function StaffForm({ data }) {
           email,
           phone,
           isActive: true,
+          roles: assignedRoles,
         },
       });
       if (response.status === 200) {
@@ -128,6 +191,7 @@ function StaffForm({ data }) {
       alert(`${error.response.statusText} \n${error}\n${error.response.data}`);
     }
   };
+
   return (
     <div>
       <MDBRow center>
@@ -139,6 +203,47 @@ function StaffForm({ data }) {
             <p className="h5 text-center ">
               {data ? "Edit Staff" : "Add New Staff"}
             </p>
+            <div>
+              <MDBRow center>
+                <MDBCol sm="12" md="9" lg="7">
+                  {roles.map((group, index) => (
+                    <div key={index} className="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        className="custom-control-input"
+                        defaultChecked={group.checked}
+                        id={`${group.id}`}
+                        onChange={() => {
+                          let newRoles = [...roles];
+                          for (let i = 0; i < newRoles.length; i++) {
+                            if (newRoles[i].id === group.id) {
+                              newRoles[i].checked = newRoles[i].checked
+                                ? false
+                                : true;
+                              console.log(
+                                "role = " +
+                                  group.title +
+                                  "checked = " +
+                                  newRoles[i].checked
+                              );
+
+                              break;
+                            }
+                          }
+                          setRoles([...newRoles]);
+                        }}
+                      />
+                      <label
+                        className="custom-control-label"
+                        htmlFor={`${group.id}`}
+                      >
+                        {group.title}
+                      </label>
+                    </div>
+                  ))}
+                </MDBCol>
+              </MDBRow>
+            </div>
             <div className="grey-text">
               <MDBRow center>
                 <MDBCol sm="12" md="9" lg="7">
