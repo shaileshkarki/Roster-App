@@ -82,53 +82,23 @@ CREATE TABLE groups
     id SERIAL PRIMARY KEY,
     title VARCHAR(40),
     group_duration INTEGER,
-    pay_rate NUMERIC(4,2)
+    pay_rate NUMERIC(4,2),
+    is_active BOOLEAN
 );
 
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Manager', 6, 35.5);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Supervisor', 4, 30);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Chef', 4, 40);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Pastry Chef', 4, 27);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Dishwasher', 4, 17);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Sandwich Artist', 3, 18);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Bar Tender', 4, 22);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Cocktail maker', 4, 28);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Kitchen Hand', 3, 15);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Waiter', 3, 19.5);
-INSERT INTO groups
-    (title,group_duration,pay_rate)
-VALUES
-    ('Waitress', 3, 19.5);
+
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Manager',6,35.5,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Supervisor',4,30,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Chef',4,40,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Pastry Chef',4,27,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Dishwasher',4,17,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Sandwich Artist',3,18,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Bar Tender',4,22,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Cocktail maker',4,28,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Kitchen Hand',3,15,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Waiter',3,19.5,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Waitress',3,19.5,TRUE);
+
 
 
 
@@ -147,64 +117,24 @@ CREATE TABLE staff
     email VARCHAR(50),
     is_active BOOLEAN,
     phone_number INTEGER,
-    user_id INTEGER,
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
-    
-
+    UNIQUE (email)
+   
 );
 
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('KKrueger', 'Kaiya', 'Krueger', '1 Smith St', 'Melbourne', 'VIC', 3000, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Great Worker', 'Kaiya@geemail.com', TRUE, 1010101010, 1);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('KSoto', 'Keon', 'Soto', '2 Smith St', 'Frankston Sth', 'VIC', 3199, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Works well', 'Keon@geemail.com', TRUE, 1001002000, 2);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('MHenson', 'Makena', 'Henson', '3 Smith St', 'Mt Eliza', 'VIC', 3930, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Easy going', 'Makena@geemail.com', TRUE, 1212121212, 3);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('KDavidson', 'Korbin', 'Davidson', '4 Smith St', 'Melbourne', 'VIC', 3000, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Friendly', 'Korbin@geemail.com', TRUE, 1321321321, 4);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('SNicholson', 'Skyler', 'Nicholson', '5 Smith St', 'Mornington', 'VIC', 3931, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Great Worker', 'Skyler@geemail.com', TRUE, 1221122112, 5);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('LSellers', 'Lindsay', 'Sellers', '6 Smith St', 'Melbourne', 'VIC', 3000, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Works well', 'Lindsay@geemail.com', TRUE, 1234432112, 6);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('ANichols', 'Alejandro', 'Nichols', '7 Smith St', 'Melbourne', 'VIC', 3000, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Easy going', 'Alejandro@geemail.com', TRUE, 1222222222, 7);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('KJackson', 'Khalil', 'Jackson', '8 Smith St', 'Glen Waverley', 'VIC', 3150, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Friendly', 'Khalil@geemail.com', TRUE, 1000100000, 8);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('AMoody', 'Alvin', 'Moody', '9 Smith St', 'Frankston Sth', 'VIC', 3199, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Great Worker', 'Alvin@geemail.com', TRUE, 1324343220, 9);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('PBonilla', 'Porter', 'Bonilla', '10 Smith St', 'Mt Eliza', 'VIC', 3930, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Works well', 'Porter@geemail.com', TRUE, 1555555555, 10);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('NBonilla', 'Natalee', 'Bonilla', '11 Smith St', 'Essendon', 'VIC', 3040, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Easy going', 'Natalee@geemail.com', TRUE, 1234565430, 11);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('AHarding', 'Allyson', 'Harding', '12 Smith St', 'Essendon', 'VIC', 3040, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Friendly', 'Allyson@geemail.com', TRUE, 1000666660, 12);
-INSERT INTO staff
-    (username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number,user_id)
-VALUES
-    ('Bblank', 'Blank', 'Blank', 'Blank', 'Blank', 'VIC', 3000, 'https://api.adorable.io/avatars/285/abott@adorable.png', 'Blank', 'Blank@geemail.com', TRUE, 1000000001, 13);
+
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('KKrueger','Kaiya','Krueger','1 Smith St','Melbourne','VIC',3000,'https://api.adorable.io/avatars/285/abott@adorable.png','Great Worker','Kaiya@geemail.com',TRUE,1010101010);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('KSoto','Keon','Soto','2 Smith St','Frankston Sth','VIC',3199,'https://api.adorable.io/avatars/285/abott@adorable.png','Works well','Keon@geemail.com',TRUE,1001002000);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('MHenson','Makena','Henson','3 Smith St','Mt Eliza','VIC',3930,'https://api.adorable.io/avatars/285/abott@adorable.png','Easy going','Makena@geemail.com',TRUE,1212121212);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('KDavidson','Korbin','Davidson','4 Smith St','Melbourne','VIC',3000,'https://api.adorable.io/avatars/285/abott@adorable.png','Friendly','Korbin@geemail.com',TRUE,1321321321);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('SNicholson','Skyler','Nicholson','5 Smith St','Mornington','VIC',3931,'https://api.adorable.io/avatars/285/abott@adorable.png','Great Worker','Skyler@geemail.com',TRUE,1221122112);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('LSellers','Lindsay','Sellers','6 Smith St','Melbourne','VIC',3000,'https://api.adorable.io/avatars/285/abott@adorable.png','Works well','Lindsay@geemail.com',TRUE,1234432112);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('ANichols','Alejandro','Nichols','7 Smith St','Melbourne','VIC',3000,'https://api.adorable.io/avatars/285/abott@adorable.png','Easy going','Alejandro@geemail.com',TRUE,1222222222);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('KJackson','Khalil','Jackson','8 Smith St','Glen Waverley','VIC',3150,'https://api.adorable.io/avatars/285/abott@adorable.png','Friendly','Khalil@geemail.com',TRUE,1000100000);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('AMoody','Alvin','Moody','9 Smith St','Frankston Sth','VIC',3199,'https://api.adorable.io/avatars/285/abott@adorable.png','Great Worker','Alvin@geemail.com',TRUE,1324343220);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('PBonilla','Porter','Bonilla','10 Smith St','Mt Eliza','VIC',3930,'https://api.adorable.io/avatars/285/abott@adorable.png','Works well','Porter@geemail.com',TRUE,1555555555);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('NBonilla','Natalee','Bonilla','11 Smith St','Essendon','VIC',3040,'https://api.adorable.io/avatars/285/abott@adorable.png','Easy going','Natalee@geemail.com',TRUE,1234565430);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('AHarding','Allyson','Harding','12 Smith St','Essendon','VIC',3040,'https://api.adorable.io/avatars/285/abott@adorable.png','Friendly','Allyson@geemail.com',TRUE,1000666660);
+INSERT INTO staff(username,firstname,lastname,address,city,state,postcode,picture_url,notes,email,is_active,phone_number) VALUES ('Bblank','Blank','Blank','Blank','Blank','VIC',3000,'https://api.adorable.io/avatars/285/abott@adorable.png','Blank','Blank@geemail.com',TRUE,1000000001);
 
 CREATE TABLE stafftogroups
 (
@@ -1241,32 +1171,6 @@ INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,shift_start_date,roster
 INSERT INTO shifts(timeslot_from,timeslot_to,isAllocated,shift_start_date,roster_id,staff_id,phol_id,group_id,title) VALUES  (1601049600,1601060400,TRUE,'2020-09-25',5,12,1,2,'UnAllocated');
 
 
-
-
-
-
-CREATE TABLE blank_shifts
-(
-    blank_shift_id SERIAL PRIMARY KEY NOT NULL,
-    timeslot_from VARCHAR(13) NOT NULL,
-    timeslot_to VARCHAR(13) NOT NULL,
-    isAllocated BOOLEAN DEFAULT 'False' NOT NULL,
-    staff_id INTEGER
-
-);
-
-CREATE TABLE blank_roster
-(
-    blank_roster_id SERIAL PRIMARY KEY NOT NULL,
-    title VARCHAR(50),
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    week_number SERIAL,
-    status VARCHAR(9),
-    shift_id INTEGER,
-    phol_id INTEGER
-
-);
 
 -- WHAT WERE EACH PERSONS WAGE ON A SPECIFIC DATE?
 

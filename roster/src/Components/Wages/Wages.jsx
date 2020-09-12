@@ -1,6 +1,7 @@
 // This module will be used to display weekly / monthly / daily wages in a paginated table
 import React, { useEffect, useState } from "react";
 import useWagesAPI from "../../hooks/useWagesAPI";
+import useStaffApi from "../../hooks/useStaffApi";
 import axios from "axios";
 import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
 import {
@@ -16,7 +17,6 @@ import PaginationTable from "rbtpagination";
 import useAPI from "../../hooks/useApi.js";
 
 const searchByCriteraiList = [
-    { label: "Staff ID", key: "staff_id" },
     { label: "Roster Week", key: "roster_id" },
     { label: "Username", key: "username" },
     { label: "Title", key: "title" },
@@ -25,7 +25,6 @@ const searchByCriteraiList = [
     { label: "Total Pay (include break)", key: "total_shift_pay" },
 ];
 const tableColumnsAndDataKeys = [
-    { label: "Staff ID", key: "staff_id" },
     { label: "Roster Week", key: "roster_id" },
     { label: "Username", key: "username" },
     { label: "Title", key: "title" },
@@ -47,6 +46,11 @@ function Wages({}) {
         "http://localhost:9000/wages"
     );
 
+    // obtain the staff usernames for the drop down menu
+    const { data: allUniqueUsernames, request: getAllUsernames } = useAPI(
+        "http://localhost:9000/wages/allusernames"
+    );
+
     // the method below simply obtains a list of all the unique roles in our database.was going to use each role as a parameter for reports.
     const {
         data: uniqueRoleTitles,
@@ -66,15 +70,21 @@ function Wages({}) {
         getTotalRosterOneRoleWages();
         getRosters();
         getEachRosterWeekWagesByEachPersonAndRole();
+        getAllUsernames();
     }, []);
 
     // obtain the week number so we can populate the drop down list
     let weekTitles = [];
     // map through teh rosters data object and collate all week titles to an array
-    rosters.map((roster) => {
-        weekTitles.push(roster.title);
-    });
-    console.log(weekTitles);
+    // rosters.map((roster) => {
+    //     weekTitles.push(roster.title);
+    // });
+
+    // obtain the usernames for the drop down box for 3rd report
+    // let uniqueNames = [];
+    // allUniqueUsernames.map((usernames) => {
+    //     uniqueNames.push(usernames);
+    // });
 
     const handleTotalWagesRosterOne = async (e) => {
         e.preventDefault();
@@ -155,7 +165,7 @@ function Wages({}) {
                         <MDBDropdownMenu basic>
                             {rosters.map((roster) => (
                                 <MDBDropdownItem
-                                    href={`/viewWeeklyRoster/${roster.roster_id}`}
+                                    href={`/viewWeeklyJobWages/${roster.roster_id}`}
                                 >
                                     {roster.title}
                                 </MDBDropdownItem>
@@ -168,11 +178,11 @@ function Wages({}) {
                         </Button>
                         <MDBDropdownToggle caret color="primary" />
                         <MDBDropdownMenu basic>
-                            {rosters.map((roster) => (
+                            {allUniqueUsernames.map((usernames) => (
                                 <MDBDropdownItem
-                                    href={`/viewWeeklyRoster/${roster.roster_id}`}
+                                    href={`/viewWeeklyStaffWages/${usernames.username}`}
                                 >
-                                    {roster.title}
+                                    {usernames.username}
                                 </MDBDropdownItem>
                             ))}
                         </MDBDropdownMenu>
@@ -180,7 +190,7 @@ function Wages({}) {
                 </MDBRow>
             </MDBCol>
 
-            <button
+            {/* <button
                 onClick={handleTotalWagesRosterOne}
                 className="btn btn-primary"
             >
@@ -192,9 +202,9 @@ function Wages({}) {
                 tableData={tableColumnsAndDataKeys}
                 handleItemClick={false}
                 itemsPerPage={20}
-            />
+            /> */}
 
-            <button
+            {/* <button
                 onClick={handleTotalRoleWagesRosterOne}
                 className="btn btn-primary"
             >
@@ -206,20 +216,20 @@ function Wages({}) {
                 tableData={tableColumnsAndDataKeys}
                 handleItemClick={false}
                 itemsPerPage={20}
-            />
-            <button
+            /> */}
+            {/* <button
                 onClick={handlegetGachRosterWeekWagesByEachPersonAndRole}
                 className="btn btn-primary"
             >
-                Load Wages by Roster ID, Person, Role Table
+                Interactive Data Table Below
             </button>
             <PaginationTable
                 dataSet={allrosterpersontitlewages}
                 searchData={searchByCriteraiList}
                 tableData={tableColumnsAndDataKeys}
                 handleItemClick={false}
-                itemsPerPage={20}
-            />
+                itemsPerPage={40}
+            /> */}
         </MDBContainer>
     );
 }
