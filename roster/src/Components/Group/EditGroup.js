@@ -44,7 +44,7 @@ function EditGroup(props) {
     // }
 
     try {
-      const response = await axios.post("http://localhost:9000/groups/", {
+      const response = await axios.post("/groups/", {
         newGroup: {
           groupTitle,
           groupDuration,

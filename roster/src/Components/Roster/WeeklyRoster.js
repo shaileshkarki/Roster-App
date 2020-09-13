@@ -16,7 +16,7 @@ const options = {
 function WeeklyRoster(props) {
   const [totalHour, setTotalHour] = useState(0);
   const { data, request: getShifts } = useApi(
-    `http://localhost:9000/roster/${props.match.params.rosterID}`
+    `/roster/${props.match.params.rosterID}`
   );
   let shifts = {};
   let Total = {};

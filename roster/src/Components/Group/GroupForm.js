@@ -33,10 +33,7 @@ function GroupForm({ data }) {
   const handleRemoveGroup = async (e) => {
     console.log("Delete");
 
-    const response = await axios.delete(
-      `http://localhost:9000/groups/delete/${groupId}`,
-      {}
-    );
+    const response = await axios.delete(`/groups/delete/${groupId}`, {});
     console.log(response.status);
     if (response.status === 200) {
       console.log(response.statusText);
@@ -47,16 +44,13 @@ function GroupForm({ data }) {
   };
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios.put(
-      `http://localhost:9000/groups/edit/${groupId}`,
-      {
-        updatedGroup: {
-          title,
-          groupDuration,
-          payRate,
-        },
-      }
-    );
+    const response = await axios.put(`/groups/edit/${groupId}`, {
+      updatedGroup: {
+        title,
+        groupDuration,
+        payRate,
+      },
+    });
     console.log(response.status);
     if (response.status === 200) {
       console.log(response.statusText);
@@ -71,7 +65,7 @@ function GroupForm({ data }) {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:9000/group", {
+      const response = await axios.post("/group", {
         newGroup: {
           title,
           groupDuration,
@@ -95,7 +89,7 @@ function GroupForm({ data }) {
             onSubmit={data ? handleUpdateSubmit : handleSubmit}
           >
             <p className="h5 text-center ">
-              {data ? "Edit Staff" : "Add New Staff"}
+              {data ? "Edit Group" : "Add New Group"}
             </p>
             <div className="grey-text">
               <MDBRow center>
@@ -178,7 +172,7 @@ function GroupForm({ data }) {
                     value="Submit"
                     className="btn btn-primary my-3 btn-block mr-2"
                   >
-                    {data ? "Update Staff" : "Create New Staff"}
+                    {data ? "Update Group" : "Create New Group"}
                   </Button>
                 </MDBCol>
                 {/* <button className="btn btn-primary my-4 btn-block" type="submit">
@@ -201,7 +195,7 @@ function GroupForm({ data }) {
                 <MDBCol sm="12" md="9" lg="7">
                   <Button
                     className="btn btn-primary my-3 btn-block"
-                    href="/ViewGroup"
+                    href="/ViewGroups"
                   >
                     Back
                   </Button>

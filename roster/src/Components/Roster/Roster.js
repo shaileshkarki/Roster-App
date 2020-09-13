@@ -38,7 +38,7 @@ function Roster({
   title,
 }) {
   // const { shifts: groups, request: getAllGroups } = useApi(
-  //   "http://localhost:9000/groups"
+  //   "/groups"
 
   // );
   console.log("^^^^^", new Date(startDate).toISOString());
@@ -49,9 +49,7 @@ function Roster({
   const [rosterWeekNumber, setRosterWeekNumber] = useState(weekNumber);
   const [shiftDetails, setShiftDetails] = useState(null);
   const [addShift, setAddShift] = useState(null);
-  const { data: staff, request: getStaff } = useApi(
-    "http://localhost:9000/staff/roles"
-  );
+  const { data: staff, request: getStaff } = useApi("/staff/roles");
   const [startTime, setStartTime] = useState(new Date(startDate));
   const [endTime, setEndTime] = useState(moment(endDate).add(24, "hours"));
   let history = useHistory();
@@ -233,7 +231,7 @@ function Roster({
     e.preventDefault();
     if (create) {
       try {
-        const response = await axios.post("http://localhost:9000/roster", {
+        const response = await axios.post("/roster", {
           shifts: items,
           weekNumber,
           title,
@@ -251,7 +249,7 @@ function Roster({
       }
     } else {
       try {
-        const response = await axios.put("http://localhost:9000/roster", {
+        const response = await axios.put("/roster", {
           shifts: items,
           weekNumber,
         });
@@ -287,7 +285,9 @@ function Roster({
         >
           Add Shift
         </Button>
-        <Button className="btn btn-primary my-3 btn-block mr-2">close</Button>
+        <Button href="/admin" className="btn btn-primary my-3 btn-block mr-2">
+          close
+        </Button>
       </div>
       <Timeline
         className="timeline"
