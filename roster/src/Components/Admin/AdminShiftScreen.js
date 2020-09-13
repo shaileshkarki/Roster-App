@@ -12,9 +12,7 @@ import {
 } from "../../lib/formValidation";
 
 function AdminShiftScreen(props) {
-  const { data: groups, request: getAllGroups } = useApi(
-    "http://localhost:9000/groups"
-  );
+  const { data: groups, request: getAllGroups } = useApi("/groups");
   const [selectedGroup, setSelectedGroup] = useState({});
   const [minDuration, setMinDuration] = useState("");
   const [title, setTitle] = useState("");
@@ -38,7 +36,7 @@ function AdminShiftScreen(props) {
     }
 
     try {
-      const response = await axios.post("http://localhost:9000/shift", {
+      const response = await axios.post("/shift", {
         newShift: {
           minDuration,
           title,

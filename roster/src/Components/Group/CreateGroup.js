@@ -44,7 +44,7 @@ function CreateGroup(props) {
     // }
 
     try {
-      const response = await axios.post("http://localhost:9000/groups/create", {
+      const response = await axios.post("/groups/create", {
         newGroup: {
           groupTitle,
           groupDuration,
@@ -74,7 +74,7 @@ function CreateGroup(props) {
             onSubmit={handleSubmit}
             className="staff-new-form border border-light p-5"
           >
-            <p className="text-center h4  mb-4">{"Add Staff Role (Group)"}</p>
+            <p className="text-center h4  mb-4">{"Add New Group"}</p>
             <div className="grey-text">
               <MDBInput
                 label="Group Title"
@@ -124,10 +124,10 @@ function CreateGroup(props) {
                 required
                 name="payRate"
                 minLength="1"
-                maxLength="5"
+                maxLength="9"
                 onChange={handlePayRateChange}
-                onInvalid={(e) => invalidNumber(e, 1, 5)}
-                onInput={(e) => invalidNumber(e, 1, 5)}
+                onInvalid={(e) => invalidNumber(e, 1, 9)}
+                onInput={(e) => invalidNumber(e, 1, 9)}
                 autoComplete="new-password"
                 // value={}
               />
@@ -138,7 +138,7 @@ function CreateGroup(props) {
               value="Submit"
               className="btn btn-primary my-3 btn-block mr-2"
             >
-              {"Create New Role or Group"}
+              {"Create New Group"}
             </Button>
 
             <Button

@@ -72,15 +72,12 @@ function Register({}) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:9000/users/register",
-        {
-          user: {
-            email,
-            password,
-          },
-        }
-      );
+      const response = await axios.post("/users/register", {
+        user: {
+          email,
+          password,
+        },
+      });
       console.log("location");
       if (response.data === true) {
         alert("user created");

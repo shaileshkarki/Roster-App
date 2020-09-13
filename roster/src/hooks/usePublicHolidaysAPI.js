@@ -7,7 +7,7 @@ export default function usePublicHolidaysAPI() {
   const [data, setData] = useState([]);
   //console.log("GLEN WAS HERE - WHY DOES THIS HOOK GET CALLED 4 times???");
   const request = async () => {
-    const response = await axios.get("http://localhost:9000/pubholidays"); //pubholidays
+    const response = await axios.get("/pubholidays"); //pubholidays
     // assign the data rows from the database to setData
     setData(response.data);
 

@@ -34,11 +34,9 @@ function CreateRosterScreen(props) {
     // console.log(newStartTime.toLocaleString());
     return startTime;
   };
-  const { data: groups, request: getAllGroups } = useApi(
-    "http://localhost:9000/groups"
-  );
+  const { data: groups, request: getAllGroups } = useApi("/groups");
   const { data: weekNumberFromDatabase, request: getWeekNumber } = useApi(
-    "http://localhost:9000/roster/weeknumber"
+    "/roster/weeknumber"
   );
   const [selectedGroup, setSelectedGroup] = useState({});
   const [numberOfShifts, setNumberOfShifts] = useState([]);

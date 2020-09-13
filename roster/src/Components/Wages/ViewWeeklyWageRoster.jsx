@@ -21,7 +21,7 @@ const options = {
 function ViewWeeklyWageRoster(props) {
   const [totalHour, setTotalHour] = useState(0);
   const { data, request: getDesiredWeekWages } = useApi(
-    `http://localhost:9000/wages1/${props.match.params.rosterID}`
+    `/wages1/${props.match.params.rosterID}`
   );
 
   let first_record = {};

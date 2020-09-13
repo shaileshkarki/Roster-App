@@ -24,11 +24,9 @@ function StaffForm({ data }) {
   const [phone, setPhone] = useState(data ? data.phone_number : "");
   const [roles, setRoles] = useState([]);
 
-  const { data: groups, request: getAllGroups } = useApi(
-    "http://localhost:9000/groups"
-  );
+  const { data: groups, request: getAllGroups } = useApi("/groups");
   const { data: staffRoles, request: getStaffRoles } = useApi(
-    `http://localhost:9000/staff/assignedroles/${staffId}`
+    `/staff/assignedroles/${staffId}`
   );
 
   const loadGroups = async () => {
@@ -82,23 +80,20 @@ function StaffForm({ data }) {
   const handleRemoveStaff = async (e) => {
     console.log("Delete");
 
-    const response = await axios.put(
-      `http://localhost:9000/staff/remove/${staffId}`,
-      {
-        removedStaffMember: {
-          staffId,
-          firstname,
-          lastname,
-          address,
-          city,
-          state,
-          postCode,
-          email,
-          phone,
-          isActive: false,
-        },
-      }
-    );
+    const response = await axios.put(`/staff/remove/${staffId}`, {
+      removedStaffMember: {
+        staffId,
+        firstname,
+        lastname,
+        address,
+        city,
+        state,
+        postCode,
+        email,
+        phone,
+        isActive: false,
+      },
+    });
     console.log(response.status);
     if (response.status === 200) {
       console.log(response.statusText);
@@ -110,9 +105,7 @@ function StaffForm({ data }) {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
 
-    const isEmailOk = await axios.get(
-      `http://localhost:9000/staff/email/${email}/${staffId}`
-    );
+    const isEmailOk = await axios.get(`/staff/email/${email}/${staffId}`);
 
     if (isEmailOk.data === false) {
       alert(email + " already exists");
@@ -135,7 +128,7 @@ function StaffForm({ data }) {
     if (!hasRole) {
       return;
     }
-    const response = await axios.put(`http://localhost:9000/staff/${staffId}`, {
+    const response = await axios.put(`/staff/${staffId}`, {
       updatedStaffMember: {
         staffId,
         firstname,
@@ -161,9 +154,7 @@ function StaffForm({ data }) {
     e.preventDefault();
 
     // Check for unique email.
-    const isEmailUnique = await axios.get(
-      `http://localhost:9000/staff/email/${email}`
-    );
+    const isEmailUnique = await axios.get(`/staff/email/${email}`);
 
     if (isEmailUnique.data === false) {
       alert(email + " already exists");
@@ -189,7 +180,7 @@ function StaffForm({ data }) {
     // debugger;
 
     try {
-      const response = await axios.post("http://localhost:9000/staff", {
+      const response = await axios.post("/staff", {
         newStaffMember: {
           firstname,
           lastname,

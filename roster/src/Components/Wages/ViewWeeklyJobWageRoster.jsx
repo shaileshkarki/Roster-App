@@ -18,7 +18,7 @@ const options = {
 
 function ViewWeeklyJobWageRoster(props) {
   const { data, request: getDesiredWeekJobWages } = useApi(
-    `http://localhost:9000/wages1/jobtitle/${props.match.params.rosterID}`
+    `/wages1/jobtitle/${props.match.params.rosterID}`
   );
 
   useEffect(() => {

@@ -12,9 +12,7 @@ import {
 } from "mdbreact";
 
 function ViewRoster({}) {
-  const { data: rosters, request: getRosters } = useApi(
-    "http://localhost:9000/roster/allRosters"
-  );
+  const { data: rosters, request: getRosters } = useApi("/roster/allRosters");
   useEffect(() => {
     getRosters();
   }, []);

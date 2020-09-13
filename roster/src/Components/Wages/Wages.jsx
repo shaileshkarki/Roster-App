@@ -38,30 +38,28 @@ function Wages({}) {
   // const { data2, request: getSpecificDayWages } = useWagesAPI();
 
   // obtain the week numbers from the rosters query
-  const { data: rosters, request: getRosters } = useAPI(
-    "http://localhost:9000/roster/allRosters"
-  );
+  const { data: rosters, request: getRosters } = useAPI("/roster/allRosters");
 
   const { data: rosterOneWages, request: getTotalRosterOneWages } = useAPI(
-    "http://localhost:9000/wages1"
+    "/wages1"
   );
 
   // obtain the staff usernames for the drop down menu
   const { data: allUniqueUsernames, request: getAllUsernames } = useAPI(
-    "http://localhost:9000/wages1/allusernames"
+    "/wages1/allusernames"
   );
 
   // the method below simply obtains a list of all the unique roles in our database.was going to use each role as a parameter for reports.
   const {
     data: uniqueRoleTitles,
     request: getTotalRosterOneRoleWages,
-  } = useAPI("http://localhost:9000/wages1/uniqueroles");
+  } = useAPI("/wages1/uniqueroles");
 
   // the poitn of the below is obtain the dataset that catpures for each roster ID, the person, role and the wages paid out.
   const {
     data: allrosterpersontitlewages,
     request: getEachRosterWeekWagesByEachPersonAndRole,
-  } = useAPI("http://localhost:9000/wages1/eachrosterswagesbyperson");
+  } = useAPI("/wages1/eachrosterswagesbyperson");
 
   useEffect(() => {
     // run a query to obtain all results from the query
@@ -88,7 +86,7 @@ function Wages({}) {
 
   const handleTotalWagesRosterOne = async (e) => {
     e.preventDefault();
-    const response = await axios.get(`http://localhost:9000/wages1`, {});
+    const response = await axios.get(`/wages1`, {});
     console.log(response.status);
     // if (response.status === 200) {
     //     console.log(response.statusText);
@@ -101,10 +99,7 @@ function Wages({}) {
 
   const handleTotalRoleWagesRosterOne = async (e) => {
     e.preventDefault();
-    const response = await axios.get(
-      `http://localhost:9000/wages1/uniqueroles`,
-      {}
-    );
+    const response = await axios.get(`/wages1/uniqueroles`, {});
     console.log(response.status);
     // if (response.status === 200) {
     //     console.log(response.statusText);
@@ -117,10 +112,7 @@ function Wages({}) {
 
   const handlegetGachRosterWeekWagesByEachPersonAndRole = async (e) => {
     e.preventDefault();
-    const response = await axios.get(
-      `http://localhost:9000/wages1/eachrosterswagesbyperson`,
-      {}
-    );
+    const response = await axios.get(`/wages1/eachrosterswagesbyperson`, {});
     console.log(response.status);
     // if (response.status === 200) {
     //     console.log(response.statusText);

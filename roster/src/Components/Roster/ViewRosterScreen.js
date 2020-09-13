@@ -17,18 +17,16 @@ function ViewRosterScreen(props) {
   const [shifts, setShifts] = useState([]);
   const [rosterPeriodDates, setRosterPeriodDates] = useState({});
   const { data: weekNumbersFromDatabase, request: getWeekNumbers } = useApi(
-    "http://localhost:9000/roster/weeks"
+    "/roster/weeks"
   );
-  const { data: groups, request: getAllGroups } = useApi(
-    "http://localhost:9000/groups"
-  );
+  const { data: groups, request: getAllGroups } = useApi("/groups");
 
   const { data: shiftsFromDatabase, request: getShifts } = useApi(
-    `http://localhost:9000/roster/shifts/${weekNumber}`
+    `/roster/shifts/${weekNumber}`
   );
 
   const { request: getRosterPeriodDates } = useApi(
-    `http://localhost:9000/roster/dates/${weekNumber}`
+    `/roster/dates/${weekNumber}`
   );
 
   const [displayRoster, setDisplayRoster] = useState(false);

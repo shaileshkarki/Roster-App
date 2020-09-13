@@ -22,9 +22,7 @@ const tableColumnsAndDataKeys = [
   { label: "Per Hour Rate", key: "pay_rate" },
 ];
 function ViewGroup(props) {
-  const { data, request: getAllGroups } = useApi(
-    `http://localhost:9000/groups/`
-  );
+  const { data, request: getAllGroups } = useApi(`/groups/`);
   // All group from database
 
   useEffect(() => {

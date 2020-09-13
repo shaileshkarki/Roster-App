@@ -22,7 +22,7 @@ const tableColumnsAndDataKeys = [
 function PublicHolidays(props) {
   //   const { data, request: getAllPublicHolidays } = usePublicHolidaysAPI();
   const { data, request: getAllPublicHolidays } = useAPI(
-    "http://localhost:9000/pubholidays"
+    "/pubholidays"
   );
   useEffect(() => {
     // run a query to obtain all public holidays from the database
@@ -42,7 +42,7 @@ function PublicHolidays(props) {
 
   const handleLoadPublicHolidays = async (e) => {
     e.preventDefault();
-    const response = await axios.put(`http://localhost:9000/pubholidays`, {}); //pubholidays
+    const response = await axios.put(`/pubholidays`, {}); //pubholidays
     console.log(response.status);
     // if (response.status === 200) {
     //     console.log(response.statusText);
