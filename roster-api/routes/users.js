@@ -23,10 +23,11 @@ router.post("/register", async function (req, res, next) {
   try {
     const savedUser = await createUser(email, hashedPassword);
     console.log("Saved staff member", savedUser);
+    console.log("savedUser", savedUser);
     res.send(savedUser);
   } catch (error) {
     console.log("Email already exists", error);
-    res.status(500);
+    // res.status(500);
     res.send(error.message);
   }
 });

@@ -79,7 +79,6 @@ function App(props) {
                 component={WeeklyWageStaffWagesRoster}
               />
               <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
-              <PrivateRoute path="/wages" component={Wages} />
               <PrivateRoute path="/ViewRoster" component={RosterScreen} />
               <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
 
@@ -113,10 +112,6 @@ function App(props) {
                   <PrivateRoute
                     path="/CreateRosterScreen"
                     component={CreateRosterScreen}
-                  />
-                  <PrivateRoute
-                    path="/viewWeeklyWages/:rosterID"
-                    component={WeeklyWageRoster}
                   />
                   <PrivateRoute path="/createGroup" component={CreateGroup} />
                   <PrivateRoute
