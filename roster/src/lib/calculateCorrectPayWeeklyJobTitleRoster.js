@@ -78,7 +78,7 @@ const calculatePay = (data) => {
         // console.log(`temp_actualWorkTimeHours`, totalActualWorkTimeHours);
 
         //calculate actual pay_rate
-        var totalPay = jt[2] * totalActualWorkTimeHours;
+        var totalPay = Math.round(jt[2] * totalActualWorkTimeHours * 100) / 100;
 
         // reset the arrays
         var temp_rosteredHours = [];
@@ -107,7 +107,7 @@ const calculatePay = (data) => {
         return {
             roster_id: item[0],
             title: item[1],
-            pay_rate: item[2],
+            pay_rate: "$" + item[2].toFixed(2),
             rostered_hours: item[3],
             breakTime: item[4],
             acutalWorkTime: item[5],

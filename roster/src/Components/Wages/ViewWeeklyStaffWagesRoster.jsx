@@ -33,10 +33,22 @@ function ViewWeeklyStaffWageRoster(props) {
     // obtain all the necessary calculation and return data as a new object
     var data2 = calculateCorrectPayStaff(clonedObject);
 
-    // determine the table headings
-    var tableHeader = calculateHeadings(data2);
     // calculate TOTALS for the bottom of the report
     var reportTotals = calculateReportTotals(data2);
+
+    // determine the table headings
+    // var tableHeader = calculateHeadings(data2);
+
+    var tableHeader = [
+        "Roster ID",
+        "Username",
+        "Job Title",
+        "Hourly $ Rate",
+        "Rostered Hours",
+        "Break Time",
+        "Actual Work Time",
+        "Total Pay",
+    ];
 
     return (
         <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
@@ -113,7 +125,7 @@ function ViewWeeklyStaffWageRoster(props) {
                                                     }
                                                 </td>
                                                 <td>
-                                                    {reportTotals.totalWages}
+                                                    ${reportTotals.totalWages}
                                                 </td>
                                             </tr>
                                         </tbody>
