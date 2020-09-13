@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FormErrors from "./FormErrors";
 import { Redirect } from "react-router-dom";
-import { ToastContainer, MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import {
+  ToastContainer,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+} from "mdbreact";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -12,7 +19,7 @@ import {
   invalidMinMaxMsg,
 } from "../lib/formValidation";
 
-function Register({ }) {
+function Register({}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
@@ -74,12 +81,16 @@ function Register({ }) {
           },
         }
       );
-      if (response.status === 200) {
-        console.log(response.statusText);
-        history.replace("/login");
+      console.log("location");
+      if (response.data === true) {
+        alert("user created");
+        // return <Redirect to="/" />;
+        history.push("/");
+      } else {
+        alert("Email already exists");
       }
     } catch (error) {
-      alert("Email already exists");
+      alert("Error", error);
     }
   };
   return (
@@ -167,7 +178,7 @@ function Register({ }) {
               Register
             </button>
 
-            <p>or sign up with:</p>
+            <p>or sign up with:(under development)</p>
 
             <a href="#" class="mx-2" role="button">
               <i class="fab fa-facebook-f light-blue-text"></i>

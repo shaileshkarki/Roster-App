@@ -51,6 +51,7 @@ function Login(props) {
         setLoggedIn(true);
       } else {
         setIsError(true);
+        alert(result.data);
       }
     } catch (e) {
       setIsError(true);
@@ -118,7 +119,7 @@ function Login(props) {
               </Button>
             </div>
           </form>
-          {isError && <p>The username or password provided were incorrect!</p>}
+          {/* {isError && <p>The username or password provided were incorrect!</p>} */}
         </MDBCol>
       </MDBRow>
     </div>
