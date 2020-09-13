@@ -9,7 +9,10 @@ const {
   getStaffRoles,
   getAllActiveStaffAndRoles,
   getRolesForStaffMember,
+  checkIsEmailUnique,
+  checkIsEmailSameAsBeforeUpdate,
 } = require("../db/staffQueries");
+const { runSql } = require("../db/queries");
 
 /* GET all staff */
 router.get("/", async function (req, res, next) {
@@ -37,6 +40,26 @@ router.get("/assignedroles/:staffId", async (req, res) => {
   return roles;
 });
 
+router.get("/email/:email/:staffId", async (req, res) => {
+  console.log("email", req.params.email);
+  console.log("staff Id", req.params.staffId);
+  const isEmailSameAsBeforeUpdate = await checkIsEmailSameAsBeforeUpdate(
+    req.params.email,
+    req.params.staffId
+  );
+  if (isEmailSameAsBeforeUpdate) {
+    res.send(isEmailSameAsBeforeUpdate);
+  } else {
+    const isEmailUnique = await checkIsEmailUnique(req.params.email);
+    res.send(isEmailUnique);
+  }
+});
+
+router.get("/email/:email", async (req, res) => {
+  console.log("email", req.params.email);
+  const isEmailUnique = await checkIsEmailUnique(req.params.email);
+  res.send(isEmailUnique);
+});
 /* Create staff member */
 router.post("/", async function (req, res, next) {
   console.log(req.body.newStaffMember);

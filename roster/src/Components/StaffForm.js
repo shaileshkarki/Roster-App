@@ -72,7 +72,7 @@ function StaffForm({ data }) {
   };
 
   const handleEmailChange = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value.toLowerCase());
   };
 
   const handlePhoneChange = (e) => {
@@ -109,6 +109,15 @@ function StaffForm({ data }) {
   };
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
+
+    const isEmailOk = await axios.get(
+      `http://localhost:9000/staff/email/${email}/${staffId}`
+    );
+
+    if (isEmailOk.data === false) {
+      alert(email + " already exists");
+      return;
+    }
     let hasRole = false;
     let assignedRoles = [];
     groups.forEach((group) => {
@@ -150,6 +159,17 @@ function StaffForm({ data }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check for unique email.
+    const isEmailUnique = await axios.get(
+      `http://localhost:9000/staff/email/${email}`
+    );
+
+    if (isEmailUnique.data === false) {
+      alert(email + " already exists");
+      return;
+    }
+
     groups.forEach((group) => {
       console.log(
         "submit groups = " + group.title + " checked = " + group.checked

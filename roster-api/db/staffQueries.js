@@ -224,6 +224,31 @@ const removeStaffMember = async ({ staffId }) => {
     staffId,
   });
 };
+
+const checkIsEmailUnique = async (email) => {
+  const sql = "SELECT * from staff where email = $1;";
+  const params = [email];
+  console.log(email);
+  try {
+    const { rows } = await runSql(sql, params);
+    return rows.length > 0 ? false : true;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const checkIsEmailSameAsBeforeUpdate = async (email, staffId) => {
+  try {
+    const sql = "SELECT email FROM staff WHERE staff_id = $1;";
+    const params = [staffId];
+    const { rows } = await runSql(sql, params);
+
+    console.log(rows);
+    return rows[0].email === email;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   getAllActiveStaff,
   createStaffMember,
@@ -232,4 +257,6 @@ module.exports = {
   getStaffRoles,
   getAllActiveStaffAndRoles,
   getRolesForStaffMember,
+  checkIsEmailUnique,
+  checkIsEmailSameAsBeforeUpdate,
 };
