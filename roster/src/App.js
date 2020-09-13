@@ -1,6 +1,11 @@
 import React, { useState, useMemo } from "react";
 import "./App.css";
-import { Route, NavLink, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  NavLink,
+  Switch,
+  BrowserRouter as Router,
+} from "react-router-dom";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import ContactUs from "./Components/ContactUs";
 import Login from "./Components/Login";
@@ -45,96 +50,101 @@ function App(props) {
   return (
     <AuthContext.Provider value={{ authTokens, setAuthTokens: setTokens }}>
       <Router>
-        <MDBContainer className="wrapper screen-font" fluid>
-          <MDBRow className="header">
-            <MDBCol size="12" sm="12" lg="12">
-              <header>
-                <h1>
-                  <center>Roster Application</center>{" "}
-                </h1>
-              </header>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow className="navigation">
-            <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-              <NavbarPage />
-            </MDBCol>
-          </MDBRow>
-          <MDBRow className="main-content">
-            <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
-              {/* 02/09 GJ: Added View Wages component */}
-              <Route path="/wages" component={Wages} />
-              <Route
-                path="/viewWeeklyWages/:rosterID"
-                component={WeeklyWageRoster}
-              />
-              {/* 07/09: GJ: Added this */}
-              <Route
-                path="/viewWeeklyJobWages/:rosterID"
-                component={WeeklyWageJobRoster}
-              />
-              {/* 07/09: GJ: Added this */}
-              <Route
-                path="/viewWeeklyStaffWages/:username"
-                component={WeeklyWageStaffWagesRoster}
-              />
-              <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
-              <PrivateRoute path="/ViewRoster" component={RosterScreen} />
-              <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
+        <Switch>
+          <MDBContainer className="wrapper screen-font" fluid>
+            <MDBRow className="header">
+              <MDBCol size="12" sm="12" lg="12">
+                <header>
+                  <h1>
+                    <center>Roster Application</center>{" "}
+                  </h1>
+                </header>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow className="navigation">
+              <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+                <NavbarPage />
+              </MDBCol>
+            </MDBRow>
+            <MDBRow className="main-content">
+              <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
+                {/* 02/09 GJ: Added View Wages component */}
+                <Route path="/wages" component={Wages} />
+                <Route
+                  path="/viewWeeklyWages/:rosterID"
+                  component={WeeklyWageRoster}
+                />
+                {/* 07/09: GJ: Added this */}
+                <Route
+                  path="/viewWeeklyJobWages/:rosterID"
+                  component={WeeklyWageJobRoster}
+                />
+                {/* 07/09: GJ: Added this */}
+                <Route
+                  path="/viewWeeklyStaffWages/:username"
+                  component={WeeklyWageStaffWagesRoster}
+                />
+                <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
+                <PrivateRoute path="/ViewRoster" component={RosterScreen} />
+                <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
 
-              <PrivateRoute
-                path="/ViewRosterScreen2"
-                component={ViewRosterScreen}
-              />
-              <Route path="/about" component={About} />
-              <Route path="/contact" component={ContactUs} />
-              <PrivateRoute path="/admin" component={AdminPanel} />
-              <Route path="/register" component={Register} />
-              <Route path="/login" component={Login} />
+                <PrivateRoute
+                  path="/ViewRosterScreen2"
+                  component={ViewRosterScreen}
+                />
+                <Route path="/about" component={About} />
+                <Route path="/contact" component={ContactUs} />
+                <PrivateRoute path="/admin" component={AdminPanel} />
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
 
-              {authTokens != null &&
-              (authTokens.role.includes("Manager") ||
-                authTokens.role.includes("Supervisor")) ? (
-                <>
-                  <PrivateRoute
-                    path="/StaffNewScreen"
-                    component={StaffNewScreen}
-                  />
-                  <PrivateRoute
-                    path="/StaffEditScreen"
-                    component={StaffEditScreen}
-                  />
-                  <PrivateRoute path="/ViewGroups" component={ViewGroups} />
-                  <PrivateRoute
-                    path="/GroupEditScreen"
-                    component={GroupEditScreen}
-                  />
-                  <PrivateRoute
-                    path="/CreateRosterScreen"
-                    component={CreateRosterScreen}
-                  />
-                  <PrivateRoute path="/createGroup" component={CreateGroup} />
-                  <PrivateRoute
-                    path="/StaffListScreen"
-                    component={StaffListScreen}
-                  />
-                </>
-              ) : (
-                "" // alert("Only managers and supervisors can add or edit")
-              )}
-              <PrivateRoute path="/PublicHolidays" component={PublicHolidays} />
-              <PrivateRoute
-                path="/viewWeeklyRoster/:rosterID"
-                component={WeeklyRoster}
-              />
-              <PrivateRoute
-                path="/AdminShiftScreen"
-                component={AdminShiftScreen}
-              />
-              <Route exact path="/" component={Home} />
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
+                {authTokens != null &&
+                (authTokens.role.includes("Manager") ||
+                  authTokens.role.includes("Supervisor")) ? (
+                  <>
+                    <PrivateRoute
+                      path="/StaffNewScreen"
+                      component={StaffNewScreen}
+                    />
+                    <PrivateRoute
+                      path="/StaffEditScreen"
+                      component={StaffEditScreen}
+                    />
+                    <PrivateRoute path="/ViewGroups" component={ViewGroups} />
+                    <PrivateRoute
+                      path="/GroupEditScreen"
+                      component={GroupEditScreen}
+                    />
+                    <PrivateRoute
+                      path="/CreateRosterScreen"
+                      component={CreateRosterScreen}
+                    />
+                    <PrivateRoute path="/createGroup" component={CreateGroup} />
+                    <PrivateRoute
+                      path="/StaffListScreen"
+                      component={StaffListScreen}
+                    />
+                  </>
+                ) : (
+                  "" // alert("Only managers and supervisors can add or edit")
+                )}
+                <PrivateRoute
+                  path="/PublicHolidays"
+                  component={PublicHolidays}
+                />
+                <PrivateRoute
+                  path="/viewWeeklyRoster/:rosterID"
+                  component={WeeklyRoster}
+                />
+                <PrivateRoute
+                  path="/AdminShiftScreen"
+                  component={AdminShiftScreen}
+                />
+                <Route exact path="/" component={Home} />
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+        </Switch>
       </Router>
     </AuthContext.Provider>
   );
