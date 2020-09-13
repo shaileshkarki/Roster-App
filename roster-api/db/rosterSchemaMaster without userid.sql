@@ -74,66 +74,26 @@ INSERT INTO users
 VALUES
     ('allyson@geemail.com', 'password123');
 
-
-
-
 CREATE TABLE groups
 (
     id SERIAL PRIMARY KEY,
     title VARCHAR(40),
     group_duration INTEGER,
-    pay_rate NUMERIC(4,2),
+    pay_rate NUMERIC(8,2),
     is_active BOOLEAN DEFAULT TRUE
 );
 
-
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Manager', 6, 35.5, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Supervisor', 4, 30, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Chef', 4, 40, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Pastry Chef', 4, 27, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Dishwasher', 4, 17, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Sandwich Artist', 3, 18, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Bar Tender', 4, 22, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Cocktail maker', 4, 28, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Kitchen Hand', 3, 15, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Waiter', 3, 19.5, TRUE);
-INSERT INTO groups
-    (title,group_duration,pay_rate,is_active)
-VALUES
-    ('Waitress', 3, 19.5, TRUE);
-
-
-
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Manager',6,35.5,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Supervisor',4,30,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Chef',4,40,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Pastry Chef',4,27,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Dishwasher',4,17,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Sandwich Artist',3,18,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Bar Tender',4,22,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Cocktail maker',4,28,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Kitchen Hand',3,15,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Waiter',3,19.5,TRUE);
+INSERT INTO groups(title,group_duration,pay_rate,is_active) VALUES ('Waitress',3,19.5,TRUE);
 
 CREATE TABLE staff
 (

@@ -51,6 +51,16 @@ function ViewWeeklyJobWageRoster(props) {
     var tableHeader = calculateHeadings(data2);
     // calculate TOTALS for the bottom of the report
     var reportTotals = calculateReportTotals(data2);
+    // var tableHeader = calculateHeadings(newDataObject);
+    var tableHeader = [
+        "Roster ID",
+        "Job Title",
+        "Hourly $ Rate",
+        "Rostered Hours",
+        "Break Time",
+        "Actual Work Time",
+        "Total Pay",
+    ];
 
     return (
         <MDBContainer fluid size="12" sm="12" md="12" lg="12" xl="12">
@@ -126,7 +136,7 @@ function ViewWeeklyJobWageRoster(props) {
                                                     }
                                                 </td>
                                                 <td>
-                                                    {reportTotals.totalWages}
+                                                    ${reportTotals.totalWages}
                                                 </td>
                                             </tr>
                                         </tbody>

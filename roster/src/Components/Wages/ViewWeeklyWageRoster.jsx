@@ -75,7 +75,18 @@ function ViewWeeklyWageRoster(props) {
     var newDataObject = calculateCorrectPay(data);
 
     // determine the table headings
-    var tableHeader = calculateHeadings(newDataObject);
+    // var tableHeader = calculateHeadings(newDataObject);
+    var tableHeader = [
+        "Roster ID",
+        "Username",
+        "Job Title",
+        "Hourly $ Rate",
+        "Rostered Hours",
+        "Break Time",
+        "Actual Work Time",
+        "Total Pay",
+    ];
+
     // calculate TOTALS for the bottom of the report
     var reportTotals = calculateReportTotals(newDataObject);
 
@@ -155,7 +166,7 @@ function ViewWeeklyWageRoster(props) {
                                                     }
                                                 </td>
                                                 <td>
-                                                    {reportTotals.totalWages}
+                                                    ${reportTotals.totalWages}
                                                 </td>
                                             </tr>
                                         </tbody>
