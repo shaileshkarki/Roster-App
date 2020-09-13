@@ -24,55 +24,55 @@ CREATE TABLE users
 INSERT INTO users
     (email,password)
 VALUES
-    ('Blank@geemail.com', 'password123');
+    ('blank@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Kaiya@geemail.com', 'password123');
+    ('kaiya@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Keon@geemail.com', 'password123');
+    ('keon@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Makena@geemail.com', 'password123');
+    ('makena@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Korbin@geemail.com', 'password123');
+    ('korbin@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Skyler@geemail.com', 'password123');
+    ('skyler@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Lindsay@geemail.com', 'password123');
+    ('lindsay@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Alejandro@geemail.com', 'password123');
+    ('alejandro@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Khalil@geemail.com', 'password123');
+    ('khalil@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Alvin@geemail.com', 'password123');
+    ('alvin@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Porter@geemail.com', 'password123');
+    ('porter@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Natalee@geemail.com', 'password123');
+    ('natalee@geemail.com', 'password123');
 INSERT INTO users
     (email,password)
 VALUES
-    ('Allyson@geemail.com', 'password123');
+    ('allyson@geemail.com', 'password123');
 
 
 
@@ -83,7 +83,7 @@ CREATE TABLE groups
     title VARCHAR(40),
     group_duration INTEGER,
     pay_rate NUMERIC(4,2),
-    is_active BOOLEAN
+    is_active BOOLEAN DEFAULT TRUE
 );
 
 
