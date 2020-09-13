@@ -17,6 +17,21 @@ var wagesRouter = require("./routes/wages"); //02/09: GJ Added this router
 
 var app = express();
 
+// app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, "build")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "/build/index.html"));
+// });
+
+// -app.get("/", function (req, res) {
+//   +app.get("/*", function (req, res) {
+//     res.sendFile(path.join(__dirname, "build", "index.html"));
+//   });
+// });
+// app.get("/", function (req, res) {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -35,18 +50,30 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/staff", staffRouter);
 app.use("/testAPI", testAPIRouter);
 app.use("/register", registerRouter);
-app.use("/publicholidays", publicholidaysRouter);
+app.use("/pubholidays", publicholidaysRouter);
 app.use("/groups", groupsRouter);
 app.use("/roster", rosterRouter);
-app.use("/wages", wagesRouter); //02/09: GJ Added this router
-// catch 404 and forward to error handler
+app.use("/wages1", wagesRouter); //02/09: GJ Added this router
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+// before using this one
+// +app.get("/*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
+
+//added by shailesh
+// app.get("/*", function (req, res) {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
+
 app.use(function (req, res, next) {
   next(createError(404));
 });

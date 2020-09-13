@@ -71,7 +71,7 @@ function LeftSidebar(props) {
                   View Wage Report
                 </MDBDropdownItem>
                 <MDBDropdownItem divider />
-                <MDBDropdownItem href="PublicHolidays">
+                <MDBDropdownItem href="/PublicHolidays">
                   View Public Holidays
                 </MDBDropdownItem>
                 {/* <MDBDropdownItem href="">Edit Roster</MDBDropdownItem>
