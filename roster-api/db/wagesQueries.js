@@ -3,6 +3,8 @@ const { runSql } = require("./queries");
 const axios = require("axios");
 
 // INSERT QUERIES BELOW WHEN READY
+//
+//
 
 // GJ: The query below establishes the weekly pay for Roster ID 1 by person
 const getTotalRosterOneWages = async () => {
