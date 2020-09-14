@@ -7,18 +7,14 @@ function Profile({ profile }) {
     <div className="col-sm profile-hover">
       <div className="cnt-block equal-hight">
         <figure>
-          <img
-            src="../images/Glen-Avatar.png"
-            className="img-responsive"
-            alt=""
-          />
+          <img src={`${profile.avatar}`} className="img-responsive" alt="" />
         </figure>
         <h3>
           <a href={profile.portfolio} target="_blank" rel="noopener noreferrer">
             {profile.name}
           </a>
         </h3>
-        <p>{profile.titile}</p>
+        <p>{profile.title}</p>
         <div>
           <div>
             <a
@@ -45,6 +41,7 @@ function ContactUs(props) {
       name: "Glen Jones",
       title: "Software Engineer",
       portfolio: "https://www.glenjones.com.au/",
+      avatar: "../images/Glen-Avatar.png",
       linkedin: "https://www.linkedin.com/in/mrglenjones/",
       github: "https://github.com/mistergjones",
     },
@@ -52,6 +49,7 @@ function ContactUs(props) {
       name: "Peter Hristakos",
       title: "Software Engineer",
       portfolio: "http://peter-hristakos.surge.sh/",
+      avatar: "../images/Peter.png",
       linkedin: "https://www.linkedin.com/in/peter-hristakos/",
       github: "https://github.com/Hristakos",
     },
@@ -59,6 +57,7 @@ function ContactUs(props) {
       name: "Shailesh Karki",
       title: "Software Engineer",
       portfolio: "http://shaileshkarki.surge.sh/",
+      avatar: "../images/Shailesh.png",
       linkedin: "https://www.linkedin.com/in/shaileshkarki/",
       github: "https://github.com/shaileshkarki",
     },

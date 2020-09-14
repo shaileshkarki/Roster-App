@@ -90,3 +90,9 @@
     margin: auto;
   }
 }
+
+.jumbotron-home {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
