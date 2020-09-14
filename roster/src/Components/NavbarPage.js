@@ -32,7 +32,7 @@ function NavbarPage(props) {
       />
       <MDBCollapse id="navbarCollapse3" isOpen={isOpen} navbar>
         <MDBNavbarNav left>
-          <MDBNavItem active>
+          <MDBNavItem>
             <MDBNavLink exact to="/">
               Home
             </MDBNavLink>

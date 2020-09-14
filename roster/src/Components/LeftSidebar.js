@@ -46,7 +46,7 @@ function LeftSidebar(props) {
               </MDBDropdownToggle>
               <MDBDropdownMenu basic>
                 <MDBDropdownItem href="/StaffListScreen">
-                  View Staffs
+                  View Staff
                 </MDBDropdownItem>
                 <MDBDropdownItem divider />
                 <MDBDropdownItem href="/StaffNewScreen">

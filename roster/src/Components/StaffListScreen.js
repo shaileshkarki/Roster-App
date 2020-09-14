@@ -47,6 +47,7 @@ function StaffListScreen(props) {
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
+      <h2>Staff Administration</h2>
       <PaginationTable
         dataSet={data}
         searchData={searchByCriteraiList}
