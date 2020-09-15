@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useStaffApi from "../hooks/useStaffApi";
-import { MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol, MDBTypography } from "mdbreact";
 import PaginationTable from "rbtpagination";
 import { Button } from "react-bootstrap";
 
@@ -47,7 +47,9 @@ function StaffListScreen(props) {
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
-      <h2>Staff Administration</h2>
+      <MDBTypography tag="h2" variant="h2-responsive">
+        Staff Administration
+      </MDBTypography>
       <PaginationTable
         dataSet={data}
         searchData={searchByCriteraiList}

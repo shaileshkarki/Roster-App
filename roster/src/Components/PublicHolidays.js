@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
+import { MDBTypography, MDBCol, MDBTable } from "mdbreact";
 import LeftSidebar from "../Components/LeftSidebar.js";
 
 // import usePublicHolidaysAPI from "../hooks/usePublicHolidaysAPI";
@@ -58,7 +58,9 @@ function PublicHolidays(props) {
       <MDBCol sm="12" md="12" lg="12" xl="12">
         <LeftSidebar />
       </MDBCol>
-      <h2>Public Holidays</h2>
+      <MDBTypography tag="h2" variant="h2-responsive">
+        Public Holidays
+      </MDBTypography>
       <button onClick={handleLoadPublicHolidays} className="btn btn-primary">
         Load Public holidays
       </button>

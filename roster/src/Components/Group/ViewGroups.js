@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
-import { MDBRow, MDBCol } from "mdbreact";
+import { MDBRow, MDBCol, MDBTypography } from "mdbreact";
 import PaginationTable from "rbtpagination";
 import { Button } from "react-bootstrap";
 
@@ -36,7 +36,9 @@ function ViewGroup(props) {
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
-      <h2>Role Administration</h2>
+      <MDBTypography tag="h2" variant="h2-responsive">
+        Role Administration
+      </MDBTypography>
       <PaginationTable
         dataSet={data}
         searchData={searchByCriteraiList}

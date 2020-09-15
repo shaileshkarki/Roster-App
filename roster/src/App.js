@@ -6,7 +6,7 @@ import {
   Switch,
   BrowserRouter as Router,
 } from "react-router-dom";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBTypography } from "mdbreact";
 import ContactUs from "./Components/ContactUs";
 import Login from "./Components/Login";
 import About from "./Components/About";
@@ -39,12 +39,12 @@ import PrivateRoute from "./PrivateRoute";
 import { AuthContext } from "./context/auth";
 
 function App(props) {
-  const existingTokens = JSON.parse(localStorage.getItem("tokens"));
+  const existingTokens = JSON.parse(sessionStorage.getItem("tokens"));
   console.log("existingitem", existingTokens);
   const [authTokens, setAuthTokens] = useState(existingTokens);
 
   const setTokens = (data) => {
-    localStorage.setItem("tokens", JSON.stringify(data));
+    sessionStorage.setItem("tokens", JSON.stringify(data));
     setAuthTokens(data);
   };
   return (
@@ -54,11 +54,9 @@ function App(props) {
           <MDBContainer className="wrapper screen-font" fluid>
             <MDBRow className="header">
               <MDBCol size="12" sm="12" lg="12">
-                <header>
-                  <h1>
-                    <center>Roster Application</center>{" "}
-                  </h1>
-                </header>
+                <MDBTypography tag="h1" variant="h1-responsive">
+                  <center>Roster Application</center>{" "}
+                </MDBTypography>
               </MDBCol>
             </MDBRow>
             <MDBRow className="navigation">

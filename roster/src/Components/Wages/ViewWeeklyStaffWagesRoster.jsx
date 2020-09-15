@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import LeftSidebar from "../LeftSidebar";
-import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTable,
+  MDBTypography,
+} from "mdbreact";
 import ReactToPdf from "react-to-pdf";
 import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
 // import "../StaffListScreen.css";
@@ -57,7 +63,9 @@ function ViewWeeklyStaffWageRoster(props) {
           <LeftSidebar />
         </MDBCol>
       </MDBRow>
-      <h2>Wages By Staff</h2>
+      <MDBTypography tag="h2" variant="h2-responsive">
+        Wages By Staff
+      </MDBTypography>
       <MDBRow>
         {/* <MDBCol size="12" sm="4" md="4" lg="2" xl="2"></MDBCol> */}
         <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
