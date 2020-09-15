@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import LeftSidebar from "../LeftSidebar";
-import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBTable,
+  MDBTypography,
+} from "mdbreact";
 import ReactToPdf from "react-to-pdf";
 import { SplitButton, Dropdown, ButtonGroup, Button } from "react-bootstrap";
 import "../StaffListScreen.css";
@@ -61,7 +67,9 @@ function WeeklyRoster(props) {
       </MDBRow>
       <MDBRow>
         <MDBCol>
-          <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Roster</h2>
+          <MDBTypography tag="h2" variant="h2-responsive">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Roster
+          </MDBTypography>
         </MDBCol>
       </MDBRow>
       <MDBRow>

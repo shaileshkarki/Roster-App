@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import useWagesAPI from "../../hooks/useWagesAPI";
 import useStaffApi from "../../hooks/useStaffApi";
 import axios from "axios";
-import { MDBContainer, MDBRow, MDBCol, MDBTable } from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol, MDBTypography } from "mdbreact";
 import {
   MDBDropdown,
   MDBDropdownToggle,
@@ -136,7 +136,9 @@ function Wages({}) {
       </MDBRow>
 
       <MDBCol sm="12" md="12" lg="12" xl="12">
-        <h2>Report Wages</h2>
+        <MDBTypography tag="h2" variant="h2-responsive">
+          Report Wages
+        </MDBTypography>
         <MDBRow center>
           <MDBDropdown>
             <Button className="btn btn-primary mr-0">Wages by Roster</Button>

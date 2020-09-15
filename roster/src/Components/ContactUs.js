@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MDBIcon } from "mdbreact";
+import { MDBIcon, MDBTypography } from "mdbreact";
 
 function Profile({ profile }) {
   return (
@@ -64,15 +64,22 @@ function ContactUs(props) {
   ];
   return (
     <div>
-      <h1>Contact Us</h1>
+      <MDBTypography tag="h2" variant="h2-responsive">
+        Contact Us
+      </MDBTypography>
       <center>
         <div className="borderForm">
-          <h1>We'd love to hear from you</h1>
-          <p>
-            If you have a question about features or working of this website, or
-            would to like see other projects done by us, please click on links
-            below to our personal Github pages.
-          </p>
+          <MDBTypography
+            note
+            noteColor="info"
+            noteTitle="We'd love to hear from you"
+          >
+            <p>
+              If you have a question about features or working of this website,
+              or would to like see other projects done by us, please click on
+              links below to our personal Github pages.
+            </p>
+          </MDBTypography>
         </div>
       </center>
       <section className="our-team padding-lg">

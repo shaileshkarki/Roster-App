@@ -1,6 +1,6 @@
 // import React from "react";
 import React, { useEffect, useState } from "react";
-import { MDBRow, MDBCol, MDBInput, MDBBtn } from "mdbreact";
+import { MDBRow, MDBCol, MDBTypography } from "mdbreact";
 import { Button, ThemeProvider } from "react-bootstrap";
 import useApi from "../../hooks/useApi";
 import LeftSidebar from "../LeftSidebar";
@@ -30,7 +30,9 @@ function ViewRoster({}) {
           <LeftSidebar />
         </MDBCol>
 
-        <h2>View Roster </h2>
+        <MDBTypography tag="h2" variant="h2-responsive">
+          View Roster{" "}
+        </MDBTypography>
         <MDBCol sm="12" md="12" lg="12" xl="12">
           <MDBRow center>
             {statusArray.map((status) => (
