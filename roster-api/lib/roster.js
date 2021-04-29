@@ -20,6 +20,7 @@ const calculateBreak = function (shiftStartTime, shiftEndTime) {
   let startTime = convertMillisecondsToHour(shiftStartTime);
   let endTime = convertMillisecondsToHour(shiftEndTime);
   let shiftLength = endTime - startTime;
+  console.log({shiftLength});
   if (shiftLength <= 3.5) {
     return 0;
   } else if (shiftLength > 3.5 && shiftLength <= 5) {

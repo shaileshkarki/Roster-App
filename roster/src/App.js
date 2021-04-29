@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from "react";
 import "./App.css";
+
 import {
+  Redirect,
   Route,
   NavLink,
   Switch,
@@ -29,7 +31,7 @@ import WeeklyWageStaffWagesRoster from "./Components/Wages/ViewWeeklyStaffWagesR
 import CreateGroup from "./Components/Group/CreateGroup";
 import ViewGroups from "./Components/Group/ViewGroups";
 import GroupEditScreen from "./Components/Group/GroupEditScreen";
-
+import NoRouteComponent from "./Components/NoRouteComponent";
 import ViewRoster from "./Components/Roster/ViewRoster";
 import WeeklyRoster from "./Components/Roster/WeeklyRoster";
 import RosterTemplate from "./Components/Roster/RosterTemplate";
@@ -67,58 +69,85 @@ function App(props) {
             <MDBRow className="main-content">
               <MDBCol size="12" sm="12" md="12" lg="12" xl="12">
                 {/* 02/09 GJ: Added View Wages component */}
-                <Route path="/wages" component={Wages} />
-                <Route
+                <PrivateRoute exact path="/wages" component={Wages} />
+                <PrivateRoute
+                  exact
                   path="/viewWeeklyWages/:rosterID"
                   component={WeeklyWageRoster}
                 />
                 {/* 07/09: GJ: Added this */}
-                <Route
+                <PrivateRoute
+                  exact
                   path="/viewWeeklyJobWages/:rosterID"
                   component={WeeklyWageJobRoster}
                 />
                 {/* 07/09: GJ: Added this */}
-                <Route
+                <PrivateRoute
+                  exact
                   path="/viewWeeklyStaffWages/:username"
                   component={WeeklyWageStaffWagesRoster}
                 />
-                <PrivateRoute path="/rosterAdmin" component={RosterAdmin} />
-                <PrivateRoute path="/ViewRoster" component={RosterScreen} />
-                <PrivateRoute path="/ViewRosterScreen" component={ViewRoster} />
-
                 <PrivateRoute
+                  exact
+                  path="/rosterAdmin"
+                  component={RosterAdmin}
+                />
+                <PrivateRoute
+                  exact
+                  path="/ViewRoster"
+                  component={RosterScreen}
+                />
+                <PrivateRoute
+                  exact
+                  path="/ViewRosterScreen"
+                  component={ViewRoster}
+                />
+                <PrivateRoute
+                  exact
                   path="/ViewRosterScreen2"
                   component={ViewRosterScreen}
                 />
-                <Route path="/about" component={About} />
-                <Route path="/contact" component={ContactUs} />
-                <PrivateRoute path="/admin" component={AdminPanel} />
-                <Route path="/register" component={Register} />
-                <Route path="/login" component={Login} />
-
+                <Route exact path="/about" component={About} />
+                <Route exact path="/contact" component={ContactUs} />
+                <PrivateRoute exact path="/admin" component={AdminPanel} />
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
                 {authTokens != null &&
                 (authTokens.role.includes("Manager") ||
                   authTokens.role.includes("Supervisor")) ? (
                   <>
                     <PrivateRoute
+                      exact
                       path="/StaffNewScreen"
                       component={StaffNewScreen}
                     />
                     <PrivateRoute
+                      exact
                       path="/StaffEditScreen"
                       component={StaffEditScreen}
                     />
-                    <PrivateRoute path="/ViewGroups" component={ViewGroups} />
                     <PrivateRoute
+                      exact
+                      path="/ViewGroups"
+                      component={ViewGroups}
+                    />
+                    <PrivateRoute
+                      exact
                       path="/GroupEditScreen"
                       component={GroupEditScreen}
                     />
                     <PrivateRoute
+                      exact
                       path="/CreateRosterScreen"
                       component={CreateRosterScreen}
                     />
-                    <PrivateRoute path="/createGroup" component={CreateGroup} />
                     <PrivateRoute
+                      exact
+                      path="/createGroup"
+                      component={CreateGroup}
+                    />
+                    <PrivateRoute
+                      exact
                       path="/StaffListScreen"
                       component={StaffListScreen}
                     />
@@ -127,14 +156,17 @@ function App(props) {
                   "" // alert("Only managers and supervisors can add or edit")
                 )}
                 <PrivateRoute
+                  exact
                   path="/PublicHolidays"
                   component={PublicHolidays}
                 />
                 <PrivateRoute
+                  exact
                   path="/viewWeeklyRoster/:rosterID"
                   component={WeeklyRoster}
                 />
                 <PrivateRoute
+                  exact
                   path="/AdminShiftScreen"
                   component={AdminShiftScreen}
                 />
@@ -142,6 +174,7 @@ function App(props) {
               </MDBCol>
             </MDBRow>
           </MDBContainer>
+          <Route exact path="/:noRoute" component={NoRouteComponent} />
         </Switch>
       </Router>
     </AuthContext.Provider>
